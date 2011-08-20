@@ -12,19 +12,25 @@ import android.util.Log;
 public class SiestaWatchService extends Service {
 	private static String LogTag = "SiestaWatchService";
 
+	private static void logIntent(Intent intent) {
+		Log.i(LogTag, intent.toString());
+		Bundle extras = intent.getExtras();
+		if (extras != null) {
+			Log.i(LogTag, extras.toString());
+			if (extras.containsKey("Greeting")) {
+				Log.i(LogTag, "Greeting: " + extras.getString("Greeting"));
+			}
+		} else {
+			Log.i(LogTag, "No extras in Intent");
+		}
+	}
+
 	private static final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.i(LogTag, "screenEventReceiver.onReceive()");
 			Log.i(LogTag, context.toString());
-			Log.i(LogTag, intent.toString());
-
-			Bundle extras = intent.getExtras();
-			if (extras != null) {
-				Log.i(LogTag, extras.toString());
-			} else {
-				Log.i(LogTag, "No extras in Intent");
-			}
+			logIntent(intent);
 		}
 	};
 
@@ -40,6 +46,8 @@ public class SiestaWatchService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		Log.i(LogTag, "SiestaWatchService.onStart()");
+		logIntent(intent);
+
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_OFF);
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_ON);
 		screenEventFilter.addAction(Intent.ACTION_USER_PRESENT);

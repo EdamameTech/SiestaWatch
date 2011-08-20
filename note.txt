@@ -1,2 +1,60 @@
 == 2011-08-19
 まずはBroadcastからServiceを起動できるようにしてみた。
+
+== 2011-08-20
+- Serviceは音が鳴っている間起動していようにするのだろう
+  - 違う。SCREEN_OFFを検出するのはService。
+- Serviceの起動まではAlarmManager?を使う
+- Serviceが起動していない時のアプリの状態はどのように検出する？
+
+状態変化
+
+[シエスタウォッチOffの状態(Off)]
+- アラームOn操作
+- Serviceを起動
+- 寝るのを待ってる状態(Standby)
+
+[寝るのを待ってる状態(Standby)]
+- アラームOff操作
+- Serviceを停止
+- (Off)
+
+- ACTION_SCREEN_OFFが来る
+- アラーム時刻の設定
+- (Countdown)
+
+[カウントダウン中 (Countdown)]
+- ACTION_USER_PRESENTが来る
+- アラーム時刻の解除
+- (Standby)
+
+- アラーム時刻が来る
+- アラーム音を鳴らす
+- (Alarm)
+
+[アラームが鳴っている最中 (Alarm)]
+- ACTION_SCREEN_ONが来る
+- アラーム音を止める
+- (Silent)
+
+- ACTION_USER_PRESENTが来る
+- アラーム音を止める
+- Serviceを停止
+- (Off)
+
+[アラームを停止中 (Silent)]
+- ACTION_SCREEN_OFFが来る
+- アラーム音を再開する
+- (Alarm)
+
+- ACTION_USER_PRESENTが来る
+- アラーム音を止める
+- Serviceを停止
+- (Off)
+
+[その他」
+- Acivityの起動時
+  - (Off)だったら(Off)それ以外だったら(Standby)かな
+
+ServiceがIntentを受ける必要があるね - onStart()は何度でも呼んでも
+らえるようだ。Activityや自身からの電文をExtrasに入れればいいかも。

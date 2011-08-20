@@ -21,11 +21,11 @@ public class SiestaWatchActivity extends Activity {
 					}
 				});
 		((Button) findViewById(R.id.stopService))
-		.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				stopSiestaWatchService();
-			}
-		});
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View view) {
+						stopSiestaWatchService();
+					}
+				});
 	}
 
 	@Override
@@ -36,12 +36,14 @@ public class SiestaWatchActivity extends Activity {
 	private void startSiestaWatchService() {
 		Intent intent = new Intent(SiestaWatchActivity.this,
 				SiestaWatchService.class);
+		intent.putExtra("Greeting", "Hello");
 		startService(intent);
 	}
 
 	private void stopSiestaWatchService() {
 		Intent intent = new Intent(SiestaWatchActivity.this,
 				SiestaWatchService.class);
+		intent.putExtra("Greeting", "Good bye");
 		stopService(intent);
 	}
 }
