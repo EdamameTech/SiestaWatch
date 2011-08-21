@@ -45,7 +45,18 @@ public class SiestaWatchService extends Service {
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		Log.i(LogTag, "SiestaWatchService.onStart()");
+		handleStartCommand(intent);
+	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		super.onStartCommand(intent, flags, startId);
+		handleStartCommand(intent);
+		return START_STICKY;
+	}
+	
+	private void handleStartCommand(Intent intent) {
+		Log.i(LogTag, "SiestaWatchService.handleStartCommand()");
 		logIntent(intent);
 
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_OFF);
