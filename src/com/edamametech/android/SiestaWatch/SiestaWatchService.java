@@ -34,7 +34,7 @@ public class SiestaWatchService extends Service {
 		}
 	};
 
-	private static final IntentFilter screenEventFilter = new IntentFilter();
+	private static IntentFilter screenEventFilter = null;
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -44,31 +44,43 @@ public class SiestaWatchService extends Service {
 
 	@Override
 	public void onStart(Intent intent, int startId) {
-		super.onStart(intent, startId);
 		handleStartCommand(intent);
 	}
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		super.onStartCommand(intent, flags, startId);
 		handleStartCommand(intent);
 		return START_STICKY;
 	}
-	
+
 	private void handleStartCommand(Intent intent) {
 		Log.i(LogTag, "SiestaWatchService.handleStartCommand()");
 		logIntent(intent);
-
-		screenEventFilter.addAction(Intent.ACTION_SCREEN_OFF);
-		screenEventFilter.addAction(Intent.ACTION_SCREEN_ON);
-		screenEventFilter.addAction(Intent.ACTION_USER_PRESENT);
-		registerReceiver(screenEventReceiver, screenEventFilter);
+		registerScreenEvents();
 	}
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		Log.i(LogTag, "SiestaWatchService.onDestroy()");
-		unregisterReceiver(screenEventReceiver);
+		unregisterScreenEvents();
+	}
+
+	private void registerScreenEvents() {
+		if (screenEventFilter == null) {
+			Log.i(LogTag, "Registering screenEvents");
+			screenEventFilter = new IntentFilter();
+			screenEventFilter.addAction(Intent.ACTION_SCREEN_OFF);
+			screenEventFilter.addAction(Intent.ACTION_SCREEN_ON);
+			screenEventFilter.addAction(Intent.ACTION_USER_PRESENT);
+			registerReceiver(screenEventReceiver, screenEventFilter);
+		}
+	}
+
+	private void unregisterScreenEvents() {
+		if (screenEventFilter != null) {
+			Log.i(LogTag, "Unregistering screenEvents");
+			unregisterReceiver(screenEventReceiver);
+			screenEventFilter = null;
+		}
 	}
 }
