@@ -58,3 +58,32 @@
 
 ServiceがIntentを受ける必要があるね - onStart()は何度でも呼んでも
 らえるようだ。Activityや自身からの電文をExtrasに入れればいいかも。
+
+START_STICKY is used for services that are explicitly started and stopped as
+needed
+
+onStartは古い実装のようだ。onStartCommandでSTART_STICKYを返せた方が良いので
+http://developer.android.com/reference/android/app/Service.html#onStartCommand%28android.content.Intent,%20int,%20int%29
+より下記のようにしておく:
+
+If you need your application to run on platform versions prior to API level 5,
+you can use the following model to handle the older onStart(Intent, int)
+callback in that case. The handleCommand method is implemented by you as
+appropriate: 
+
+// This is the old onStart method that will be called on the pre-2.0
+// platform.  On 2.0 or later we override onStartCommand() so this
+// method will not be called.
+@Override
+public void onStart(Intent intent, int startId) {
+    handleCommand(intent);
+}
+
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+    handleCommand(intent);
+    // We want this service to continue running until it is explicitly
+    // stopped, so return sticky.
+    return START_STICKY;
+}
+
