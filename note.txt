@@ -91,3 +91,6 @@ onStartCommandからsuper.onStartCommand()を呼ぶと
 もう一度onStartCommandが呼ばれるようだ。
 
 onStartが何度来てもregisterReceiverは一度しか呼ばないようにした。
+
+http://developer.android.com/resources/samples/ApiDemos/tests/src/com/example/android/apis/app/LocalServiceTest.html
+よりServiceのテストケースを書いてみている。
