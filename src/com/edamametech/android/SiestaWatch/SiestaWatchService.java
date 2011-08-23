@@ -12,7 +12,7 @@ import android.util.Log;
 public class SiestaWatchService extends Service {
 	private static String LogTag = "SiestaWatchService";
 
-	enum State {
+	public enum State {
 		Off, // Application has not been executed
 		StandingBy, // Waiting for the user to fall asleep
 		CountingDown, // Counting down to raise alarm
