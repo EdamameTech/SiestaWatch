@@ -28,15 +28,6 @@ public class SiestaWatchService extends Service {
 	
 	private static void logIntent(Intent intent) {
 		Log.i(LogTag, intent.toString());
-		Bundle extras = intent.getExtras();
-		if (extras != null) {
-			Log.i(LogTag, extras.toString());
-			if (extras.containsKey("Greeting")) {
-				Log.i(LogTag, "Greeting: " + extras.getString("Greeting"));
-			}
-		} else {
-			Log.i(LogTag, "No extras in Intent");
-		}
 	}
 
 	private static final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
