@@ -94,3 +94,7 @@ onStartが何度来てもregisterReceiverは一度しか呼ばないようにし
 
 http://developer.android.com/resources/samples/ApiDemos/tests/src/com/example/android/apis/app/LocalServiceTest.html
 よりServiceのテストケースを書いてみている。
+
+ServiceからActivityへの通信はいまのところ不要と思っておこう。アラー
+ムの設定や解除の時には必要になればServiceからToastやNotification
+を使うことを考える。
