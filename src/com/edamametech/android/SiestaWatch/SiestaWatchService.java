@@ -86,8 +86,11 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "SiestaWatchService.handleStartCommand()");
 
-		if (intent == null)
+		if (intent == null) {
+			if (DEBUG)
+				Log.v(LogTag, "Got a null intent");
 			return;
+		}
 
 		if (DEBUG)
 			Log.v(LogTag, intent.toString());

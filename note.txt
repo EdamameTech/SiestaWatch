@@ -247,3 +247,180 @@ I/ActivityManager(  158): Process com.edamametech.android.SiestaWatch:alarmManag
 W/ActivityManager(  158): Service crashed 2 times, stopping: ServiceRecord{43f3da00 com.edamametech.android.SiestaWatch/.SiestaWatchService}
 
 Intentのnullチェックを増やした。
+
+状態の永続化が必要なんかな…
+
+SharedPreferencesの使い方
+http://developer.android.com/resources/samples/ApiDemos/src/com/example/android/apis/app/PersistentState.html
+
+下記。ADP-1を放っておいたらScreen onにする時に何か起きた。
+
+08-26 11:03:55.080: DEBUG/dalvikvm(160): GC_FOR_MALLOC freed 3247 objects / 177336 bytes in 166ms
+08-26 11:04:55.490: INFO/WindowManager(160): Setting rotation to 1, animFlags=1
+08-26 11:04:55.510: INFO/ActivityManager(160): Config changed: { scale=1.0 imsi=0/0 loc=ja_JP touch=3 keys=2/1/1 nav=3/1 orien=2 layout=18 uiMode=17 seq=3}
+08-26 11:04:55.590: DEBUG/KeyguardViewMediator(160): wakeWhenReadyLocked(26)
+08-26 11:04:55.730: DEBUG/HomeLoaders(239): aborting loaders
+08-26 11:04:55.730: INFO/GPSButton(160): Update State
+08-26 11:04:56.130: DEBUG/dalvikvm(239): GC_EXPLICIT freed 1725 objects / 87168 bytes in 359ms
+08-26 11:04:56.790: DEBUG/KeyguardViewMediator(160): handleWakeWhenReady(26)
+08-26 11:04:56.800: DEBUG/KeyguardViewMediator(160): pokeWakelock(10000)
+08-26 11:04:56.810: INFO/power(160): *** set_screen_state 1
+08-26 11:04:56.850: DEBUG/AKMD(127): Compass OPEN 
+08-26 11:04:56.850: DEBUG/Sensors(160): sensors=00000001, real=00000001
+08-26 11:04:56.930: DEBUG/SurfaceFlinger(160): Screen about to return, flinger = 0x114130
+08-26 11:04:57.340: INFO/ActivityManager(160): Process lv.n3o.swapper2 (pid 645) has died.
+08-26 11:04:57.350: WARN/ActivityManager(160): Scheduling restart of crashed service lv.n3o.swapper2/.SwapperAutorunService in 5000ms
+08-26 11:04:57.850: INFO/ActivityManager(160): Process com.android.settings (pid 506) has died.
+08-26 11:04:58.380: DEBUG/dalvikvm(160): GC_FOR_MALLOC freed 3952 objects / 247632 bytes in 189ms
+08-26 11:04:58.430: DEBUG/WifiService(160): ACTION_SCREEN_ON
+08-26 11:04:58.430: DEBUG/WifiStateTracker(160): Reset connections and stopping DHCP
+08-26 11:04:58.510: VERBOSE/SiestaWatchService(699): Intent { act=android.intent.action.SCREEN_ON flg=0x40000000 }
+08-26 11:04:58.510: VERBOSE/SiestaWatchService(699): com.edamametech.android.SiestaWatch.SiestaWatchService@43dca7e8
+08-26 11:04:58.510: VERBOSE/SiestaWatchService(699): screenEventReceiver.onReceive()
+08-26 11:04:58.560: INFO/ActivityManager(160): Start proc com.android.settings for broadcast com.android.settings/.widget.SettingsAppWidgetProvider: pid=796 uid=1000 gids={3003, 1015, 3002, 3001}
+08-26 11:04:59.190: DEBUG/WindowManager(160): I'm tired mEndcallBehavior=0x2
+08-26 11:04:59.420: INFO/power(160): *** set_screen_state 0
+08-26 11:04:59.450: DEBUG/Sensors(160): sensors=00000000, real=00000000
+08-26 11:04:59.460: DEBUG/WifiStateTracker(160): Disabling interface
+08-26 11:04:59.460: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-DRIVER-STATE STARTED]
+08-26 11:04:59.470: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=-1 state=2]
+08-26 11:04:59.500: DEBUG/ConnectivityService(160): Dropping ConnectivityChange for WIFI: DISCONNECTED/SCANNING
+08-26 11:04:59.500: DEBUG/NetworkStateTracker(160): setDetailed state, old =IDLE and new state=SCANNING
+08-26 11:04:59.500: VERBOSE/WifiStateTracker(160): Changing supplicant state: DORMANT ==> SCANNING
+08-26 11:04:59.630: DEBUG/AKMD(127): Compass CLOSE 
+08-26 11:04:59.640: DEBUG/ConnectivityService(160): getMobileDataEnabled returning false
+08-26 11:04:59.760: DEBUG/SettingsAppWidgetProvider(796): Call buildUpdate for widget:4
+08-26 11:04:59.780: DEBUG/SurfaceFlinger(160): About to give-up screen, flinger = 0x114130
+08-26 11:04:59.840: DEBUG/ConnectivityService(160): ConnectivityChange for WIFI: CONNECTING/CONNECTING
+08-26 11:04:59.840: DEBUG/NetworkStateTracker(160): setDetailed state, old =SCANNING and new state=CONNECTING
+08-26 11:04:59.840: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=-1 state=3]
+08-26 11:04:59.840: VERBOSE/WifiMonitor(160): Event [Trying to associate with 00:23:04:31:04:50 (SSID='sbr-hilo' freq=2462 MHz)]
+08-26 11:04:59.840: VERBOSE/WifiStateTracker(160): Changing supplicant state: SCANNING ==> ASSOCIATING
+08-26 11:04:59.860: WARN/WifiService(160): misformatted scan result for: 00:11:24:a5:d1:32    2447    -92    [WEP]        
+08-26 11:04:59.950: DEBUG/SettingsAppWidgetProvider(796): buildUpdate done for widget:4
+08-26 11:05:00.000: INFO/ActivityManager(160): Start proc com.google.android.googlequicksearchbox for broadcast com.google.android.googlequicksearchbox/.SearchWidgetProvider: pid=802 uid=10049 gids={3003}
+08-26 11:05:00.000: WARN/ActivityManager(160): Activity pause timeout for HistoryRecord{43dd0e78 com.android.launcher/.Launcher}
+08-26 11:05:00.430: DEBUG/dalvikvm(122): GC_EXPLICIT freed 289 objects / 11008 bytes in 410ms
+08-26 11:05:00.560: WARN/WindowManager(160): App freeze timeout expired.
+08-26 11:05:00.560: WARN/WindowManager(160): Force clearing freeze: AppWindowToken{43e9a330 token=HistoryRecord{43dd0e78 com.android.launcher/.Launcher}}
+08-26 11:05:00.740: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=3 state=4]
+08-26 11:05:00.750: DEBUG/NetworkStateTracker(160): setDetailed state, old =CONNECTING and new state=CONNECTING
+08-26 11:05:00.750: VERBOSE/WifiMonitor(160): Event [Associated with 00:23:04:31:04:50]
+08-26 11:05:00.750: VERBOSE/WifiStateTracker(160): Changing supplicant state: ASSOCIATING ==> ASSOCIATED
+08-26 11:05:00.760: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=3 state=5]
+08-26 11:05:00.800: DEBUG/ConnectivityService(160): Dropping ConnectivityChange for WIFI: CONNECTING/AUTHENTICATING
+08-26 11:05:00.800: DEBUG/NetworkStateTracker(160): setDetailed state, old =CONNECTING and new state=AUTHENTICATING
+08-26 11:05:00.800: VERBOSE/WifiStateTracker(160): Changing supplicant state: ASSOCIATED ==> FOUR_WAY_HANDSHAKE
+08-26 11:05:00.840: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=3 state=5]
+08-26 11:05:00.840: VERBOSE/WifiStateTracker(160): Changing supplicant state: FOUR_WAY_HANDSHAKE ==> FOUR_WAY_HANDSHAKE
+08-26 11:05:00.850: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=3 state=6]
+08-26 11:05:00.880: DEBUG/NetworkStateTracker(160): setDetailed state, old =AUTHENTICATING and new state=AUTHENTICATING
+08-26 11:05:00.880: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-STATE-CHANGE id=3 state=7]
+08-26 11:05:00.880: VERBOSE/WifiMonitor(160): Event [WPA: Key negotiation completed with 00:23:04:31:04:50 [PTK=CCMP GTK=CCMP]]
+08-26 11:05:00.880: VERBOSE/WifiStateTracker(160): Changing supplicant state: FOUR_WAY_HANDSHAKE ==> GROUP_HANDSHAKE
+08-26 11:05:00.890: VERBOSE/WifiStateTracker(160): Changing supplicant state: GROUP_HANDSHAKE ==> COMPLETED
+08-26 11:05:00.900: VERBOSE/WifiMonitor(160): Event [CTRL-EVENT-CONNECTED - Connection to 00:23:04:31:04:50 completed (reauth) [id=3 id_str=]]
+08-26 11:05:00.910: VERBOSE/WifiStateTracker(160): New network state is CONNECTED
+08-26 11:05:00.920: DEBUG/dalvikvm(122): GC_EXPLICIT freed 47 objects / 2072 bytes in 451ms
+08-26 11:05:00.950: DEBUG/WifiStateTracker(160): DhcpHandler: DHCP request started
+08-26 11:05:00.960: DEBUG/NetworkStateTracker(160): setDetailed state, old =AUTHENTICATING and new state=OBTAINING_IPADDR
+08-26 11:05:01.000: DEBUG/ConnectivityService(160): Dropping ConnectivityChange for WIFI: CONNECTING/OBTAINING_IPADDR
+08-26 11:05:01.110: INFO/ActivityThread(802): Publishing provider com.google.android.googlequicksearchbox.shortcuts: com.google.android.googlequicksearchbox.ShortcutsProvider
+08-26 11:05:01.200: INFO/ActivityThread(802): Publishing provider com.google.android.googlequicksearchbox.google: com.google.android.googlequicksearchbox.google.GoogleSuggestionProvider
+08-26 11:05:01.520: DEBUG/dalvikvm(122): GC_EXPLICIT freed 2 objects / 64 bytes in 583ms
+08-26 11:05:02.400: INFO/ActivityManager(160): Start proc lv.n3o.swapper2 for service lv.n3o.swapper2/.SwapperAutorunService: pid=823 uid=10009 gids={3003, 1015}
+08-26 11:05:02.440: DEBUG/GoogleLoginService(451): onBind: Intent { act=android.accounts.AccountAuthenticator cmp=com.google.android.gsf/.loginservice.GoogleLoginService }
+08-26 11:05:02.940: DEBUG/dalvikvm(160): GC_EXPLICIT freed 3552 objects / 193248 bytes in 375ms
+08-26 11:05:03.030: DEBUG/HomeLoaders(239):   --> applications loaded, return
+08-26 11:05:03.030: DEBUG/HomeLoaders(239): load applications
+08-26 11:05:03.080: DEBUG/HomeLoaders(239): loading user items in Thread[main,5,main]
+08-26 11:05:03.100: DEBUG/HomeLoaders(239):   --> items loaded, return
+08-26 11:05:03.120: DEBUG/HomeLoaders(239):   --> loading from cache: 13, 2
+08-26 11:05:03.120: DEBUG/Launcher(239): ------> binding 13 items
+08-26 11:05:03.120: DEBUG/Launcher(239): ------> binding 2 widgets
+08-26 11:05:03.120: DEBUG/Launcher(239): ------> start binding items
+
+↓ここで落ちた
+08-26 11:05:03.190: INFO/ActivityManager(160): Process com.edamametech.android.SiestaWatch:alarmManageer (pid 699) has died.
+08-26 11:05:03.190: WARN/ActivityManager(160): Scheduling restart of crashed service com.edamametech.android.SiestaWatch/.SiestaWatchService in 5000ms
+08-26 11:05:03.420: INFO/GPSButton(160): Update State
+08-26 11:05:03.480: INFO/Swapper(823): Setting up service
+08-26 11:05:03.500: DEBUG/WifiService(160): ACTION_SCREEN_OFF
+08-26 11:05:03.550: DEBUG/WifiService(160): setting ACTION_DEVICE_IDLE timer for 900000ms
+08-26 11:05:03.790: WARN/ActivityManager(160):     at android.app.ActivityManagerNative.onTransact(ActivityManagerNative.java:341)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at android.content.IIntentReceiver$Stub$Proxy.performReceive(IIntentReceiver.java:121)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at android.os.Binder.execTransact(Binder.java:288)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at android.os.BinderProxy.transact(Native Method)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at com.android.server.am.ActivityManagerService.deliverToRegisteredReceiver(ActivityManagerService.java:13049)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at com.android.server.am.ActivityManagerService.finishReceiver(ActivityManagerService.java:12847)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:1481)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at com.android.server.am.ActivityManagerService.performReceive(ActivityManagerService.java:12987)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at com.android.server.am.ActivityManagerService.processNextBroadcast(ActivityManagerService.java:13252)
+08-26 11:05:03.790: WARN/ActivityManager(160):     at dalvik.system.NativeStart.run(Native Method)
+08-26 11:05:03.790: WARN/ActivityManager(160): Failure sending broadcast Intent { act=android.intent.action.SCREEN_OFF flg=0x40000000 }
+08-26 11:05:03.790: WARN/ActivityManager(160): android.os.DeadObjectException
+08-26 11:05:03.820: INFO/SIMEJI(769): KILLME
+08-26 11:05:03.840: INFO/AndroidRuntime(769): AndroidRuntime onExit calling exit(0)
+08-26 11:05:04.040: INFO/ActivityManager(160): Process com.adamrocker.android.input.simeji (pid 769) has died.
+08-26 11:05:04.050: WARN/ActivityManager(160): Scheduling restart of crashed service com.adamrocker.android.input.simeji/.OpenWnnSimeji in 14148ms
+08-26 11:05:04.440: DEBUG/dalvikvm(239): GC_FOR_MALLOC freed 5688 objects / 374264 bytes in 120ms
+08-26 11:05:04.960: VERBOSE/WifiStateTracker(160): DhcpHandler: DHCP request succeeded
+08-26 11:05:04.970: DEBUG/NetworkStateTracker(160): setDetailed state, old =OBTAINING_IPADDR and new state=CONNECTED
+08-26 11:05:04.980: VERBOSE/WifiStateTracker(160): IP configuration: ipaddr 133.40.145.172 gateway 133.40.147.254 netmask 255.255.252.0 dns1 133.40.143.196 dns2 133.40.172.25 DHCP server 127.0.0.1 lease 86400 seconds
+08-26 11:05:05.000: DEBUG/ConnectivityService(160): ConnectivityChange for WIFI: CONNECTED/CONNECTED
+08-26 11:05:05.000: VERBOSE/NetworkStateTracker(160): Setting TCP values: [4095,87380,110208,4096,16384,110208] which comes from [net.tcp.buffersize.wifi]
+08-26 11:05:05.070: DEBUG/WifiWatchdogService(160): (android.server.ServerThread) sbr-hilo (00:23:04:31:04:50) does not require the watchdog
+08-26 11:05:05.090: DEBUG/ConnectivityService(160): adding dns 133.40.143.196 for WIFI
+08-26 11:05:05.100: DEBUG/ConnectivityService(160): adding dns 133.40.172.25 for WIFI
+08-26 11:05:05.120: DEBUG/Tethering(160): MasterInitialState.processMessage what=3
+08-26 11:05:05.120: DEBUG/Tethering(160): Tethering got CONNECTIVITY_ACTION
+08-26 11:05:05.120: ERROR/HierarchicalStateMachine(160): TetherMaster - unhandledMessage: msg.what=3
+08-26 11:05:05.180: DEBUG/NetworkLocationProvider(160): updateNetworkState(): Updating network state to 2
+08-26 11:05:05.250: DEBUG/GpsLocationProvider(160): updateNetworkState available info: NetworkInfo: type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: true
+08-26 11:05:05.310: INFO/GTalkService(451): [ServiceAutoStarter] --- connectivity changed
+08-26 11:05:05.310: INFO/GTalkService(451): [ServiceAutoStarter] --- start GTalk service ---
+08-26 11:05:05.380: INFO/MediaUploader(586): No need to wake up
+
+↓再起動
+08-26 11:05:08.260: INFO/ActivityManager(160): Start proc com.edamametech.android.SiestaWatch:alarmManageer for service com.edamametech.android.SiestaWatch/.SiestaWatchService: pid=855 uid=10056 gids={}
+08-26 11:05:08.480: INFO/Swapper(823): Waiting for SD card
+08-26 11:05:08.560: VERBOSE/SiestaWatchService(855): Registering screenEvents
+08-26 11:05:08.560: VERBOSE/SiestaWatchService(855): SiestaWatchService.onCreate()
+08-26 11:05:08.570: INFO/Swapper(823): SD card found
+08-26 11:05:08.570: VERBOSE/SiestaWatchService(855): SiestaWatchService.handleStartCommand()
+08-26 11:05:08.590: INFO/SwapperAutorunService(823): Started
+08-26 11:05:08.640: INFO/global(823): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+08-26 11:05:08.640: INFO/global(823): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+08-26 11:05:08.850: INFO/global(823): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+08-26 11:05:08.860: INFO/Swapper(823): Swap setup
+08-26 11:05:08.860: INFO/global(823): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+08-26 11:05:09.700: INFO/Swapper(823): Command:    echo 10 > /proc/sys/vm/swappiness
+08-26 11:05:10.650: DEBUG/su(864): 10009 lv.n3o.swapper2 executing 0 /system/bin/sh using shell /system/bin/sh : sh
+08-26 11:05:10.690: INFO/ActivityManager(160): Start proc com.noshufou.android.su for broadcast com.noshufou.android.su/.SuNotificationReceiver: pid=868 uid=10035 gids={1015, 3003}
+08-26 11:05:10.730: DEBUG/su(862): 10009 lv.n3o.swapper2 executing 0 /system/bin/sh using shell /system/bin/sh : sh
+08-26 11:05:11.240: INFO/Swapper(823): H=null EXEC Setting swappiness RESULT true
+
+↓また落ちた？
+08-26 11:05:11.510: INFO/ActivityManager(160): Process com.edamametech.android.SiestaWatch (pid 693) has died.
+08-26 11:05:11.530: INFO/WindowManager(160): WIN DEATH: Window{43eea248 com.edamametech.android.SiestaWatch/com.edamametech.android.SiestaWatch.SiestaWatchActivity paused=false}
+08-26 11:05:11.570: INFO/UsageStats(160): Something wrong here, didn't expect com.android.launcher to be paused
+08-26 11:05:12.280: INFO/Swapper(823): Command:    busybox swapon /dev/block/mmcblk0p3
+08-26 11:05:12.380: ERROR/Swapper(823): swapon: /dev/block/mmcblk0p3: Device or resource busy
+08-26 11:05:12.380: INFO/Swapper(823): H=null EXEC Enabling swap(partition) RESULT false
+08-26 11:05:14.990: DEBUG/WifiService(160): ACTION_BATTERY_CHANGED pluggedType: 2
+08-26 11:05:14.990: ERROR/Tethering(160): active iface (usb0) reported as added, ignoring
+08-26 11:05:18.230: INFO/ActivityManager(160): Start proc com.adamrocker.android.input.simeji for service com.adamrocker.android.input.simeji/.OpenWnnSimeji: pid=876 uid=10032 gids={3003, 1015}
+08-26 11:05:18.790: DEBUG/dalvikvm(876): Trying to load lib /data/data/com.adamrocker.android.input.simeji/lib/libwnndict.so 0x43c99ec0
+08-26 11:05:18.800: DEBUG/dalvikvm(876): Added shared lib /data/data/com.adamrocker.android.input.simeji/lib/libwnndict.so 0x43c99ec0
+08-26 11:05:18.800: DEBUG/dalvikvm(876): No JNI_OnLoad found in /data/data/com.adamrocker.android.input.simeji/lib/libwnndict.so 0x43c99ec0, skipping init
+08-26 11:05:19.020: DEBUG/dalvikvm(876): GC_FOR_MALLOC freed 1586 objects / 242824 bytes in 162ms
+08-26 11:05:19.160: INFO/ActivityManager(160): Process com.android.settings (pid 796) has died.
+08-26 11:05:19.490: DEBUG/dalvikvm(876): GC_FOR_MALLOC freed 412 objects / 349520 bytes in 231ms
+08-26 11:05:19.900: WARN/InputMethodManager(239): Ignoring onBind: cur seq=-1, given seq=4
+08-26 11:05:24.590: DEBUG/dalvikvm(586): GC_EXPLICIT freed 111 objects / 6776 bytes in 148ms
+08-26 11:05:26.150: INFO/EventLogService(451): Aggregate from 1314390925905 (log), 1314390925905 (data)
+08-26 11:05:31.240: DEBUG/dalvikvm(594): GC_EXPLICIT freed 271 objects / 13456 bytes in 131ms
+08-26 11:05:39.420: DEBUG/dalvikvm(521): GC_EXPLICIT freed 460 objects / 26776 bytes in 106ms
+08-26 11:05:44.510: DEBUG/dalvikvm(451): GC_EXPLICIT freed 3267 objects / 297880 bytes in 198ms
+08-26 11:06:07.330: DEBUG/dalvikvm(160): GC_FOR_MALLOC freed 15625 objects / 799744 bytes in 201ms
+08-26 11:06:08.880: INFO/Swapper(823): Service stopped
