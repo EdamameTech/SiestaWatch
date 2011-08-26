@@ -85,27 +85,31 @@ public class SiestaWatchService extends Service {
 	private void handleStartCommand(Intent intent) {
 		if (DEBUG)
 			Log.v(LogTag, "SiestaWatchService.handleStartCommand()");
-		if (DEBUG)
-			Log.v(LogTag, intent.toString());
+		
+		if (intent != null) {
+			if (DEBUG)
+				Log.v(LogTag, intent.toString());
 
-		Bundle extras = intent.getExtras();
-		if (extras != null) {
-			if (extras.containsKey(UriOfAlarmSound)) {
-				if (DEBUG)
-					Log.v(LogTag,
-							UriOfAlarmSound + ": "
-									+ extras.getString(UriOfAlarmSound));
-				uriOfAlarmSound = Uri.parse(extras.getString(UriOfAlarmSound));
-			}
-			if (extras.containsKey(SleepDurationMillis)) {
-				if (DEBUG)
-					Log.v(LogTag,
-							SleepDurationMillis + ": "
-									+ extras.getLong(SleepDurationMillis));
-				sleepDurationMillis = extras.getLong(SleepDurationMillis);
-			}
-			if (uriOfAlarmSound != null && sleepDurationMillis > 0) {
-				state = State.StandingBy;
+			Bundle extras = intent.getExtras();
+			if (extras != null) {
+				if (extras.containsKey(UriOfAlarmSound)) {
+					if (DEBUG)
+						Log.v(LogTag,
+								UriOfAlarmSound + ": "
+										+ extras.getString(UriOfAlarmSound));
+					uriOfAlarmSound = Uri.parse(extras
+							.getString(UriOfAlarmSound));
+				}
+				if (extras.containsKey(SleepDurationMillis)) {
+					if (DEBUG)
+						Log.v(LogTag,
+								SleepDurationMillis + ": "
+										+ extras.getLong(SleepDurationMillis));
+					sleepDurationMillis = extras.getLong(SleepDurationMillis);
+				}
+				if (uriOfAlarmSound != null && sleepDurationMillis > 0) {
+					state = State.StandingBy;
+				}
 			}
 		}
 	}

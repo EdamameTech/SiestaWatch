@@ -98,3 +98,152 @@ http://developer.android.com/resources/samples/ApiDemos/tests/src/com/example/an
 ServiceからActivityへの通信はいまのところ不要と思っておこう。アラー
 ムの設定や解除の時には必要になればServiceからToastやNotification
 を使うことを考える。
+
+== 2011-08-25
+ADP-1で放っておいたら、Screen Onをした瞬間に落ちた
+
+
+D/dalvikvm( 1171): GC_FOR_MALLOC freed 4553 objects / 270048 bytes in 116ms
+I/Swapper ( 1164): Waiting for SD card
+I/ActivityManager(  158): Start proc com.edamametech.android.SiestaWatch:alarmManageer for service com.edamametech.android.SiestaWatch/.SiestaWatchService: pid=1198 uid=10056 gids={}
+I/Swapper ( 1164): SD card found
+I/SwapperAutorunService( 1164): Started
+I/ActivityManager(  158): Process com.google.android.apps.uploader (pid 1029) has died.
+V/SiestaWatchService( 1198): SiestaWatchService.onCreate()
+V/SiestaWatchService( 1198): Registering screenEvents
+V/SiestaWatchService( 1198): SiestaWatchService.handleStartCommand()
+D/AndroidRuntime( 1198): Shutting down VM
+W/dalvikvm( 1198): threadid=1: thread exiting with uncaught exception (group=0x400207e8)
+E/AndroidRuntime( 1198): FATAL EXCEPTION: main
+E/AndroidRuntime( 1198): java.lang.RuntimeException: Unable to start service com.edamametech.android.SiestaWatch.SiestaWatchService@43dc9f08 with null: java.lang.NullPointerException
+E/AndroidRuntime( 1198):        at android.app.ActivityThread.handleServiceArgs(ActivityThread.java:3063)
+E/AndroidRuntime( 1198):        at android.app.ActivityThread.access$3600(ActivityThread.java:125)
+E/AndroidRuntime( 1198):        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2096)
+E/AndroidRuntime( 1198):        at android.os.Handler.dispatchMessage(Handler.java:99)
+E/AndroidRuntime( 1198):        at android.os.Looper.loop(Looper.java:123)
+E/AndroidRuntime( 1198):        at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/AndroidRuntime( 1198):        at java.lang.reflect.Method.invokeNative(Native Method)
+E/AndroidRuntime( 1198):        at java.lang.reflect.Method.invoke(Method.java:521)
+E/AndroidRuntime( 1198):        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:868)
+E/AndroidRuntime( 1198):        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:626)
+E/AndroidRuntime( 1198):        at dalvik.system.NativeStart.main(Native Method)
+E/AndroidRuntime( 1198): Caused by: java.lang.NullPointerException
+E/AndroidRuntime( 1198):        at com.edamametech.android.SiestaWatch.SiestaWatchService.handleStartCommand(SiestaWatchService.java:89)
+E/AndroidRuntime( 1198):        at com.edamametech.android.SiestaWatch.SiestaWatchService.onStartCommand(SiestaWatchService.java:81)
+E/AndroidRuntime( 1198):        at android.app.ActivityThread.handleServiceArgs(ActivityThread.java:3053)
+E/AndroidRuntime( 1198):        ... 10 more
+I/global  ( 1164): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+I/global  ( 1164): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+I/ActivityManager(  158): Process com.google.android.gm (pid 1037) has died.
+I/ActivityManager(  158): Low Memory: No more background processes.
+D/dalvikvm( 1171): GC_FOR_MALLOC freed 2027 objects / 314696 bytes in 230ms
+I/global  ( 1164): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+I/global  ( 1164): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+I/Swapper ( 1164): Swap setup
+I/Swapper ( 1164): Command:     echo 10 > /proc/sys/vm/swappiness
+D/WifiService(  158): acquireWifiLockLocked: WifiLock{NetworkLocationProvider type=2 binder=android.os.Binder@43f06800}
+D/dalvikvm( 1171): GC_FOR_MALLOC freed 2084 objects / 458752 bytes in 341ms
+D/dalvikvm( 1171): GC_EXTERNAL_ALLOC freed 1314 objects / 464456 bytes in 215ms
+I/WindowManager(  158): WIN DEATH: Window{43f592e0 com.android.launcher/com.android.launcher.Launcher paused=false}
+I/ActivityManager(  158): Process android.process.acore (pid 234) has died.
+I/ActivityManager(  158): Low Memory: No more background processes.
+I/ActivityManager(  158): Start proc android.process.acore for content provider com.android.providers.contacts/.ContactsProvider2: pid=1218 uid=10004 gids={1015, 3003}
+D/LocationMasfClient(  158): getNetworkLocation(): Location not found in cache, making network request
+I/ActivityThread( 1218): Publishing provider com.android.launcher.settings: com.android.launcher.LauncherProvider
+I/ActivityThread( 1218): Publishing provider user_dictionary: com.android.providers.userdictionary.UserDictionaryProvider
+I/ActivityThread( 1218): Publishing provider com.android.social: com.android.providers.contacts.SocialProvider
+I/ActivityThread( 1218): Publishing provider applications: com.android.providers.applications.ApplicationsProvider
+I/ActivityThread( 1218): Publishing provider contacts;com.android.contacts: com.android.providers.contacts.ContactsProvider2
+D/dalvikvm(  158): GC_FOR_MALLOC freed 14389 objects / 817768 bytes in 329ms
+W/LocationMasfClient(  158): uploadCollectionReport(): no ReplyElement
+D/LocationMasfClient(  158): getNetworkLocation(): Number of prefetched entries 7
+D/LocationMasfClient(  158): getNetworkLocation(): Returning network location with accuracy 65.0
+I/ActivityThread( 1218): Publishing provider call_log: com.android.providers.contacts.CallLogProvider
+D/dalvikvm( 1218): GC_FOR_MALLOC freed 2815 objects / 196888 bytes in 141ms
+I/ActivityManager(  158): Start proc com.noshufou.android.su for broadcast com.noshufou.android.su/.SuNotificationReceiver: pid=1229 uid=10035 gids={1015, 3003}
+D/su      ( 1209): 10009 lv.n3o.swapper2 executing 0 /system/bin/sh using shell /system/bin/sh : sh
+D/su      ( 1205): 10009 lv.n3o.swapper2 executing 0 /system/bin/sh using shell /system/bin/sh : sh
+D/WifiService(  158): releaseWifiLockLocked: WifiLock{NetworkLocationProvider type=2 binder=android.os.Binder@43f06800}
+I/Swapper ( 1164): H=null EXEC Setting swappiness RESULT true
+E/Swapper ( 1164): 
+E/Swapper ( 1164): 
+E/Swapper ( 1164): 
+I/Swapper ( 1164): Command:     busybox swapon /dev/block/mmcblk0p3
+I/ActivityManager(  158): Process android.process.acore (pid 1218) has died.
+I/ActivityManager(  158): Low Memory: No more background processes.
+I/Swapper ( 1164): H=null EXEC Enabling swap(partition) RESULT false
+E/Swapper ( 1164): 
+E/Swapper ( 1164): swapon: /dev/block/mmcblk0p3: Device or resource busy
+E/Swapper ( 1164): 
+E/Swapper ( 1164): 
+I/ActivityManager(  158): Start proc android.process.acore for content provider com.android.providers.contacts/.ContactsProvider2: pid=1240 uid=10004 gids={1015, 3003}
+I/ActivityThread( 1240): Publishing provider com.android.launcher.settings: com.android.launcher.LauncherProvider
+I/ActivityThread( 1240): Publishing provider user_dictionary: com.android.providers.userdictionary.UserDictionaryProvider
+I/ActivityThread( 1240): Publishing provider com.android.social: com.android.providers.contacts.SocialProvider
+I/ActivityThread( 1240): Publishing provider applications: com.android.providers.applications.ApplicationsProvider
+I/ActivityThread( 1240): Publishing provider contacts;com.android.contacts: com.android.providers.contacts.ContactsProvider2
+I/ActivityThread( 1240): Publishing provider call_log: com.android.providers.contacts.CallLogProvider
+D/dalvikvm( 1240): GC_FOR_MALLOC freed 2916 objects / 201072 bytes in 113ms
+W/ActivityManager(  158): Timeout executing service: ServiceRecord{43f3da00 com.edamametech.android.SiestaWatch/.SiestaWatchService}
+I/ActivityManager(  158): Crashing app skipping ANR: ProcessRecord{43f3d468 1198:com.edamametech.android.SiestaWatch:alarmManageer/10056} Executing service com.edamametech.android.SiestaWatch/.SiestaWatchService
+I/ActivityManager(  158): Process com.noshufou.android.su (pid 1229) has died.
+I/ActivityManager(  158): Process android.process.acore (pid 1240) has died.
+I/ActivityManager(  158): Low Memory: No more background processes.
+D/dalvikvm(  347): GC_EXPLICIT freed 84 objects / 2976 bytes in 126ms
+D/skia    (  158): purging 260K from font cache [24 entries]
+D/dalvikvm(  158): GC_EXPLICIT freed 6207 objects / 301736 bytes in 252ms
+
+FCのボタンを押した。
+
+I/Process ( 1198): Sending signal. PID: 1198 SIG: 9
+W/InputManagerService(  158): Window already focused, ignoring focus gain of: com.android.internal.view.IInputMethodClient$Stub$Proxy@43d7f588
+I/ActivityManager(  158): Process com.edamametech.android.SiestaWatch:alarmManageer (pid 1198) has died.
+W/ActivityManager(  158): Scheduling restart of crashed service com.edamametech.android.SiestaWatch/.SiestaWatchService in 5000ms
+I/ActivityManager(  158): Low Memory: No more background processes.
+I/ActivityManager(  158): Start proc com.android.settings for broadcast com.android.settings/.widget.SettingsAppWidgetProvider: pid=1264 uid=1000 gids={3003, 1015, 3002, 3001}
+D/ConnectivityService(  158): getMobileDataEnabled returning false
+D/SettingsAppWidgetProvider( 1264): Call buildUpdate for widget:4
+D/SettingsAppWidgetProvider( 1264): buildUpdate done for widget:4
+I/ActivityManager(  158): Start proc com.edamametech.android.SiestaWatch:alarmManageer for service com.edamametech.android.SiestaWatch/.SiestaWatchService: pid=1270 uid=10056 gids={}
+V/SiestaWatchService( 1270): SiestaWatchService.onCreate()
+V/SiestaWatchService( 1270): Registering screenEvents
+V/SiestaWatchService( 1270): SiestaWatchService.handleStartCommand()
+D/AndroidRuntime( 1270): Shutting down VM
+W/dalvikvm( 1270): threadid=1: thread exiting with uncaught exception (group=0x400207e8)
+E/AndroidRuntime( 1270): FATAL EXCEPTION: main
+E/AndroidRuntime( 1270): java.lang.RuntimeException: Unable to start service com.edamametech.android.SiestaWatch.SiestaWatchService@43dc9f08 with null: java.lang.NullPointerException
+E/AndroidRuntime( 1270): 	at android.app.ActivityThread.handleServiceArgs(ActivityThread.java:3063)
+E/AndroidRuntime( 1270): 	at android.app.ActivityThread.access$3600(ActivityThread.java:125)
+E/AndroidRuntime( 1270): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2096)
+E/AndroidRuntime( 1270): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+E/AndroidRuntime( 1270): 	at android.os.Looper.loop(Looper.java:123)
+E/AndroidRuntime( 1270): 	at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/AndroidRuntime( 1270): 	at java.lang.reflect.Method.invokeNative(Native Method)
+E/AndroidRuntime( 1270): 	at java.lang.reflect.Method.invoke(Method.java:521)
+E/AndroidRuntime( 1270): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:868)
+E/AndroidRuntime( 1270): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:626)
+E/AndroidRuntime( 1270): 	at dalvik.system.NativeStart.main(Native Method)
+E/AndroidRuntime( 1270): Caused by: java.lang.NullPointerException
+E/AndroidRuntime( 1270): 	at com.edamametech.android.SiestaWatch.SiestaWatchService.handleStartCommand(SiestaWatchService.java:89)
+E/AndroidRuntime( 1270): 	at com.edamametech.android.SiestaWatch.SiestaWatchService.onStartCommand(SiestaWatchService.java:81)
+E/AndroidRuntime( 1270): 	at android.app.ActivityThread.handleServiceArgs(ActivityThread.java:3053)
+E/AndroidRuntime( 1270): 	... 10 more
+D/dalvikvm(  347): GC_EXPLICIT freed 6 objects / 208 bytes in 111ms
+W/TabControl( 1171): Free WebView's unused memory and cache
+D/skia    ( 1171): purging 44K from font cache [5 entries]
+D/dalvikvm( 1171): GC_EXPLICIT freed 1016 objects / 31688 bytes in 139ms
+D/skia    (  158): purging 132K from font cache [12 entries]
+D/dalvikvm(  158): GC_EXPLICIT freed 4689 objects / 271072 bytes in 243ms
+I/EventLogService(  761): Aggregate from 1314321718664 (log), 1314321718664 (data)
+D/dalvikvm(  229): GC_EXPLICIT freed 79 objects / 3616 bytes in 114ms
+W/ActivityManager(  158): Timeout executing service: ServiceRecord{43f3da00 com.edamametech.android.SiestaWatch/.SiestaWatchService}
+I/ActivityManager(  158): Crashing app skipping ANR: ProcessRecord{43fa5448 1270:com.edamametech.android.SiestaWatch:alarmManageer/10056} Executing service com.edamametech.android.SiestaWatch/.SiestaWatchService
+D/skia    ( 1252): purging 6K from font cache [1 entries]
+
+またFCのダイアログが出た
+
+I/Process ( 1270): Sending signal. PID: 1270 SIG: 9
+I/ActivityManager(  158): Process com.edamametech.android.SiestaWatch:alarmManageer (pid 1270) has died.
+W/ActivityManager(  158): Service crashed 2 times, stopping: ServiceRecord{43f3da00 com.edamametech.android.SiestaWatch/.SiestaWatchService}
+
+Intentのnullチェックを増やした。

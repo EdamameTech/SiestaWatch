@@ -21,6 +21,12 @@ public class SiestaWatchServiceTestCase extends
 		super.setUp();
 	}
 
+	public void testStartWithNullIntent() {
+		startService(null);
+		mService = getService();
+		assertEquals(State.Off, mService.getState());
+	}
+
 	public void testDefaultState() {
 		Intent intent = new Intent();
 		intent.setClass(getContext(), SiestaWatchService.class);
@@ -33,7 +39,8 @@ public class SiestaWatchServiceTestCase extends
 		Intent intent = new Intent();
 		intent.setClass(getContext(), SiestaWatchService.class);
 		intent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
-		intent.putExtra(SiestaWatchService.UriOfAlarmSound, Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
+		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
+				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
 		startService(intent);
 		mService = getService();
 		assertEquals(State.StandingBy, mService.getState());
