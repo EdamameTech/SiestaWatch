@@ -30,6 +30,7 @@ public class SiestaWatchActivity extends Activity {
 
 	@Override
 	public void onDestroy() {
+		super.onDestroy();
 		stopSiestaWatchService();
 	}
 

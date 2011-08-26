@@ -424,3 +424,24 @@ http://developer.android.com/resources/samples/ApiDemos/src/com/example/android/
 08-26 11:05:44.510: DEBUG/dalvikvm(451): GC_EXPLICIT freed 3267 objects / 297880 bytes in 198ms
 08-26 11:06:07.330: DEBUG/dalvikvm(160): GC_FOR_MALLOC freed 15625 objects / 799744 bytes in 201ms
 08-26 11:06:08.880: INFO/Swapper(823): Service stopped
+
+一行足したらlogcatに以下:
+
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071): FATAL EXCEPTION: main
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071): android.app.SuperNotCalledException: Activity {com.edamametech.android.SiestaWatch/com.edamametech.android.SiestaWatch.SiestaWatchActivity} did not call through to super.onDestroy()
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.app.ActivityThread.performDestroyActivity(ActivityThread.java:3644)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.app.ActivityThread.handleDestroyActivity(ActivityThread.java:3673)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.app.ActivityThread.handleRelaunchActivity(ActivityThread.java:3789)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.app.ActivityThread.access$2400(ActivityThread.java:125)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2037)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.os.Handler.dispatchMessage(Handler.java:99)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.os.Looper.loop(Looper.java:123)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at android.app.ActivityThread.main(ActivityThread.java:4627)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at java.lang.reflect.Method.invokeNative(Native Method)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at java.lang.reflect.Method.invoke(Method.java:521)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:868)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:626)
+08-26 11:28:48.060: ERROR/AndroidRuntime(1071):     at dalvik.system.NativeStart.main(Native Method)
+
+あー。そうか。今はActivityでstopService()してるんだ。あとで消しとかなくちゃな。
+とりあえずsuper()呼ぶよにしました。
