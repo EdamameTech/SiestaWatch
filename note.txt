@@ -445,3 +445,78 @@ http://developer.android.com/resources/samples/ApiDemos/src/com/example/android/
 
 あー。そうか。今はActivityでstopService()してるんだ。あとで消しとかなくちゃな。
 とりあえずsuper()呼ぶよにしました。
+
+しばらく置いておいてON。特に異状はなかった。次はONのつぎにUNLOCK
+
+08-26 12:07:46.300: DEBUG/KeyguardViewMediator(160): wakeWhenReadyLocked(6)
+08-26 12:07:46.300: DEBUG/KeyguardViewMediator(160): handleWakeWhenReady(6)
+08-26 12:07:46.300: DEBUG/KeyguardViewMediator(160): pokeWakelock(5000)
+08-26 12:07:46.300: INFO/power(160): *** set_screen_state 1
+08-26 12:07:46.330: DEBUG/AKMD(127): Compass OPEN 
+08-26 12:07:46.340: DEBUG/Sensors(160): sensors=00000001, real=00000001
+08-26 12:07:46.400: DEBUG/WifiService(160): ACTION_SCREEN_ON
+08-26 12:07:46.420: DEBUG/SurfaceFlinger(160): Screen about to return, flinger = 0x114130
+08-26 12:07:46.490: VERBOSE/SiestaWatchService(1188): screenEventReceiver.onReceive()
+08-26 12:07:46.490: VERBOSE/SiestaWatchService(1188): com.edamametech.android.SiestaWatch.SiestaWatchService@43c9e7e8
+08-26 12:07:46.490: VERBOSE/SiestaWatchService(1188): Intent { act=android.intent.action.SCREEN_ON flg=0x40000000 }
+08-26 12:07:47.120: DEBUG/KeyguardViewMediator(160): pokeWakelock(5000)
+08-26 12:07:47.360: DEBUG/KeyguardViewMediator(160): pokeWakelock(5000)
+08-26 12:07:47.420: INFO/ActivityManager(160): Start proc com.android.settings for broadcast com.android.settings/.widget.SettingsAppWidgetProvider: pid=1317 uid=1000 gids={3003, 1015, 3002, 3001}
+08-26 12:07:47.430: VERBOSE/SiestaWatchService(1188): screenEventReceiver.onReceive()
+08-26 12:07:47.460: WARN/InputManagerService(160): Window already focused, ignoring focus gain of: com.android.internal.view.IInputMethodClient$Stub$Proxy@43e7e1d8
+08-26 12:07:47.540: VERBOSE/SiestaWatchService(1188): com.edamametech.android.SiestaWatch.SiestaWatchService@43c9e7e8
+08-26 12:07:47.570: VERBOSE/SiestaWatchService(1188): Intent { act=android.intent.action.USER_PRESENT flg=0x20000000 }
+
+なぜかここで死亡。
+
+08-26 12:07:48.670: INFO/ActivityManager(160): Process com.edamametech.android.SiestaWatch:alarmManageer (pid 1188) has died.
+08-26 12:07:48.670: WARN/ActivityManager(160): Scheduling restart of crashed service com.edamametech.android.SiestaWatch/.SiestaWatchService in 5000ms
+08-26 12:07:48.860: DEBUG/ConnectivityService(160): getMobileDataEnabled returning false
+08-26 12:07:48.920: DEBUG/SettingsAppWidgetProvider(1317): Call buildUpdate for widget:4
+08-26 12:07:48.980: DEBUG/SettingsAppWidgetProvider(1317): buildUpdate done for widget:4
+08-26 12:07:53.710: INFO/ActivityManager(160): Start proc com.edamametech.android.SiestaWatch:alarmManageer for service com.edamametech.android.SiestaWatch/.SiestaWatchService: pid=1323 uid=10056 gids={}
+08-26 12:07:53.950: VERBOSE/SiestaWatchService(1323): SiestaWatchService.onCreate()
+08-26 12:07:53.950: VERBOSE/SiestaWatchService(1323): Registering screenEvents
+08-26 12:07:53.960: VERBOSE/SiestaWatchService(1323): SiestaWatchService.handleStartCommand()
+08-26 12:07:53.960: VERBOSE/SiestaWatchService(1323): Got a null intent
+08-26 12:07:54.120: INFO/ActivityManager(160): Process com.noshufou.android.su (pid 1255) has died.
+08-26 12:07:54.240: DEBUG/dalvikvm(451): GC_EXPLICIT freed 1883 objects / 124152 bytes in 258ms
+
+Activityがバックグラウンドになってると死ぬのかな。onDestroyが走ってない
+
+08-26 15:15:08.310: INFO/ActivityManager(160): Process com.edamametech.android.SiestaWatch:alarmManageer (pid 1323) has died.
+08-26 15:15:08.310: WARN/ActivityManager(160): Scheduling restart of crashed service com.edamametech.android.SiestaWatch/.SiestaWatchService in 5000ms
+
+08-26 15:15:13.590: VERBOSE/SiestaWatchService(1743): SiestaWatchService.onCreate()
+08-26 15:15:13.590: VERBOSE/SiestaWatchService(1743): Registering screenEvents
+08-26 15:15:13.600: VERBOSE/SiestaWatchService(1743): SiestaWatchService.handleStartCommand()
+08-26 15:15:13.600: VERBOSE/SiestaWatchService(1743): Got a null intent
+
+ActivityのonDestroyでServiceを殺さないようにしてみよう。
+
+だめだなあ。キーボード出したら落ちた。
+
+08-26 16:49:41.250: VERBOSE/SiestaWatchService(1937): screenEventReceiver.onReceive()
+08-26 16:49:41.250: VERBOSE/SiestaWatchService(1937): com.edamametech.android.SiestaWatch.SiestaWatchService@43c9e7e8
+08-26 16:49:41.250: VERBOSE/SiestaWatchService(1937): Intent { act=android.intent.action.SCREEN_ON flg=0x40000000 }
+
+08-26 16:49:51.500: VERBOSE/SiestaWatchService(1937): screenEventReceiver.onReceive()
+08-26 16:49:51.500: VERBOSE/SiestaWatchService(1937): com.edamametech.android.SiestaWatch.SiestaWatchService@43c9e7e8
+08-26 16:49:51.500: VERBOSE/SiestaWatchService(1937): Intent { act=android.intent.action.SCREEN_OFF flg=0x40000000 }
+
+08-26 16:49:58.170: INFO/ActivityManager(160): Process com.edamametech.android.SiestaWatch:alarmManageer (pid 1937) has died.
+08-26 16:49:58.180: WARN/ActivityManager(160): Scheduling restart of crashed service com.edamametech.android.SiestaWatch/.SiestaWatchService in 5000ms
+08-26 16:49:58.450: WARN/InputMethodManager(239): Ignoring onBind: cur seq=18, given seq=22
+08-26 16:49:58.630: INFO/Swapper(2029): H=null EXEC Enabling swap(partition) RESULT false
+08-26 16:49:58.630: ERROR/Swapper(2029): swapon: /dev/block/mmcblk0p3: Device or resource busy
+08-26 16:50:03.200: INFO/ActivityManager(160): Start proc com.edamametech.android.SiestaWatch:alarmManageer for service com.edamametech.android.SiestaWatch/.SiestaWatchService: pid=2062 uid=10056 gids={}
+08-26 16:50:03.540: VERBOSE/SiestaWatchService(2062): SiestaWatchService.onCreate()
+08-26 16:50:03.550: VERBOSE/SiestaWatchService(2062): Registering screenEvents
+08-26 16:50:03.560: VERBOSE/SiestaWatchService(2062): SiestaWatchService.handleStartCommand()
+08-26 16:50:03.560: VERBOSE/SiestaWatchService(2062): Got a null intent
+08-26 16:50:03.850: INFO/ActivityManager(160): Process com.edamametech.android.SiestaWatch (pid 1931) has died.
+08-26 16:50:03.860: INFO/WindowManager(160): WIN DEATH: Window{43f961f8 com.edamametech.android.SiestaWatch/com.edamametech.android.SiestaWatch.SiestaWatchActivity paused=false}
+
+この後、再起動されたService(2062)はちゃんとスクリーンのイベントをひろってる
+
+落ちないときは落ちない。やっぱり落ちた後に再起動される時に状態を復活できるようにするのが良さそうだ。
