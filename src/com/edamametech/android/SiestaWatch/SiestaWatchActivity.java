@@ -28,12 +28,6 @@ public class SiestaWatchActivity extends Activity {
 				});
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		stopSiestaWatchService();
-	}
-
 	private void startSiestaWatchService() {
 		Intent intent = new Intent(SiestaWatchActivity.this,
 				SiestaWatchService.class);
