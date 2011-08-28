@@ -39,13 +39,13 @@
 
 - ACTION_USER_PRESENTが来る
 - アラーム音を止める
-- Serviceを停止
-- (Off)
+- Serviceを停止 Tested?
+- (Off) Tested
 
 [アラームを停止中 (Silent)]
 - ACTION_SCREEN_OFFが来る
 - アラーム音を再開する
-- (Alarm)
+- (Alarm) Tested
 
 - ACTION_USER_PRESENTが来る
 - アラーム音を止める

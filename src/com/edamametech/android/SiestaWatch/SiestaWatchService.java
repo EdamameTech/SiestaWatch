@@ -98,6 +98,10 @@ public class SiestaWatchService extends Service {
 			countDown();
 			return;
 		}
+		if (state == State.Silencing){
+			alarm();
+			return;
+		}
 	}
 
 	public void actionUserPresent() {
