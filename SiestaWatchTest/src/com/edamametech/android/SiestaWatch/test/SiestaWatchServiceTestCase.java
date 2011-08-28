@@ -1,11 +1,11 @@
 package com.edamametech.android.SiestaWatch.test;
 
+import android.content.Intent;
+import android.provider.Settings;
+import android.test.ServiceTestCase;
+
 import com.edamametech.android.SiestaWatch.SiestaWatchService;
 import com.edamametech.android.SiestaWatch.SiestaWatchService.State;
-
-import android.content.Intent;
-import android.test.ServiceTestCase;
-import android.provider.Settings;
 
 public class SiestaWatchServiceTestCase extends
 		ServiceTestCase<SiestaWatchService> {
@@ -21,7 +21,31 @@ public class SiestaWatchServiceTestCase extends
 		super.setUp();
 	}
 
-	public void testStartWithNullIntent() {
+	public void testRestartWithNullIntentFromStandBy() {
+		/* pretending the normal Service is stopped and ... */
+		Intent intent = new Intent();
+		intent.setClass(getContext(), SiestaWatchService.class);
+		intent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
+		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
+				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
+		startService(intent);
+		mService = getService();
+		mService.stopSelf();
+		/* restarted by the ActivityManager, intent seems to be null, */
+		startService(null);
+		mService = getService();
+		/* and we want the Service to keep the parameters */
+		assertEquals(State.StandingBy, mService.getState());
+	}
+
+
+	public void testRestartWithNullIntentFromOff() {
+		Intent intent = new Intent();
+		intent.setClass(getContext(), SiestaWatchService.class);
+		startService(intent);
+		mService = getService();
+		assertEquals(State.Off, mService.getState());
+		mService.stopSelf();
 		startService(null);
 		mService = getService();
 		assertEquals(State.Off, mService.getState());
