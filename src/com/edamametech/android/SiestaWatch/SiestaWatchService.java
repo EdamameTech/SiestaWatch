@@ -1,5 +1,7 @@
 package com.edamametech.android.SiestaWatch;
 
+import java.io.IOException;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -18,6 +22,8 @@ public class SiestaWatchService extends Service {
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchService";
 	private static final String PrefsName = "SiestaWatchService";
+
+	private MediaPlayer alarmPlayer = null;
 
 	/* state */
 	public static enum State {
@@ -52,6 +58,33 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "alarm()");
 		clearAlarm();
+		if (alarmPlayer == null) {
+			alarmPlayer = new MediaPlayer();
+			try {
+				alarmPlayer.setDataSource(this, uriOfAlarmSound);
+				// TODO: Better handling of exceptions
+			} catch (IllegalArgumentException e) {
+				Log.e(LogTag, e.toString());
+			} catch (SecurityException e) {
+				Log.e(LogTag, e.toString());
+			} catch (IllegalStateException e) {
+				Log.e(LogTag, e.toString());
+			} catch (IOException e) {
+				Log.e(LogTag, e.toString());
+			}
+			alarmPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+			alarmPlayer.setLooping(true);
+			try {
+				alarmPlayer.prepare();
+				// TODO: Better handling of exceptions
+			} catch (IllegalStateException e) {
+				Log.e(LogTag, e.toString());
+			} catch (IOException e) {
+				Log.e(LogTag, e.toString());
+			}
+		}
+		alarmPlayer.seekTo(0);
+		alarmPlayer.start();
 		state = State.Alarming;
 	}
 
@@ -59,6 +92,8 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "silent()");
 		clearAlarm();
+		if (alarmPlayer != null)
+			alarmPlayer.pause();
 		state = State.Silencing;
 	}
 
@@ -66,6 +101,10 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "off()");
 		clearAlarm();
+		if (alarmPlayer != null) {
+			alarmPlayer.stop();
+			alarmPlayer.release();
+		}
 		state = State.Off;
 		stopSelf();
 	}
@@ -85,6 +124,9 @@ public class SiestaWatchService extends Service {
 			if (action.equals(Intent.ACTION_SCREEN_ON)) {
 				actionScreenOn();
 			}
+			if (action.equals(Intent.ACTION_USER_PRESENT)) {
+				actionUserPresent();
+			}
 		}
 	};
 
@@ -98,7 +140,7 @@ public class SiestaWatchService extends Service {
 			countDown();
 			return;
 		}
-		if (state == State.Silencing){
+		if (state == State.Silencing) {
 			alarm();
 			return;
 		}
@@ -113,6 +155,11 @@ public class SiestaWatchService extends Service {
 		}
 		if (state == State.Alarming) {
 			off();
+			return;
+		}
+		if (state == State.Silencing) {
+			off();
+			return;
 		}
 	}
 
