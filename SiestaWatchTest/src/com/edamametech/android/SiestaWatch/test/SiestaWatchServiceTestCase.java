@@ -16,11 +16,6 @@ public class SiestaWatchServiceTestCase extends
 		super(SiestaWatchService.class);
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
 	public void testRestartWithNullIntentFromStandBy() {
 		/* pretending the normal Service is stopped and ... */
 		Intent intent = new Intent();
@@ -37,7 +32,6 @@ public class SiestaWatchServiceTestCase extends
 		/* and we want the Service to keep the parameters */
 		assertEquals(State.StandingBy, mService.getState());
 	}
-
 
 	public void testRestartWithNullIntentFromOff() {
 		Intent intent = new Intent();
