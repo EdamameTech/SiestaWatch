@@ -1,5 +1,7 @@
 package com.edamametech.android.SiestaWatch;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,7 +44,14 @@ public class SiestaWatchService extends Service {
 	private void countDown() {
 		if (DEBUG)
 			Log.v(LogTag, "countDown()");
+		setAlarm();
 		state = State.CountingDown;
+	}
+
+	private void alarm() {
+		if (DEBUG)
+			Log.v(LogTag, "alarm()");
+		state = State.Alarming;
 	}
 
 	/* receiving Broadcasts */
@@ -75,8 +84,17 @@ public class SiestaWatchService extends Service {
 	public void actionUserPresent() {
 		if (DEBUG)
 			Log.v(LogTag, "actionUserPresent()");
-		if (state == State.CountingDown){
+		if (state == State.CountingDown) {
 			standBy();
+			return;
+		}
+	}
+
+	public void actionAlarm() {
+		if (DEBUG)
+			Log.v(LogTag, "actionAlarm()");
+		if (state == State.CountingDown) {
+			alarm();
 			return;
 		}
 	}
@@ -124,6 +142,30 @@ public class SiestaWatchService extends Service {
 
 	private static final IntentFilter screenEventFilter = new IntentFilter();
 
+	/* alarms */
+	// Key for Extras in Intent to supply Action as an Int
+	public static String Action = "Action";
+	// Intent that makes us to go off the alarm
+	private final int ActionAlarm = 1;
+
+	private void setAlarm() {
+		if (DEBUG)
+			Log.v(LogTag, "setAlarm()");
+
+		Intent alarmIntent = new Intent();
+		alarmIntent.setClass(this, SiestaWatchService.class);
+		alarmIntent.putExtra(SiestaWatchService.Action, ActionAlarm);
+
+		PendingIntent alarmSender = PendingIntent.getService(
+				SiestaWatchService.this, 0, alarmIntent, 0);
+
+		AlarmManager alarmManager = (AlarmManager) this
+				.getSystemService(Context.ALARM_SERVICE);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+				+ sleepDurationMillis, alarmSender);
+	}
+
+	/* Service things */
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// Will not be bound
@@ -167,27 +209,38 @@ public class SiestaWatchService extends Service {
 			if (extras == null) {
 				clearStoredParameters();
 			} else {
-				if (extras.containsKey(UriOfAlarmSound)) {
+				if (extras.containsKey(Action)) {
 					if (DEBUG)
-						Log.v(LogTag,
-								UriOfAlarmSound + ": "
-										+ extras.getString(UriOfAlarmSound));
-					uriOfAlarmSound = Uri.parse(extras
-							.getString(UriOfAlarmSound));
+						Log.v(LogTag, Action + ": " + extras.getInt(Action));
+					switch (extras.getInt(Action)) {
+					case ActionAlarm:
+						actionAlarm();
+						break;
+					}
+				} else {
+					if (extras.containsKey(UriOfAlarmSound)) {
+						if (DEBUG)
+							Log.v(LogTag,
+									UriOfAlarmSound + ": "
+											+ extras.getString(UriOfAlarmSound));
+						uriOfAlarmSound = Uri.parse(extras
+								.getString(UriOfAlarmSound));
+					}
+					if (extras.containsKey(SleepDurationMillis)) {
+						if (DEBUG)
+							Log.v(LogTag,
+									SleepDurationMillis
+											+ ": "
+											+ extras.getLong(SleepDurationMillis));
+						sleepDurationMillis = extras
+								.getLong(SleepDurationMillis);
+					}
+					storeParameters();
+					if (uriOfAlarmSound != null && sleepDurationMillis > 0)
+						standBy();
 				}
-				if (extras.containsKey(SleepDurationMillis)) {
-					if (DEBUG)
-						Log.v(LogTag,
-								SleepDurationMillis + ": "
-										+ extras.getLong(SleepDurationMillis));
-					sleepDurationMillis = extras.getLong(SleepDurationMillis);
-				}
-				storeParameters();
 			}
 		}
-
-		if (uriOfAlarmSound != null && sleepDurationMillis > 0)
-			standBy();
 	}
 
 	@Override

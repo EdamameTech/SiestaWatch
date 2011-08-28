@@ -2,6 +2,7 @@ package com.edamametech.android.SiestaWatch;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.content.Intent;
 import android.widget.Button;
 import android.view.View;
@@ -31,6 +32,9 @@ public class SiestaWatchActivity extends Activity {
 	private void startSiestaWatchService() {
 		Intent intent = new Intent(SiestaWatchActivity.this,
 				SiestaWatchService.class);
+		intent.putExtra(SiestaWatchService.SleepDurationMillis, 5000L);
+		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
+				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
 		startService(intent);
 	}
 
