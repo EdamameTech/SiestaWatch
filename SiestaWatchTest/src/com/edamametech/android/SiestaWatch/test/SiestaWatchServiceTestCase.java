@@ -63,4 +63,16 @@ public class SiestaWatchServiceTestCase extends
 		mService = getService();
 		assertEquals(State.StandingBy, mService.getState());
 	}
+
+	public void testCountDown() {
+		Intent intent = new Intent();
+		intent.setClass(getContext(), SiestaWatchService.class);
+		intent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
+		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
+				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
+		startService(intent);
+		mService = getService();
+		mService.actionScreenOff();
+		assertEquals(State.CountingDown, mService.getState());
+	}
 }

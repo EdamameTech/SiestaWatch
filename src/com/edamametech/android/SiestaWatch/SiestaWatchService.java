@@ -34,8 +34,43 @@ public class SiestaWatchService extends Service {
 	}
 
 	private void standBy() {
+		if (DEBUG)
+			Log.v(LogTag, "standBy()");
 		if (uriOfAlarmSound != null && sleepDurationMillis > 0) {
 			state = State.StandingBy;
+		}
+	}
+
+	private void countDown() {
+		if (DEBUG)
+			Log.v(LogTag, "countDown()");
+		state = State.CountingDown;
+	}
+
+	/* receiving Broadcasts */
+	private final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent broadcast) {
+			if (DEBUG)
+				Log.v(LogTag, "screenEventReceiver.onReceive()");
+			if (DEBUG)
+				Log.v(LogTag, context.toString());
+			if (DEBUG)
+				Log.v(LogTag, broadcast.toString());
+			String action = broadcast.getAction();
+			if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+				actionScreenOff();
+			}
+		}
+	};
+
+	/* following methods are public for SiestaWatchServiceTestCases */
+	public void actionScreenOff() {
+		if (DEBUG)
+			Log.v(LogTag, "actionScreenOff()");
+		if (state == State.StandingBy) {
+			countDown();
+			return;
 		}
 	}
 
@@ -48,18 +83,6 @@ public class SiestaWatchService extends Service {
 	private Uri uriOfAlarmSound = null;
 	// Time duration in msec to alarm after user felt asleep
 	private long sleepDurationMillis = 0;
-
-	private static final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (DEBUG)
-				Log.v(LogTag, "screenEventReceiver.onReceive()");
-			if (DEBUG)
-				Log.v(LogTag, context.toString());
-			if (DEBUG)
-				Log.v(LogTag, intent.toString());
-		}
-	};
 
 	private void storeParameters() {
 		if (DEBUG)
