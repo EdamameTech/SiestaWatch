@@ -30,12 +30,12 @@
 
 - アラーム時刻が来る
 - アラーム音を鳴らす
-- (Alarm)
+- (Alarm) Tested
 
 [アラームが鳴っている最中 (Alarm)]
 - ACTION_SCREEN_ONが来る
 - アラーム音を止める
-- (Silent)
+- (Silent) Tested
 
 - ACTION_USER_PRESENTが来る
 - アラーム音を止める

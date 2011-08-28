@@ -54,6 +54,12 @@ public class SiestaWatchService extends Service {
 		state = State.Alarming;
 	}
 
+	private void silent() {
+		if (DEBUG)
+			Log.v(LogTag, "silent()");
+		state = State.Silencing;
+	}
+
 	/* receiving Broadcasts */
 	private final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
 		@Override
@@ -65,6 +71,9 @@ public class SiestaWatchService extends Service {
 			String action = broadcast.getAction();
 			if (action.equals(Intent.ACTION_SCREEN_OFF)) {
 				actionScreenOff();
+			}
+			if (action.equals(Intent.ACTION_SCREEN_ON)) {
+				actionScreenOn();
 			}
 		}
 	};
@@ -95,6 +104,15 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "actionAlarm()");
 		if (state == State.CountingDown) {
 			alarm();
+			return;
+		}
+	}
+
+	public void actionScreenOn() {
+		if (DEBUG)
+			Log.v(LogTag, "actionScreenOn()");
+		if (state == State.Alarming) {
+			silent();
 			return;
 		}
 	}
