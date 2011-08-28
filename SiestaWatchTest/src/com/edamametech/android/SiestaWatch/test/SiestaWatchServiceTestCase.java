@@ -62,10 +62,19 @@ public class SiestaWatchServiceTestCase extends
 		assertEquals(State.StandingBy, mService.getState());
 	}
 
-	public void testCountDown() {
+	public void testFromStandByToCountDown() {
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
 		assertEquals(State.CountingDown, mService.getState());
 	}
+
+	public void testFromCountDowntoStandBy() {
+		startService(standardIntent);
+		mService = getService();
+		mService.actionScreenOff();
+		assertEquals(State.CountingDown, mService.getState());
+		mService.actionUserPresent();
+		assertEquals(State.StandingBy, mService.getState());
+		}
 }

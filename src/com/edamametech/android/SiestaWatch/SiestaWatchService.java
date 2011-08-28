@@ -72,6 +72,15 @@ public class SiestaWatchService extends Service {
 		}
 	}
 
+	public void actionUserPresent() {
+		if (DEBUG)
+			Log.v(LogTag, "actionUserPresent()");
+		if (state == State.CountingDown){
+			standBy();
+			return;
+		}
+	}
+
 	/* parameters */
 	// Key for Extras in Intent to supply uriOfAlarmSound as a String
 	public static String UriOfAlarmSound = "UriOfAlarmSound";
