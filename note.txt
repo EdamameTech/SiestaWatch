@@ -520,5 +520,3 @@ ActivityのonDestroyでServiceを殺さないようにしてみよう。
 この後、再起動されたService(2062)はちゃんとスクリーンのイベントをひろってる
 
 落ちないときは落ちない。やっぱり落ちた後に再起動される時に状態を復活できるようにするのが良さそうだ。
-
-TODO: Refactor - add final's, remove unnnessesary strings from debug logcats

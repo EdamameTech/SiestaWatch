@@ -14,13 +14,13 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class SiestaWatchService extends Service {
-	private static int LOGLEVEL = 1;
-	private static boolean DEBUG = (LOGLEVEL > 0);
-	private static String LogTag = "SiestaWatchService";
-	private static String PrefsName = "SiestaWatchService";
+	private static final int LOGLEVEL = 1;
+	private static final boolean DEBUG = (LOGLEVEL > 0);
+	private static final String LogTag = "SiestaWatchService";
+	private static final String PrefsName = "SiestaWatchService";
 
 	/* state */
-	public enum State {
+	public static enum State {
 		Off, // Application has not been executed
 		StandingBy, // Waiting for the user to fall asleep
 		CountingDown, // Counting down to raise alarm
@@ -30,7 +30,7 @@ public class SiestaWatchService extends Service {
 
 	private State state = State.Off;
 
-	// for SiestaWatchServiceTestCases
+	// public for SiestaWatchServiceTestCases
 	public State getState() {
 		return state;
 	}
@@ -61,8 +61,6 @@ public class SiestaWatchService extends Service {
 			if (DEBUG)
 				Log.v(LogTag, "screenEventReceiver.onReceive()");
 			if (DEBUG)
-				Log.v(LogTag, context.toString());
-			if (DEBUG)
 				Log.v(LogTag, broadcast.toString());
 			String action = broadcast.getAction();
 			if (action.equals(Intent.ACTION_SCREEN_OFF)) {
@@ -70,6 +68,8 @@ public class SiestaWatchService extends Service {
 			}
 		}
 	};
+
+	private static final IntentFilter screenEventFilter = new IntentFilter();
 
 	/* following methods are public for SiestaWatchServiceTestCases */
 	public void actionScreenOff() {
@@ -101,17 +101,18 @@ public class SiestaWatchService extends Service {
 
 	/* parameters */
 	// Key for Extras in Intent to supply uriOfAlarmSound as a String
-	public static String UriOfAlarmSound = "UriOfAlarmSound";
-	// Key for Extras in Intent to supply sleepDurationMIllis as a long
-	public static String SleepDurationMillis = "SleepDurationMillis";
+	public static final String UriOfAlarmSound = "UriOfAlarmSound";
 	// URI of the alarm sound
 	private Uri uriOfAlarmSound = null;
+
+	// Key for Extras in Intent to supply sleepDurationMIllis as a long
+	public static final String SleepDurationMillis = "SleepDurationMillis";
 	// Time duration in msec to alarm after user felt asleep
 	private long sleepDurationMillis = 0;
 
 	private void storeParameters() {
 		if (DEBUG)
-			Log.v(LogTag, "SiestaWatchService.storeParameters()");
+			Log.v(LogTag, "storeParameters()");
 		SharedPreferences.Editor editor = getSharedPreferences(PrefsName, 0)
 				.edit();
 		editor.putString(UriOfAlarmSound, uriOfAlarmSound.toString());
@@ -121,7 +122,7 @@ public class SiestaWatchService extends Service {
 
 	private void clearStoredParameters() {
 		if (DEBUG)
-			Log.v(LogTag, "SiestaWatchService.storeParameters()");
+			Log.v(LogTag, "storeParameters()");
 		SharedPreferences.Editor editor = getSharedPreferences(PrefsName, 0)
 				.edit();
 		editor.clear();
@@ -130,7 +131,7 @@ public class SiestaWatchService extends Service {
 
 	private void restoreParameters() {
 		if (DEBUG)
-			Log.v(LogTag, "SiestaWatchService.restoreParameters()");
+			Log.v(LogTag, "restoreParameters()");
 		SharedPreferences prefs = getSharedPreferences(PrefsName, 0);
 		if (prefs.contains(UriOfAlarmSound)) {
 			uriOfAlarmSound = Uri.parse(prefs.getString(UriOfAlarmSound, ""));
@@ -140,13 +141,11 @@ public class SiestaWatchService extends Service {
 		}
 	}
 
-	private static final IntentFilter screenEventFilter = new IntentFilter();
-
 	/* alarms */
 	// Key for Extras in Intent to supply Action as an Int
-	public static String Action = "Action";
+	public static final String Action = "Action";
 	// Intent that makes us to go off the alarm
-	private final int ActionAlarm = 1;
+	private static final int ActionAlarm = 1;
 
 	private void setAlarm() {
 		if (DEBUG)
@@ -175,7 +174,7 @@ public class SiestaWatchService extends Service {
 	@Override
 	public void onCreate() {
 		if (DEBUG)
-			Log.v(LogTag, "SiestaWatchService.onCreate()");
+			Log.v(LogTag, "onCreate()");
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_OFF);
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_ON);
 		screenEventFilter.addAction(Intent.ACTION_USER_PRESENT);
@@ -195,7 +194,7 @@ public class SiestaWatchService extends Service {
 
 	private void handleStartCommand(Intent intent) {
 		if (DEBUG)
-			Log.v(LogTag, "SiestaWatchService.handleStartCommand()");
+			Log.v(LogTag, "handleStartCommand()");
 
 		if (intent == null) {
 			if (DEBUG)
@@ -246,7 +245,7 @@ public class SiestaWatchService extends Service {
 	@Override
 	public void onDestroy() {
 		if (DEBUG)
-			Log.v(LogTag, "SiestaWatchService.onDestroy()");
+			Log.v(LogTag, "onDestroy()");
 		unregisterReceiver(screenEventReceiver);
 	}
 }
