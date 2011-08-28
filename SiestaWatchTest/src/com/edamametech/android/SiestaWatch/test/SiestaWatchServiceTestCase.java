@@ -11,19 +11,24 @@ public class SiestaWatchServiceTestCase extends
 		ServiceTestCase<SiestaWatchService> {
 
 	private SiestaWatchService mService;
+	private Intent standardIntent;
 
 	public SiestaWatchServiceTestCase() {
 		super(SiestaWatchService.class);
 	}
 
+	@Override
+	protected void setUp() {
+		standardIntent = new Intent();
+		standardIntent.setClass(getContext(), SiestaWatchService.class);
+		standardIntent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
+		standardIntent.putExtra(SiestaWatchService.UriOfAlarmSound,
+				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
+	}
+
 	public void testRestartWithNullIntentFromStandBy() {
 		/* pretending the normal Service is stopped and ... */
-		Intent intent = new Intent();
-		intent.setClass(getContext(), SiestaWatchService.class);
-		intent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
-		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
-				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
-		startService(intent);
+		startService(standardIntent);
 		mService = getService();
 		mService.stopSelf();
 		/* restarted by the ActivityManager, intent seems to be null, */
@@ -37,9 +42,7 @@ public class SiestaWatchServiceTestCase extends
 		Intent intent = new Intent();
 		intent.setClass(getContext(), SiestaWatchService.class);
 		startService(intent);
-		mService = getService();
-		assertEquals(State.Off, mService.getState());
-		mService.stopSelf();
+		getService().stopSelf();
 		startService(null);
 		mService = getService();
 		assertEquals(State.Off, mService.getState());
@@ -54,23 +57,13 @@ public class SiestaWatchServiceTestCase extends
 	}
 
 	public void testStandBy() {
-		Intent intent = new Intent();
-		intent.setClass(getContext(), SiestaWatchService.class);
-		intent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
-		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
-				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
-		startService(intent);
+		startService(standardIntent);
 		mService = getService();
 		assertEquals(State.StandingBy, mService.getState());
 	}
 
 	public void testCountDown() {
-		Intent intent = new Intent();
-		intent.setClass(getContext(), SiestaWatchService.class);
-		intent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
-		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
-				Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
-		startService(intent);
+		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
 		assertEquals(State.CountingDown, mService.getState());

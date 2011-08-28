@@ -36,9 +36,7 @@ public class SiestaWatchService extends Service {
 	private void standBy() {
 		if (DEBUG)
 			Log.v(LogTag, "standBy()");
-		if (uriOfAlarmSound != null && sleepDurationMillis > 0) {
-			state = State.StandingBy;
-		}
+		state = State.StandingBy;
 	}
 
 	private void countDown() {
@@ -127,8 +125,6 @@ public class SiestaWatchService extends Service {
 	public void onCreate() {
 		if (DEBUG)
 			Log.v(LogTag, "SiestaWatchService.onCreate()");
-		if (DEBUG)
-			Log.v(LogTag, "Registering screenEvents");
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_OFF);
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_ON);
 		screenEventFilter.addAction(Intent.ACTION_USER_PRESENT);
@@ -154,43 +150,41 @@ public class SiestaWatchService extends Service {
 			if (DEBUG)
 				Log.v(LogTag, "Got a null intent");
 			restoreParameters();
+		} else {
+			if (DEBUG)
+				Log.v(LogTag, intent.toString());
+
+			Bundle extras = intent.getExtras();
+			if (extras == null) {
+				clearStoredParameters();
+			} else {
+				if (extras.containsKey(UriOfAlarmSound)) {
+					if (DEBUG)
+						Log.v(LogTag,
+								UriOfAlarmSound + ": "
+										+ extras.getString(UriOfAlarmSound));
+					uriOfAlarmSound = Uri.parse(extras
+							.getString(UriOfAlarmSound));
+				}
+				if (extras.containsKey(SleepDurationMillis)) {
+					if (DEBUG)
+						Log.v(LogTag,
+								SleepDurationMillis + ": "
+										+ extras.getLong(SleepDurationMillis));
+					sleepDurationMillis = extras.getLong(SleepDurationMillis);
+				}
+				storeParameters();
+			}
+		}
+
+		if (uriOfAlarmSound != null && sleepDurationMillis > 0)
 			standBy();
-			return;
-		}
-
-		if (DEBUG)
-			Log.v(LogTag, intent.toString());
-
-		Bundle extras = intent.getExtras();
-		if (extras == null) {
-			clearStoredParameters();
-			return;
-		}
-
-		if (extras.containsKey(UriOfAlarmSound)) {
-			if (DEBUG)
-				Log.v(LogTag,
-						UriOfAlarmSound + ": "
-								+ extras.getString(UriOfAlarmSound));
-			uriOfAlarmSound = Uri.parse(extras.getString(UriOfAlarmSound));
-		}
-		if (extras.containsKey(SleepDurationMillis)) {
-			if (DEBUG)
-				Log.v(LogTag,
-						SleepDurationMillis + ": "
-								+ extras.getLong(SleepDurationMillis));
-			sleepDurationMillis = extras.getLong(SleepDurationMillis);
-		}
-		storeParameters();
-		standBy();
 	}
 
 	@Override
 	public void onDestroy() {
 		if (DEBUG)
 			Log.v(LogTag, "SiestaWatchService.onDestroy()");
-		if (DEBUG)
-			Log.v(LogTag, "Unregistering screenEvents");
 		unregisterReceiver(screenEventReceiver);
 	}
 }
