@@ -51,13 +51,23 @@ public class SiestaWatchService extends Service {
 	private void alarm() {
 		if (DEBUG)
 			Log.v(LogTag, "alarm()");
+		clearAlarm();
 		state = State.Alarming;
 	}
 
 	private void silent() {
 		if (DEBUG)
 			Log.v(LogTag, "silent()");
+		clearAlarm();
 		state = State.Silencing;
+	}
+
+	private void off() {
+		if (DEBUG)
+			Log.v(LogTag, "off()");
+		clearAlarm();
+		state = State.Off;
+		stopSelf();
 	}
 
 	/* receiving Broadcasts */
@@ -96,6 +106,9 @@ public class SiestaWatchService extends Service {
 		if (state == State.CountingDown) {
 			standBy();
 			return;
+		}
+		if (state == State.Alarming) {
+			off();
 		}
 	}
 
@@ -165,21 +178,39 @@ public class SiestaWatchService extends Service {
 	// Intent that makes us to go off the alarm
 	private static final int ActionAlarm = 1;
 
+	private AlarmManager alarmManager = null;
+	private Intent alarmIntent = null;
+	private PendingIntent alarmSender = null;
+
 	private void setAlarm() {
 		if (DEBUG)
 			Log.v(LogTag, "setAlarm()");
 
-		Intent alarmIntent = new Intent();
-		alarmIntent.setClass(this, SiestaWatchService.class);
-		alarmIntent.putExtra(SiestaWatchService.Action, ActionAlarm);
+		if (alarmIntent == null) {
+			alarmIntent = new Intent();
+			alarmIntent.setClass(this, SiestaWatchService.class);
+			alarmIntent.putExtra(SiestaWatchService.Action, ActionAlarm);
+		}
+		if (alarmSender == null) {
+			alarmSender = PendingIntent.getService(this, 0, alarmIntent, 0);
+		}
+		if (alarmManager == null) {
+			alarmManager = (AlarmManager) this
+					.getSystemService(Context.ALARM_SERVICE);
+		}
 
-		PendingIntent alarmSender = PendingIntent.getService(
-				SiestaWatchService.this, 0, alarmIntent, 0);
-
-		AlarmManager alarmManager = (AlarmManager) this
-				.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
 				+ sleepDurationMillis, alarmSender);
+	}
+
+	private void clearAlarm() {
+		if (DEBUG)
+			Log.v(LogTag, "clearAlarm()");
+
+		if (alarmManager != null) {
+			alarmManager.cancel(alarmSender);
+			alarmManager = null;
+		}
 	}
 
 	/* Service things */
