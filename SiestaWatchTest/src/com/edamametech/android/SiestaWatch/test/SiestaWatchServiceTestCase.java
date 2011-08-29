@@ -29,6 +29,7 @@ public class SiestaWatchServiceTestCase extends
 		/* pretending the normal Service is stopped and ... */
 		startService(standardIntent);
 		mService = getService();
+		assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
 		mService.stopSelf();
 		/* restarted by the ActivityManager, intent seems to be null, */
 		startService(null);

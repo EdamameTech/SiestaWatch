@@ -50,6 +50,7 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "standBy()");
 		clearAlarm();
 		state = StateStandingBy;
+		storeParameters();
 	}
 
 	private void countDown() {
@@ -57,6 +58,7 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "countDown()");
 		setAlarm();
 		state = StateCountingDown;
+		storeParameters();
 	}
 
 	private void alarm() {
@@ -91,6 +93,7 @@ public class SiestaWatchService extends Service {
 		alarmPlayer.seekTo(0);
 		alarmPlayer.start();
 		state = StateAlarming;
+		storeParameters();
 	}
 
 	private void silent() {
@@ -100,6 +103,7 @@ public class SiestaWatchService extends Service {
 		if (alarmPlayer != null)
 			alarmPlayer.pause();
 		state = StateSilencing;
+		storeParameters();
 	}
 
 	private void off() {
@@ -111,6 +115,7 @@ public class SiestaWatchService extends Service {
 			alarmPlayer.release();
 		}
 		state = StateOff;
+		storeParameters();
 		stopSelf();
 	}
 
@@ -204,6 +209,7 @@ public class SiestaWatchService extends Service {
 				.edit();
 		editor.putString(UriOfAlarmSound, uriOfAlarmSound.toString());
 		editor.putLong(SleepDurationMillis, sleepDurationMillis);
+		editor.putInt(State, state);
 		editor.commit();
 	}
 
@@ -225,6 +231,9 @@ public class SiestaWatchService extends Service {
 		}
 		if (prefs.contains(SleepDurationMillis)) {
 			sleepDurationMillis = prefs.getLong(SleepDurationMillis, 0);
+		}
+		if (prefs.contains(State)) {
+			state = prefs.getInt(State, 0);
 		}
 	}
 
