@@ -2,12 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<LinearLayout android:id="@+id/playLayout"
+	<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationTitle"
+		android:layout_width="wrap_content" android:text="Time to wake up"></TextView>
+	<LinearLayout android:id="@+id/settings"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
-		<Button android:text="Start Service" android:id="@+id/startService"
+		<EditText android:layout_height="wrap_content"
+	android:layout_weight="1" android:layout_width="wrap_content"
+	android:id="@+id/sleepDurationInMins" android:inputType="numberDecimal">
+		</EditText>
+		<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationUnit"
+			android:layout_width="wrap_content" android:text="min"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/actions"
+		android:layout_height="wrap_content" android:layout_width="match_parent">
+		<Button android:text="Done" android:id="@+id/done"
 			android:layout_width="wrap_content" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
-		<Button android:text="Stop Service" android:id="@+id/stopService"
+		<Button android:text="Cancel" android:id="@+id/cancel"
 			android:layout_width="wrap_content" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
 	</LinearLayout>
