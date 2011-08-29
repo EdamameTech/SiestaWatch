@@ -44,6 +44,7 @@ public class SiestaWatchService extends Service {
 	private void standBy() {
 		if (DEBUG)
 			Log.v(LogTag, "standBy()");
+		clearAlarm();
 		state = State.StandingBy;
 	}
 
