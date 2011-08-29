@@ -73,7 +73,6 @@ public class SiestaWatchServiceTestCase extends
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
 		mService.actionUserPresent();
 		assertEquals(State.StandingBy, mService.getState());
 	}
@@ -82,7 +81,6 @@ public class SiestaWatchServiceTestCase extends
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
 		mService.actionAlarm();
 		assertEquals(State.Alarming, mService.getState());
 	}
@@ -91,9 +89,7 @@ public class SiestaWatchServiceTestCase extends
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
 		mService.actionAlarm();
-		assertEquals(State.Alarming, mService.getState());
 		mService.actionScreenOn();
 		assertEquals(State.Silencing, mService.getState());
 	}
@@ -102,9 +98,7 @@ public class SiestaWatchServiceTestCase extends
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
 		mService.actionAlarm();
-		assertEquals(State.Alarming, mService.getState());
 		mService.actionUserPresent();
 		assertEquals(State.Off, mService.getState());
 	}
@@ -113,11 +107,8 @@ public class SiestaWatchServiceTestCase extends
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
 		mService.actionAlarm();
-		assertEquals(State.Alarming, mService.getState());
 		mService.actionScreenOn();
-		assertEquals(State.Silencing, mService.getState());
 		mService.actionScreenOff();
 		assertEquals(State.Alarming, mService.getState());
 	}
@@ -126,11 +117,8 @@ public class SiestaWatchServiceTestCase extends
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
 		mService.actionAlarm();
-		assertEquals(State.Alarming, mService.getState());
 		mService.actionScreenOn();
-		assertEquals(State.Silencing, mService.getState());
 		mService.actionUserPresent();
 		assertEquals(State.Off, mService.getState());
 	}
