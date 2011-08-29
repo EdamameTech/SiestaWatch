@@ -531,6 +531,8 @@ Milestones
 Before alpha release:
 X Basic features in the Service
 X Minimal user interface in the Activity
+- Proper restart with null intent
+	- Needs to store state
 
 Before beta release:
 - Opensource

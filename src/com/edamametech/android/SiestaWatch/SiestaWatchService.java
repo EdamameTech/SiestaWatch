@@ -26,18 +26,22 @@ public class SiestaWatchService extends Service {
 	private MediaPlayer alarmPlayer = null;
 
 	/* state */
-	public static enum State {
-		Off, // Application has not been executed
-		StandingBy, // Waiting for the user to fall asleep
-		CountingDown, // Counting down to raise alarm
-		Alarming, // Waking up the user
-		Silencing, // Pausing the alarm
-	};
+	public static final String State = "State";
+	public static final int StateOff = 1;
+	// Application has not been executed
+	public static final int StateStandingBy = 2;
+	// Waiting for the user to fall asleep
+	public static final int StateCountingDown = 3;
+	// Counting down to raise alarm
+	public static final int StateAlarming = 4;
+	// Waking up the user
+	public static final int StateSilencing = 5;
+	// Waiting for the user to fall asleep
 
-	private State state = State.Off;
+	private int state = StateOff;
 
 	// public for SiestaWatchServiceTestCases
-	public State getState() {
+	public int getState() {
 		return state;
 	}
 
@@ -45,14 +49,14 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "standBy()");
 		clearAlarm();
-		state = State.StandingBy;
+		state = StateStandingBy;
 	}
 
 	private void countDown() {
 		if (DEBUG)
 			Log.v(LogTag, "countDown()");
 		setAlarm();
-		state = State.CountingDown;
+		state = StateCountingDown;
 	}
 
 	private void alarm() {
@@ -86,7 +90,7 @@ public class SiestaWatchService extends Service {
 		}
 		alarmPlayer.seekTo(0);
 		alarmPlayer.start();
-		state = State.Alarming;
+		state = StateAlarming;
 	}
 
 	private void silent() {
@@ -95,7 +99,7 @@ public class SiestaWatchService extends Service {
 		clearAlarm();
 		if (alarmPlayer != null)
 			alarmPlayer.pause();
-		state = State.Silencing;
+		state = StateSilencing;
 	}
 
 	private void off() {
@@ -106,7 +110,7 @@ public class SiestaWatchService extends Service {
 			alarmPlayer.stop();
 			alarmPlayer.release();
 		}
-		state = State.Off;
+		state = StateOff;
 		stopSelf();
 	}
 
@@ -137,11 +141,11 @@ public class SiestaWatchService extends Service {
 	public void actionScreenOff() {
 		if (DEBUG)
 			Log.v(LogTag, "actionScreenOff()");
-		if (state == State.StandingBy) {
+		if (state == StateStandingBy) {
 			countDown();
 			return;
 		}
-		if (state == State.Silencing) {
+		if (state == StateSilencing) {
 			alarm();
 			return;
 		}
@@ -150,15 +154,15 @@ public class SiestaWatchService extends Service {
 	public void actionUserPresent() {
 		if (DEBUG)
 			Log.v(LogTag, "actionUserPresent()");
-		if (state == State.CountingDown) {
+		if (state == StateCountingDown) {
 			standBy();
 			return;
 		}
-		if (state == State.Alarming) {
+		if (state == StateAlarming) {
 			off();
 			return;
 		}
-		if (state == State.Silencing) {
+		if (state == StateSilencing) {
 			off();
 			return;
 		}
@@ -167,7 +171,7 @@ public class SiestaWatchService extends Service {
 	public void actionAlarm() {
 		if (DEBUG)
 			Log.v(LogTag, "actionAlarm()");
-		if (state == State.CountingDown) {
+		if (state == StateCountingDown) {
 			alarm();
 			return;
 		}
@@ -176,7 +180,7 @@ public class SiestaWatchService extends Service {
 	public void actionScreenOn() {
 		if (DEBUG)
 			Log.v(LogTag, "actionScreenOn()");
-		if (state == State.Alarming) {
+		if (state == StateAlarming) {
 			silent();
 			return;
 		}

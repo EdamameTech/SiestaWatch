@@ -5,7 +5,6 @@ import android.provider.Settings;
 import android.test.ServiceTestCase;
 
 import com.edamametech.android.SiestaWatch.SiestaWatchService;
-import com.edamametech.android.SiestaWatch.SiestaWatchService.State;
 
 public class SiestaWatchServiceTestCase extends
 		ServiceTestCase<SiestaWatchService> {
@@ -35,7 +34,7 @@ public class SiestaWatchServiceTestCase extends
 		startService(null);
 		mService = getService();
 		/* and we want the Service to keep the parameters */
-		assertEquals(State.StandingBy, mService.getState());
+		assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
 	}
 
 	public void testRestartWithNullIntentFromOff() {
@@ -45,7 +44,7 @@ public class SiestaWatchServiceTestCase extends
 		getService().stopSelf();
 		startService(null);
 		mService = getService();
-		assertEquals(State.Off, mService.getState());
+		assertEquals(SiestaWatchService.StateOff, mService.getState());
 	}
 
 	public void testDefaultState() {
@@ -53,20 +52,20 @@ public class SiestaWatchServiceTestCase extends
 		intent.setClass(getContext(), SiestaWatchService.class);
 		startService(intent);
 		mService = getService();
-		assertEquals(State.Off, mService.getState());
+		assertEquals(SiestaWatchService.StateOff, mService.getState());
 	}
 
 	public void testStandBy() {
 		startService(standardIntent);
 		mService = getService();
-		assertEquals(State.StandingBy, mService.getState());
+		assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
 	}
 
 	public void testFromStandByToCountDown() {
 		startService(standardIntent);
 		mService = getService();
 		mService.actionScreenOff();
-		assertEquals(State.CountingDown, mService.getState());
+		assertEquals(SiestaWatchService.StateCountingDown, mService.getState());
 	}
 
 	public void testFromCountDownToStandBy() {
@@ -74,7 +73,7 @@ public class SiestaWatchServiceTestCase extends
 		mService = getService();
 		mService.actionScreenOff();
 		mService.actionUserPresent();
-		assertEquals(State.StandingBy, mService.getState());
+		assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
 	}
 
 	public void testFromCountDownToAlarm() {
@@ -82,7 +81,7 @@ public class SiestaWatchServiceTestCase extends
 		mService = getService();
 		mService.actionScreenOff();
 		mService.actionAlarm();
-		assertEquals(State.Alarming, mService.getState());
+		assertEquals(SiestaWatchService.StateAlarming, mService.getState());
 	}
 
 	public void testFromAlarmToSilent() {
@@ -91,7 +90,7 @@ public class SiestaWatchServiceTestCase extends
 		mService.actionScreenOff();
 		mService.actionAlarm();
 		mService.actionScreenOn();
-		assertEquals(State.Silencing, mService.getState());
+		assertEquals(SiestaWatchService.StateSilencing, mService.getState());
 	}
 
 	public void testFromAlarmToOff() {
@@ -100,7 +99,7 @@ public class SiestaWatchServiceTestCase extends
 		mService.actionScreenOff();
 		mService.actionAlarm();
 		mService.actionUserPresent();
-		assertEquals(State.Off, mService.getState());
+		assertEquals(SiestaWatchService.StateOff, mService.getState());
 	}
 
 	public void testFromSilentToAlarm() {
@@ -110,7 +109,7 @@ public class SiestaWatchServiceTestCase extends
 		mService.actionAlarm();
 		mService.actionScreenOn();
 		mService.actionScreenOff();
-		assertEquals(State.Alarming, mService.getState());
+		assertEquals(SiestaWatchService.StateAlarming, mService.getState());
 	}
 
 	public void testFromSilentToOff() {
@@ -120,6 +119,6 @@ public class SiestaWatchServiceTestCase extends
 		mService.actionAlarm();
 		mService.actionScreenOn();
 		mService.actionUserPresent();
-		assertEquals(State.Off, mService.getState());
+		assertEquals(SiestaWatchService.StateOff, mService.getState());
 	}
 }
