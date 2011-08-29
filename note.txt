@@ -525,3 +525,25 @@ ActivityのonDestroyでServiceを殺さないようにしてみよう。
 currently mService.getState() returns for a Service almost 
 stopSelf()ed. Is this ok?
 
+== 2011-08-29
+Milestones
+
+Before alpha release:
+X Basic features in the Service
+X Minimal user interface in the Activity
+
+Before beta release:
+- Opensource
+	- Copyright
+	- License terms
+- Usage display
+- Better user interface in the Activity
+	- Easier way to set duration
+	- Selection of alarm sound
+	- Custom alarm sound
+- Better user interface in the Service
+	- Notification to reconfigure/clear the alarm
+- Icons
+
+Before release of version 1:
+
