@@ -2,23 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+	<TextView android:layout_height="wrap_content" android:id="@+id/summary"
+		android:layout_width="wrap_content"
+		android:text="Count down timer for your nap :) Alarm will go off when you turn off the screen and have slept for a certain amount of time."></TextView>
 	<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationTitle"
-		android:layout_width="wrap_content" android:text="Time to wake up"></TextView>
+		android:layout_width="wrap_content" android:text="Time to wake up after screen is turned off:"></TextView>
 	<LinearLayout android:id="@+id/settings"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
 		<EditText android:layout_height="wrap_content"
-	android:layout_weight="1" android:layout_width="wrap_content"
-	android:id="@+id/sleepDurationInMins" android:inputType="numberDecimal">
+			android:layout_weight="1" android:layout_width="wrap_content"
+			android:id="@+id/sleepDurationInMins" android:inputType="numberDecimal">
 		</EditText>
 		<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationUnit"
-			android:layout_width="wrap_content" android:text="min"></TextView>
+			android:layout_width="wrap_content" android:text="minutes"></TextView>
 	</LinearLayout>
+	<TextView android:layout_height="wrap_content" android:id="@+id/usage"
+		android:layout_width="wrap_content"
+		android:text="Turn on screen to silence and unlock to stop alarm."></TextView>
 	<LinearLayout android:id="@+id/actions"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
-		<Button android:text="Done" android:id="@+id/done"
+		<Button android:text="Set alarm" android:id="@+id/done"
 			android:layout_width="wrap_content" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
-		<Button android:text="Cancel" android:id="@+id/cancel"
+		<Button android:text="Cancel alarm" android:id="@+id/cancel"
 			android:layout_width="wrap_content" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
 	</LinearLayout>
