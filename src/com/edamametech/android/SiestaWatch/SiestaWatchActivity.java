@@ -37,7 +37,6 @@ public class SiestaWatchActivity extends Activity {
 			Log.v(LogTag, "storeParameters()");
 		SharedPreferences.Editor editor = getSharedPreferences(PrefsName, 0)
 				.edit();
-		editor.putString(UriOfAlarmSound, uriOfAlarmSound.toString());
 		editor.putLong(SleepDurationMillis, sleepDurationMillis);
 		editor.commit();
 	}
@@ -46,11 +45,7 @@ public class SiestaWatchActivity extends Activity {
 		if (DEBUG)
 			Log.v(LogTag, "restoreParameters()");
 		SharedPreferences prefs = getSharedPreferences(PrefsName, 0);
-		if (prefs.contains(UriOfAlarmSound)) {
-			uriOfAlarmSound = Uri.parse(prefs.getString(UriOfAlarmSound, ""));
-		} else {
-			uriOfAlarmSound = defaultUriOfAlarmSound;
-		}
+		uriOfAlarmSound = defaultUriOfAlarmSound;
 		if (prefs.contains(SleepDurationMillis)) {
 			sleepDurationMillis = prefs.getLong(SleepDurationMillis, 0);
 		} else {
