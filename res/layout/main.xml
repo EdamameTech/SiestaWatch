@@ -4,7 +4,7 @@
 	android:layout_height="fill_parent">
 	<TextView android:layout_height="wrap_content" android:id="@+id/summary"
 		android:layout_width="wrap_content"
-		android:text="Count down timer for your nap :) Alarm will go off when you turn off the screen and have slept for a certain amount of time."></TextView>
+		android:text="Count down timer for your nap :) Alarm will go off after you turn off the screen and have kept it off for a certain amount of time."></TextView>
 	<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationTitle"
 		android:layout_width="wrap_content" android:text="Time to wake up after screen is turned off:"></TextView>
 	<LinearLayout android:id="@+id/settings"
