@@ -264,8 +264,10 @@ public class SiestaWatchService extends Service {
 					.getSystemService(Context.ALARM_SERVICE);
 		}
 
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-				+ sleepDurationMillis, alarmSender);
+		long alarmTime = System.currentTimeMillis() + sleepDurationMillis;
+		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmSender);
+		if (DEBUG)
+			Log.v(LogTag, "Alarm is set at " + alarmTime);
 	}
 
 	private void clearAlarm() {
