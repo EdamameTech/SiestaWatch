@@ -539,6 +539,7 @@ Before beta release:
 - Opensource
 	- Copyright
 	- License terms
+- Prepare a widget
 - Usage display
 - Better user interface in the Activity
 	- Easier way to set duration
