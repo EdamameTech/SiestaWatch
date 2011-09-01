@@ -549,6 +549,7 @@ Before beta release:
 	- Notification to reconfigure/clear the alarm
 - Icons
 - Alarm at an absolute wall clock time
+- Move to SD
 
 Before release of version 1:
 
@@ -559,3 +560,5 @@ catch (Exception ex) {
 	string extText = "/exception_type_description";
 	Track exceptions - Application.getInstance().tracker().trackPageView(exText);
 }
+
+http://www.youtube.com/watch?v=twmuBbC_oB8#t=32m10s - More intelligent Service
