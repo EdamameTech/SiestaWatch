@@ -24,7 +24,7 @@
     <linearGradient
        id="linearGradient3623">
       <stop
-         style="stop-color:#fff051;stop-opacity:1;"
+         style="stop-color:#ffe051;stop-opacity:1;"
          offset="0"
          id="stop3625" />
       <stop
@@ -144,7 +144,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.51306674"
-     inkscape:cx="512"
+     inkscape:cx="541.44009"
      inkscape:cy="484.79001"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -172,7 +172,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -304,7 +304,7 @@
      transform="translate(0,-28.362183)">
     <path
        sodipodi:type="star"
-       style="color:#000000;fill:url(#linearGradient3629);fill-opacity:1;fill-rule:nonzero;stroke:#804500;stroke-width:2.45497120000000013;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:url(#linearGradient3629);fill-opacity:1;fill-rule:nonzero;stroke:#804500;stroke-width:7.3649136;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path3646"
        sodipodi:sides="4"
        sodipodi:cx="96"
@@ -333,6 +333,6 @@
        inkscape:rounded="1.2111176"
        inkscape:randomized="0"
        d="m -124.38263,255.5514 c 0.76836,225.43145 94.26269,131.29761 -131.16877,132.06597 -225.43145,0.76836 -131.29761,94.26269 -132.06597,-131.16877 -0.76836,-225.431455 -94.26269,-131.29761 131.16877,-132.06597 225.431455,-0.76836 131.29761,-94.26269 132.06597,131.16877 z"
-       transform="matrix(2.7509376,0,0,1.8816326,1216.0183,169.81919)" />
+       transform="matrix(2.6994703,0,0,1.8816326,1210.6389,169.81919)" />
   </g>
 </svg>
