@@ -547,7 +547,7 @@ Before beta release:
 	- Custom alarm sound
 - Better user interface in the Service
 	- Notification to reconfigure/clear the alarm
-- Icons
+X Icons
 - Alarm at an absolute wall clock time
 - Move to SD
 
