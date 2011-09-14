@@ -1,6 +1,7 @@
 package com.edamametech.android.SiestaWatch;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -38,7 +39,7 @@ public class SiestaWatchService extends Service {
 	public static final int StateSilencing = 5;
 	// Waiting for the user to fall asleep
 	public static final int StateTimeLimit = 6;
-	// Rreached absolute time limit
+	// Reached absolute time limit
 
 	private int state = StateOff;
 
@@ -227,11 +228,6 @@ public class SiestaWatchService extends Service {
 	// Time duration in msec to alarm after user felt asleep
 	private long sleepDurationMillis = 0;
 
-	// Key for Extras in Intent to supply absolute TimeLimit as a long
-	public static final String TimeLimitMillis = "TimeLimitMillis";
-	// Time duration in msec to alarm after user felt asleep
-	private long timeLimitMillis = 0;
-
 	private void storeParameters() {
 		if (DEBUG)
 			Log.v(LogTag, "storeParameters()");
@@ -274,40 +270,51 @@ public class SiestaWatchService extends Service {
 	private static final int ActionAlarm = 1;
 
 	private AlarmManager alarmManager = null;
-	private Intent alarmIntent = null;
-	private PendingIntent alarmSender = null;
+	private Hashtable<Integer, PendingIntent> alarmSenders = new Hashtable<Integer, PendingIntent>();
 
 	private void setAlarm() {
 		if (DEBUG)
 			Log.v(LogTag, "setAlarm()");
+		setAlarmWithAction(ActionAlarm, System.currentTimeMillis()
+				+ sleepDurationMillis);
+	}
 
-		if (alarmIntent == null) {
-			alarmIntent = new Intent();
-			alarmIntent.setClass(this, SiestaWatchService.class);
-			alarmIntent.putExtra(SiestaWatchService.Action, ActionAlarm);
-		}
-		if (alarmSender == null) {
-			alarmSender = PendingIntent.getService(this, 0, alarmIntent, 0);
+	private void setAlarmWithAction(Integer action, long alarmTime) {
+		if (DEBUG)
+			Log.v(LogTag, "setAlarmWithAction()");
+
+		Intent intent = new Intent();
+		intent.setClass(this, SiestaWatchService.class);
+		intent.putExtra(SiestaWatchService.Action, action);
+
+		if (alarmSenders.get(action) == null) {
+			alarmSenders.put(action,
+					PendingIntent.getService(this, 0, intent, 0));
 		}
 		if (alarmManager == null) {
 			alarmManager = (AlarmManager) this
 					.getSystemService(Context.ALARM_SERVICE);
 		}
-
-		long alarmTime = System.currentTimeMillis() + sleepDurationMillis;
-		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmSender);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime,
+				alarmSenders.get(action));
 		if (DEBUG)
-			Log.v(LogTag, "Alarm is set at " + alarmTime);
+			Log.v(LogTag, "Alarm is set at " + alarmTime + " for action "
+					+ action);
 	}
 
 	private void clearAlarm() {
-		if (DEBUG)
-			Log.v(LogTag, "clearAlarm()");
+		clearAlarmWithAction(ActionAlarm);
+	}
 
-		if (alarmManager != null) {
-			alarmManager.cancel(alarmSender);
-			alarmManager = null;
+	private void clearAlarmWithAction(Integer action) {
+		if (DEBUG)
+			Log.v(LogTag, "clearAlarmWithAction()");
+
+		if (alarmManager == null) {
+			alarmManager = (AlarmManager) this
+					.getSystemService(Context.ALARM_SERVICE);
 		}
+		alarmManager.cancel(alarmSenders.get(action));
 	}
 
 	/* Service things */
