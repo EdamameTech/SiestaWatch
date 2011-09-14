@@ -16,9 +16,9 @@
    version="1.1"
    inkscape:version="0.47 r22583"
    sodipodi:docname="icons.svg"
-   inkscape:export-filename="/home/tomono/local/android-sdk/workspace/SiestaWatch/assets/application-icon.png"
-   inkscape:export-xdpi="45"
-   inkscape:export-ydpi="45"
+   inkscape:export-filename="/home/tomono/local/android/workspace/SiestaWatch/res/drawable-mdpi/icon.png"
+   inkscape:export-xdpi="4.2199998"
+   inkscape:export-ydpi="4.2199998"
    style="display:inline">
   <defs
      id="defs4">
@@ -176,22 +176,6 @@
        sodipodi:type="inkscape:persp3d" />
     <filter
        inkscape:collect="always"
-       id="filter3814">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="11.19011"
-         id="feGaussianBlur3816" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3874">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="11.19011"
-         id="feGaussianBlur3876" />
-    </filter>
-    <filter
-       inkscape:collect="always"
        id="filter3888"
        x="-0.31997184"
        width="1.6399437"
@@ -239,15 +223,15 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.51306674"
-     inkscape:cx="572.46646"
+     inkscape:cx="544.62533"
      inkscape:cy="523.77129"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer4"
      showgrid="true"
      inkscape:window-width="1257"
      inkscape:window-height="877"
-     inkscape:window-x="1365"
-     inkscape:window-y="30"
+     inkscape:window-x="17"
+     inkscape:window-y="28"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -318,7 +302,7 @@
        inkscape:rounded="0.96200408"
        inkscape:randomized="0"
        d="M -9.6744308,336.00001 C -9.6744386,192.23214 -47.767873,230.32558 95.999994,230.32557 c 143.767866,-1e-5 105.674426,-38.09344 105.674436,105.67442 1e-5,143.76787 38.09344,105.67443 -105.674424,105.67444 -143.767867,1e-5 -105.6744291,38.09344 -105.6744368,-105.67442 z"
-       transform="matrix(3.8964097,0,0,2.7253517,142.37758,-277.71818)"
+       transform="matrix(3.8964097,0,0,2.7253517,142.37758,-273.71818)"
        inkscape:export-xdpi="45"
        inkscape:export-ydpi="45" />
   </g>
@@ -332,7 +316,7 @@
        transform="translate(80.876495,-79.123505)">
       <path
          transform="translate(16,71.123505)"
-         d="m 751.1235,440 a 255.1235,255.1235 0 1 1 -510.247,0 255.1235,255.1235 0 1 1 510.247,0 z"
+         d="M 751.1235,440 C 751.1235,580.90082 636.90082,695.1235 496,695.1235 355.09918,695.1235 240.8765,580.90082 240.8765,440 240.8765,299.09918 355.09918,184.8765 496,184.8765 c 140.90082,0 255.1235,114.22268 255.1235,255.1235 z"
          sodipodi:ry="255.1235"
          sodipodi:rx="255.1235"
          sodipodi:cy="440"
@@ -510,7 +494,7 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="M 384,464 467.13844,608 300.86156,608 384,464 z"
-       transform="matrix(2.7999637,0,0,-1.2222222,-555.97067,1143.1111)" />
+       transform="matrix(2.7999637,0,0,-0.66666666,-555.97067,789.33333)" />
     <path
        sodipodi:type="star"
        style="color:#000000;fill:#efc491;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter3888-2);enable-background:accumulate"
@@ -526,6 +510,6 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="M 384,464 467.13844,608 300.86156,608 384,464 z"
-       transform="matrix(2.7999637,0,0,1.2222222,-555.97067,88.8889)" />
+       transform="matrix(2.7999637,0,0,0.99999999,-555.97067,224.00001)" />
   </g>
 </svg>
