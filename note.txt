@@ -12,6 +12,7 @@
 [シエスタウォッチOffの状態(Off)]
 - アラームOn操作
 - Serviceを起動
+- タイムリミット時刻の設定
 - 寝るのを待ってる状態(Standby)
 
 [寝るのを待ってる状態(Standby)]
@@ -23,14 +24,23 @@
 - アラーム時刻の設定
 - (Countdown) Tested
 
+- タイムリミット時刻が来る
+- アラーム音を鳴らす
+- (Timelimit)
+
 [カウントダウン中 (Countdown)]
 - ACTION_USER_PRESENTが来る
 - アラーム時刻の解除
+- タイムリミット時刻の解除
 - (Standby) Tested
 
 - アラーム時刻が来る
 - アラーム音を鳴らす
 - (Alarm) Tested
+
+- タイムリミット時刻が来る
+- アラーム音を鳴らす
+- (Alarm)
 
 [アラームが鳴っている最中 (Alarm)]
 - ACTION_SCREEN_ONが来る
@@ -51,6 +61,14 @@
 - アラーム音を止める
 - Serviceを停止
 - (Off) Tested
+
+[タイムリミットでアラーム鳴っている最中 (Timelimit)]
+- ACTION_SCREEN_OFFが来る
+- アラーム音を止める
+- タイムリミット時刻の解除
+- アラーム時刻の解除
+- Serviceを停止
+- (Off)
 
 [その他」
 - Acivityの起動時
