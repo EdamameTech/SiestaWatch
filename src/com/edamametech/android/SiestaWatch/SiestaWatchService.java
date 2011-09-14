@@ -201,6 +201,10 @@ public class SiestaWatchService extends Service {
 			timeLimit();
 			return;
 		}
+		if (state == StateCountingDown) {
+			alarm();
+			return;
+		}
 	}
 
 	public void actionScreenOn() {

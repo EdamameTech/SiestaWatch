@@ -93,6 +93,14 @@ public class SiestaWatchServiceTestCase extends
 		assertEquals(SiestaWatchService.StateAlarming, mService.getState());
 	}
 
+	public void testFromCountDownToAlarmThroughTimeLimit() {
+		startService(standardIntent);
+		mService = getService();
+		mService.actionScreenOff();
+		mService.actionTimeLimit();
+		assertEquals(SiestaWatchService.StateAlarming, mService.getState());
+	}
+
 	public void testFromAlarmToSilent() {
 		startService(standardIntent);
 		mService = getService();
