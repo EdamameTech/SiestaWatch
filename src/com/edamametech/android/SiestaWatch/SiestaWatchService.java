@@ -123,6 +123,7 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "off()");
 		clearAlarm();
+		clearTimeLimit();
 		if (alarmPlayer != null) {
 			alarmPlayer.stop();
 			alarmPlayer.release();
@@ -228,6 +229,11 @@ public class SiestaWatchService extends Service {
 	// Time duration in msec to alarm after user felt asleep
 	private long sleepDurationMillis = 0;
 
+	// Key for Extras in Intent to supply absolute TimeLimit as a long
+	public static final String TimeLimitMillis = "TimeLimitMillis";
+	// Absolute Time in msec to alarm user about the time limit
+	private long timeLimitMillis = 0;
+
 	private void storeParameters() {
 		if (DEBUG)
 			Log.v(LogTag, "storeParameters()");
@@ -235,6 +241,7 @@ public class SiestaWatchService extends Service {
 				.edit();
 		editor.putString(UriOfAlarmSound, uriOfAlarmSound.toString());
 		editor.putLong(SleepDurationMillis, sleepDurationMillis);
+		editor.putLong(TimeLimitMillis, timeLimitMillis);
 		editor.putInt(State, state);
 		editor.commit();
 	}
@@ -258,6 +265,10 @@ public class SiestaWatchService extends Service {
 		if (prefs.contains(SleepDurationMillis)) {
 			sleepDurationMillis = prefs.getLong(SleepDurationMillis, 0);
 		}
+		if (prefs.contains(TimeLimitMillis)) {
+			timeLimitMillis = prefs.getLong(TimeLimitMillis, 0);
+			setTimeLimit();
+		}
 		if (prefs.contains(State)) {
 			state = prefs.getInt(State, 0);
 		}
@@ -268,6 +279,7 @@ public class SiestaWatchService extends Service {
 	public static final String Action = "Action";
 	// Intent that makes us to go off the alarm
 	private static final int ActionAlarm = 1;
+	private static final int ActionTimeLimit = 2;
 
 	private AlarmManager alarmManager = null;
 	private Hashtable<Integer, PendingIntent> alarmSenders = new Hashtable<Integer, PendingIntent>();
@@ -277,6 +289,14 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "setAlarm()");
 		setAlarmWithAction(ActionAlarm, System.currentTimeMillis()
 				+ sleepDurationMillis);
+	}
+
+	private void setTimeLimit() {
+		if (DEBUG)
+			Log.v(LogTag, "setTimeLimit()");
+		if (timeLimitMillis > System.currentTimeMillis()) {
+			setAlarmWithAction(ActionTimeLimit, timeLimitMillis);
+		}
 	}
 
 	private void setAlarmWithAction(Integer action, long alarmTime) {
@@ -303,7 +323,15 @@ public class SiestaWatchService extends Service {
 	}
 
 	private void clearAlarm() {
+		if (DEBUG)
+			Log.v(LogTag, "clearAlarm()");
 		clearAlarmWithAction(ActionAlarm);
+	}
+
+	private void clearTimeLimit() {
+		if (DEBUG)
+			Log.v(LogTag, "clearTimeLimit()");
+		clearAlarmWithAction(ActionTimeLimit);
 	}
 
 	private void clearAlarmWithAction(Integer action) {
@@ -368,6 +396,9 @@ public class SiestaWatchService extends Service {
 					case ActionAlarm:
 						actionAlarm();
 						break;
+					case ActionTimeLimit:
+						actionTimeLimit();
+						break;
 					}
 				} else {
 					if (extras.containsKey(UriOfAlarmSound)) {
@@ -387,9 +418,18 @@ public class SiestaWatchService extends Service {
 						sleepDurationMillis = extras
 								.getLong(SleepDurationMillis);
 					}
+					if (extras.containsKey(TimeLimitMillis)) {
+						if (DEBUG)
+							Log.v(LogTag,
+									TimeLimitMillis + ": "
+											+ extras.getLong(TimeLimitMillis));
+						timeLimitMillis = extras.getLong(TimeLimitMillis);
+					}
 					storeParameters();
-					if (uriOfAlarmSound != null && sleepDurationMillis > 0)
+					if (uriOfAlarmSound != null && sleepDurationMillis > 0) {
+						setTimeLimit();
 						standBy();
+					}
 				}
 			}
 		}

@@ -31,7 +31,7 @@
 [カウントダウン中 (Countdown)]
 - ACTION_USER_PRESENTが来る
 - アラーム時刻の解除
-- タイムリミット時刻の解除
+- タイムリミット時刻の解除 TODO:必要か？今は実装していない
 - (Standby) Tested
 
 - アラーム時刻が来る
@@ -59,13 +59,13 @@
 
 - ACTION_USER_PRESENTが来る
 - アラーム音を止める
+- タイムリミット時刻の解除
 - Serviceを停止
 - (Off) Tested
 
 [タイムリミットでアラーム鳴っている最中 (Timelimit)]
 - ACTION_SCREEN_OFFが来る
 - アラーム音を止める
-- タイムリミット時刻の解除
 - アラーム時刻の解除
 - Serviceを停止
 - (Off)
@@ -580,3 +580,18 @@ catch (Exception ex) {
 }
 
 http://www.youtube.com/watch?v=twmuBbC_oB8#t=32m10s - More intelligent Service
+
+== 2011-09-13
+タイムリミットの実装を始めた
+
+うまくいってるかもしれないこと
+* Screen offになってタイムリミットからアラームが鳴り、消せたみたい
+
+現在の問題点
+* Screen onでタイムリミットからアラームが鳴らないみたい
+* Activityでタイムリミットの扱いがおかしい
+  * デフォルトの時刻を期待通りにTimePickerに表示できない
+	* 設定された時刻の扱いがおかしいかもしれなり。Serviceにうまく渡
+	  せていないことがあるようだ
+
+

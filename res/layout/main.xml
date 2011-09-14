@@ -6,8 +6,9 @@
 		android:layout_width="wrap_content"
 		android:text="Count down timer for your nap :) Alarm will go off after you turn off the screen and have kept it off for a certain amount of time."></TextView>
 	<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationTitle"
-		android:layout_width="wrap_content" android:text="Time to wake up after screen is turned off:"></TextView>
-	<LinearLayout android:id="@+id/settings"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="wrap_content" android:text="Time to wake up after screen is off:"></TextView>
+	<LinearLayout android:id="@+id/durationSettings"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
 		<EditText android:layout_height="wrap_content"
 			android:layout_weight="1" android:layout_width="wrap_content"
@@ -16,6 +17,11 @@
 		<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationUnit"
 			android:layout_width="wrap_content" android:text="minutes"></TextView>
 	</LinearLayout>
+	<CheckBox android:text="Time Limit:" android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/timeLimitCheckBox" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></CheckBox>
+	<TimePicker android:id="@+id/timeLimitPicker"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TimePicker>
 	<TextView android:layout_height="wrap_content" android:id="@+id/usage"
 		android:layout_width="wrap_content"
 		android:text="Turn on screen to silence and unlock to stop alarm."></TextView>
