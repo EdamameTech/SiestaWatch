@@ -549,7 +549,7 @@ Before beta release:
 	- Notification to reconfigure/clear the alarm
 X Icons
 - Alarm at an absolute wall clock time
-- Move to SD
+X Move to SD
 
 Before release of version 1:
 
