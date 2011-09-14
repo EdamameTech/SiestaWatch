@@ -37,6 +37,8 @@ public class SiestaWatchService extends Service {
 	// Waking up the user
 	public static final int StateSilencing = 5;
 	// Waiting for the user to fall asleep
+	public static final int StateTimeLimit = 6;
+	// Rreached absolute time limit
 
 	private int state = StateOff;
 
@@ -61,7 +63,19 @@ public class SiestaWatchService extends Service {
 		storeParameters();
 	}
 
+	private void timeLimit() {
+		playAlarm();
+		state = StateTimeLimit;
+		storeParameters();
+	}
+
 	private void alarm() {
+		playAlarm();
+		state = StateAlarming;
+		storeParameters();
+	}
+
+	private void playAlarm() {
 		if (DEBUG)
 			Log.v(LogTag, "alarm()");
 		clearAlarm();
@@ -92,8 +106,6 @@ public class SiestaWatchService extends Service {
 		}
 		alarmPlayer.seekTo(0);
 		alarmPlayer.start();
-		state = StateAlarming;
-		storeParameters();
 	}
 
 	private void silent() {
@@ -182,6 +194,15 @@ public class SiestaWatchService extends Service {
 		}
 	}
 
+	public void actionTimeLimit() {
+		if (DEBUG)
+			Log.v(LogTag, "actionTimeLimit()");
+		if (state == StateStandingBy) {
+			timeLimit();
+			return;
+		}
+	}
+
 	public void actionScreenOn() {
 		if (DEBUG)
 			Log.v(LogTag, "actionScreenOn()");
@@ -201,6 +222,11 @@ public class SiestaWatchService extends Service {
 	public static final String SleepDurationMillis = "SleepDurationMillis";
 	// Time duration in msec to alarm after user felt asleep
 	private long sleepDurationMillis = 0;
+
+	// Key for Extras in Intent to supply absolute TimeLimit as a long
+	public static final String TimeLimitMillis = "TimeLimitMillis";
+	// Time duration in msec to alarm after user felt asleep
+	private long timeLimitMillis = 0;
 
 	private void storeParameters() {
 		if (DEBUG)
