@@ -142,10 +142,10 @@ public class SiestaWatchService extends Service {
 	private final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent broadcast) {
-			if (DEBUG)
+			if (DEBUG) {
 				Log.v(LogTag, "screenEventReceiver.onReceive()");
-			if (DEBUG)
 				Log.v(LogTag, broadcast.toString());
+			}
 			String action = broadcast.getAction();
 			if (action.equals(Intent.ACTION_SCREEN_OFF)) {
 				actionScreenOff();
@@ -165,34 +165,32 @@ public class SiestaWatchService extends Service {
 	public void actionScreenOff() {
 		if (DEBUG)
 			Log.v(LogTag, "actionScreenOff()");
-		if (state == StateStandingBy) {
+		switch (state) {
+		case StateStandingBy:
 			countDown();
-			return;
-		}
-		if (state == StateSilencing) {
+			break;
+		case StateSilencing:
 			alarm();
-			return;
-		}
-		if (state == StateTimeLimit) {
+			break;
+		case StateTimeLimit:
 			off();
-			return;
+			break;
 		}
 	}
 
 	public void actionUserPresent() {
 		if (DEBUG)
 			Log.v(LogTag, "actionUserPresent()");
-		if (state == StateCountingDown) {
+		switch (state) {
+		case StateCountingDown:
 			standBy();
-			return;
-		}
-		if (state == StateAlarming) {
+			break;
+		case StateAlarming:
 			off();
-			return;
-		}
-		if (state == StateSilencing) {
+			break;
+		case StateSilencing:
 			off();
-			return;
+			break;
 		}
 	}
 
@@ -208,13 +206,13 @@ public class SiestaWatchService extends Service {
 	public void actionTimeLimit() {
 		if (DEBUG)
 			Log.v(LogTag, "actionTimeLimit()");
-		if (state == StateStandingBy) {
+		switch (state) {
+		case StateStandingBy:
 			timeLimit();
-			return;
-		}
-		if (state == StateCountingDown) {
+			break;
+		case StateCountingDown:
 			alarm();
-			return;
+			break;
 		}
 	}
 
