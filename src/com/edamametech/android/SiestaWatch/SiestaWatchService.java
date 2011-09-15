@@ -1,6 +1,8 @@
 package com.edamametech.android.SiestaWatch;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 
 import android.app.AlarmManager;
@@ -325,9 +327,12 @@ public class SiestaWatchService extends Service {
 		}
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime,
 				alarmSenders.get(action));
-		if (DEBUG)
-			Log.v(LogTag, "Alarm is set at " + alarmTime + " for action "
-					+ action);
+		if (DEBUG) {
+			DateFormat df = new SimpleDateFormat("HH:mm");
+			Log.v(LogTag, "Alarm is set at " + alarmTime + " ("
+					+ SiestaWatchUtil.timeLongToHhmm(alarmTime, df)
+					+ ") for action " + action);
+		}
 	}
 
 	private void clearAlarm() {
