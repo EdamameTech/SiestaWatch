@@ -65,12 +65,16 @@ public class SiestaWatchService extends Service {
 	}
 
 	private void timeLimit() {
+		if (DEBUG)
+			Log.v(LogTag, "timeLimit()");
 		playAlarm();
 		state = StateTimeLimit;
 		storeParameters();
 	}
 
 	private void alarm() {
+		if (DEBUG)
+			Log.v(LogTag, "alarm()");
 		playAlarm();
 		state = StateAlarming;
 		storeParameters();
@@ -78,7 +82,7 @@ public class SiestaWatchService extends Service {
 
 	private void playAlarm() {
 		if (DEBUG)
-			Log.v(LogTag, "alarm()");
+			Log.v(LogTag, "playAlarm()");
 		clearAlarm();
 		if (alarmPlayer == null) {
 			alarmPlayer = new MediaPlayer();
