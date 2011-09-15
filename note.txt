@@ -566,7 +566,7 @@ Before beta release:
 - Better user interface in the Service
 	- Notification to reconfigure/clear the alarm
 X Icons
-- Alarm at an absolute wall clock time
+X Alarm at an absolute wall clock time
 X Move to SD
 
 Before release of version 1:
