@@ -118,7 +118,6 @@ public class SiestaWatchService extends Service {
 	private void silent() {
 		if (DEBUG)
 			Log.v(LogTag, "silent()");
-		clearAlarm();
 		if (alarmPlayer != null)
 			alarmPlayer.pause();
 		state = StateSilencing;
@@ -288,11 +287,10 @@ public class SiestaWatchService extends Service {
 	// Key for Extras in Intent to supply Action as an Int
 	public static final String Action = "Action";
 	// Intent that makes us to go off the alarm
-	private static final int ActionAlarm = 1;
-	private static final int ActionTimeLimit = 2;
+	private static final int ActionAlarm = 0;
+	private static final int ActionTimeLimit = 1;
 
-	private AlarmManager alarmManager = null;
-	private Hashtable<Integer, PendingIntent> alarmSenders = new Hashtable<Integer, PendingIntent>();
+	PendingIntent[] alarmSenders = { null, null };
 
 	private void setAlarm() {
 		if (DEBUG)
@@ -311,24 +309,22 @@ public class SiestaWatchService extends Service {
 
 	private void setAlarmWithAction(Integer action, long alarmTime) {
 		if (DEBUG)
-			Log.v(LogTag, "setAlarmWithAction()");
+			Log.v(LogTag, "setAlarmWithAction(" + action + ", ... )");
 
-		Intent intent = new Intent();
-		intent.setClass(this, SiestaWatchService.class);
-		intent.putExtra(SiestaWatchService.Action, action);
+		Intent alarmIntent = new Intent();
+		alarmIntent.setClass(this, SiestaWatchService.class);
+		alarmIntent.putExtra(SiestaWatchService.Action, action);
 
-		if (alarmSenders.get(action) == null) {
-			alarmSenders.put(action,
-					PendingIntent.getService(this, 0, intent, 0));
-		}
-		if (alarmManager == null) {
-			alarmManager = (AlarmManager) this
-					.getSystemService(Context.ALARM_SERVICE);
-		}
+		alarmSenders[action] = PendingIntent.getService(this, action,
+				alarmIntent, 0);
+
+		AlarmManager alarmManager = (AlarmManager) this
+				.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime,
-				alarmSenders.get(action));
+				alarmSenders[action]);
+
 		if (DEBUG) {
-			DateFormat df = new SimpleDateFormat("HH:mm");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			Log.v(LogTag, "Alarm is set at " + alarmTime + " ("
 					+ SiestaWatchUtil.timeLongToHhmm(alarmTime, df)
 					+ ") for action " + action);
@@ -349,13 +345,14 @@ public class SiestaWatchService extends Service {
 
 	private void clearAlarmWithAction(Integer action) {
 		if (DEBUG)
-			Log.v(LogTag, "clearAlarmWithAction()");
+			Log.v(LogTag, "clearAlarmWithAction(" + action + ")");
 
-		if (alarmManager == null) {
-			alarmManager = (AlarmManager) this
-					.getSystemService(Context.ALARM_SERVICE);
+		AlarmManager alarmManager = (AlarmManager) this
+				.getSystemService(Context.ALARM_SERVICE);
+		if (alarmSenders[action] != null) {
+			alarmManager.cancel(alarmSenders[action]);
+			alarmSenders[action] = null;
 		}
-		alarmManager.cancel(alarmSenders.get(action));
 	}
 
 	/* Service things */
