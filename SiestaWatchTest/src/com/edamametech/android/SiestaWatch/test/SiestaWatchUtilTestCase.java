@@ -29,8 +29,8 @@ public class SiestaWatchUtilTestCase extends TestCase {
 		cal.set(Calendar.MINUTE, Integer.valueOf(minutes));
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		Long expected = cal.getTimeInMillis();
-		Long result = SiestaWatchUtil.timeHhmmToLong("12", "34", tz);
+		long expected = cal.getTimeInMillis();
+		long result = SiestaWatchUtil.timeHhmmToLong(12, 34, tz);
 		/* return value of the method depends upon current date and might be pointing the next day */
 		if (expected < result){
 			expected += 24*3600*1000;

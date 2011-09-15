@@ -20,8 +20,11 @@
 	<CheckBox android:text="Time Limit:" android:textAppearance="?android:attr/textAppearanceMedium"
 		android:id="@+id/timeLimitCheckBox" android:layout_width="wrap_content"
 		android:layout_height="wrap_content"></CheckBox>
-	<TimePicker android:id="@+id/timeLimitPicker"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></TimePicker>
+	<EditText android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:id="@+id/timeLimit"
+		android:inputType="time">
+		<requestFocus></requestFocus>
+	</EditText>
 	<TextView android:layout_height="wrap_content" android:id="@+id/usage"
 		android:layout_width="wrap_content"
 		android:text="Turn on screen to silence and unlock to stop alarm."></TextView>

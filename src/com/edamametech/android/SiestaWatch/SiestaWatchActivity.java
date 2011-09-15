@@ -1,5 +1,8 @@
 package com.edamametech.android.SiestaWatch;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,13 +37,16 @@ public class SiestaWatchActivity extends Activity {
 	public static final long defaultSleepDurationMillis = 1800000; // 30 min
 	EditText durationField = null;
 
-	// Key for Extras in Intent to supply timeLimitMIllis as a long
-	public static final String TimeLimitMillis = "TimeLimitMillis";
-	// Absolute time in a day in msec to alarm
-	private long timeLimitMillis = 0;
-	TimePicker timeLimitField = null;
-	private boolean isTimeLimit;
+	// Key for Extras in Intent to supply TimeLimit as Strings
+	public static final String TimeLimitHour = "TimeLimitHour";
+	public static final String TimeLimitMinute = "TimeLimitMinute";
+	private int timeLimitHour = 0;
+	private int timeLimitMinute = 0;
+	EditText timeLimitField = null;
+	private boolean hasTimeLimit;
 	CheckBox timeLimitCheckBox = null;
+	private static final long timeLimitDefaultDelayMillis = 1800000; // 30 min
+	private static final long timeLimitGranuarityMillis = 300000; // 5 min
 
 	private void storeParameters() {
 		if (DEBUG)
@@ -48,7 +54,8 @@ public class SiestaWatchActivity extends Activity {
 		SharedPreferences.Editor editor = getSharedPreferences(PrefsName, 0)
 				.edit();
 		editor.putLong(SleepDurationMillis, sleepDurationMillis);
-		editor.putLong(TimeLimitMillis, timeLimitMillis);
+		editor.putInt(TimeLimitHour, timeLimitHour);
+		editor.putInt(TimeLimitMinute, timeLimitMinute);
 		editor.commit();
 	}
 
@@ -62,11 +69,19 @@ public class SiestaWatchActivity extends Activity {
 		} else {
 			sleepDurationMillis = defaultSleepDurationMillis;
 		}
-		if (prefs.contains(TimeLimitMillis)) {
-			timeLimitMillis = prefs.getLong(TimeLimitMillis, 0);
+		if (prefs.contains(TimeLimitHour) && prefs.contains(TimeLimitMinute)) {
+			timeLimitHour = prefs.getInt(TimeLimitHour, 0);
+			timeLimitMinute = prefs.getInt(TimeLimitMinute, 0);
 		} else {
-			timeLimitMillis = (System.currentTimeMillis() + defaultSleepDurationMillis)
-					% (24 * 3600 * 1000); // TODO: debug
+			long defaultTimeLimit = System.currentTimeMillis()
+					+ timeLimitDefaultDelayMillis;
+			defaultTimeLimit = (long) Math.ceil((double) defaultTimeLimit
+					/ (double) timeLimitGranuarityMillis)
+					* timeLimitGranuarityMillis;
+			timeLimitHour = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
+					defaultTimeLimit, new SimpleDateFormat("HH")));
+			timeLimitMinute = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
+					defaultTimeLimit, new SimpleDateFormat("mm")));
 		}
 	}
 
@@ -79,27 +94,9 @@ public class SiestaWatchActivity extends Activity {
 		sleepDurationMillis = (long) (Float.valueOf(string) * 60 * 1e3);
 	}
 
-	private int getTimeLimitHour() {
-		Log.v(LogTag, "timeLimitMillis: " + timeLimitMillis);
-		return (int) (timeLimitMillis / (3600 * 1000));
-	}
-
-	private int getTimeLimitMinute() {
-		return (int) ((timeLimitMillis / (60 * 1000)) % 60);
-	}
-
-	private void setTimeLimit(int hour, int minute) {
-		timeLimitMillis = (long) (hour * 3600 + minute * 60) * 1000L;
-	}
-
 	private long timeLimitForService() {
-		long currentTime, timeLimit;
-		currentTime = System.currentTimeMillis();
-		timeLimit = (currentTime / (24 * 3600 * 1000) * (24 * 3600 * 1000))
-				+ timeLimitMillis;
-		if (timeLimit < currentTime)
-			timeLimit += 24 * 3600 * 1000;
-		return timeLimit;
+		return SiestaWatchUtil.timeHhmmToLong(timeLimitHour, timeLimitMinute,
+				TimeZone.getDefault());
 	}
 
 	/* communications to the Service */
@@ -110,7 +107,7 @@ public class SiestaWatchActivity extends Activity {
 		intent.setClass(this, SiestaWatchService.class);
 		intent.putExtra(SiestaWatchService.SleepDurationMillis,
 				sleepDurationMillis);
-		if (isTimeLimit == true) {
+		if (hasTimeLimit == true) {
 			intent.putExtra(SiestaWatchService.TimeLimitMillis,
 					timeLimitForService());
 		} else {
@@ -142,10 +139,9 @@ public class SiestaWatchActivity extends Activity {
 		restoreParameters();
 		durationField = (EditText) findViewById(R.id.sleepDurationInMins);
 		durationField.setText(getDurationInMins());
-		timeLimitField = (TimePicker) findViewById(R.id.timeLimitPicker);
-		timeLimitField.setIs24HourView(true);
-		timeLimitField.setCurrentHour(getTimeLimitHour());
-		timeLimitField.setCurrentMinute(getTimeLimitMinute());
+		timeLimitField = (EditText) findViewById(R.id.timeLimit);
+		timeLimitField.setText(String.format("%1$02d:%2$02d", timeLimitHour,
+				timeLimitMinute));
 		timeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
 		timeLimitCheckBox.setChecked(true);
 
@@ -153,10 +149,11 @@ public class SiestaWatchActivity extends Activity {
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						setDurationInMins(durationField.getText().toString());
-						setTimeLimit(timeLimitField.getCurrentHour(),
-								timeLimitField.getCurrentMinute());
+						String[] timeLimitFields = timeLimitField.getText().toString().split(":");
+						timeLimitHour = Integer.valueOf(timeLimitFields[0]);
+						timeLimitMinute = Integer.valueOf(timeLimitFields[1]);
 						storeParameters();
-						isTimeLimit = timeLimitCheckBox.isChecked();
+						hasTimeLimit = timeLimitCheckBox.isChecked();
 						startSiestaWatchService();
 						finish();
 					}
