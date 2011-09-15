@@ -172,6 +172,10 @@ public class SiestaWatchService extends Service {
 			alarm();
 			return;
 		}
+		if (state == StateTimeLimit) {
+			off();
+			return;
+		}
 	}
 
 	public void actionUserPresent() {
