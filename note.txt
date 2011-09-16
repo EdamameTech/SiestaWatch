@@ -565,11 +565,13 @@ Before beta release:
 	- Custom alarm sound
 - Better user interface in the Service
 	- Notification to reconfigure/clear the alarm
+- Vibration
 X Icons
 X Alarm at an absolute wall clock time
 X Move to SD
 
 Before release of version 1:
+- Special alarm sound
 
 == 2011-08-30
 http://www.youtube.com/watch?v=twmuBbC_oB8#t=9m20s - Track exceptions
