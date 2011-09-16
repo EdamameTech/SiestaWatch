@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class SiestaWatchActivity extends Activity {
-	private static final int LOGLEVEL = 1;
+	private static final int LOGLEVEL = 0;
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchActivity";
 	private static final String PrefsName = "SiestaWatchActivity";
