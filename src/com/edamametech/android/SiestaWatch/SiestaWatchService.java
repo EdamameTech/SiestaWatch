@@ -3,7 +3,6 @@ package com.edamametech.android.SiestaWatch;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Hashtable;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
