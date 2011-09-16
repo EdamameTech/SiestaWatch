@@ -554,17 +554,16 @@ X Proper restart with null intent
 
 Before beta release:
 - Multiligualization
+- Better user interface in the Service
+	- Notification to reconfigure/clear the alarm
+	  http://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar.html
+- Better user interface in the Activity
+	- Easier way to set duration
 - Opensource
 	- Copyright
 	- License terms
 - Prepare a widget
 - Usage display
-- Better user interface in the Activity
-	- Easier way to set duration
-	- Selection of alarm sound
-	- Custom alarm sound
-- Better user interface in the Service
-	- Notification to reconfigure/clear the alarm
 - Vibration
 X Icons
 X Alarm at an absolute wall clock time
@@ -572,6 +571,7 @@ X Move to SD
 
 Before release of version 1:
 - Special alarm sound
+- Selection of alarm sound
 
 == 2011-08-30
 http://www.youtube.com/watch?v=twmuBbC_oB8#t=9m20s - Track exceptions
@@ -596,4 +596,4 @@ http://www.youtube.com/watch?v=twmuBbC_oB8#t=32m10s - More intelligent Service
 	* 設定された時刻の扱いがおかしいかもしれなり。Serviceにうまく渡
 	  せていないことがあるようだ
 
-
+PendingIntentのIDを適切に設定するべきだった
