@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TimePicker;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -149,7 +148,8 @@ public class SiestaWatchActivity extends Activity {
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						setDurationInMins(durationField.getText().toString());
-						String[] timeLimitFields = timeLimitField.getText().toString().split(":");
+						String[] timeLimitFields = timeLimitField.getText()
+								.toString().split(":");
 						timeLimitHour = Integer.valueOf(timeLimitFields[0]);
 						timeLimitMinute = Integer.valueOf(timeLimitFields[1]);
 						storeParameters();
