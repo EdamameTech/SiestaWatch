@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Siesta Watch</string>
+	<string name="app_name">Siesta Watch</string>
+	<string name="notification_ticker">Alarms are set by Siesta Watch</string>
 </resources>

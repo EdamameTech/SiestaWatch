@@ -10,7 +10,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -56,6 +55,7 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "standBy()");
 		clearAlarm();
+		showStatusBarIcon();
 		state = StateStandingBy;
 		storeParameters();
 	}
@@ -137,6 +137,7 @@ public class SiestaWatchService extends Service {
 		}
 		state = StateOff;
 		storeParameters();
+		clearStatusBarIcon();	// TODO: Find a way to clear the status bar icon
 		stopSelf();
 	}
 
@@ -326,7 +327,6 @@ public class SiestaWatchService extends Service {
 					+ SiestaWatchUtil.timeLongToHhmm(alarmTime, df)
 					+ ") for action " + action);
 		}
-		showStatusBarIcon();
 	}
 
 	private void clearAlarm() {
@@ -450,15 +450,22 @@ public class SiestaWatchService extends Service {
 	}
 
 	private void showStatusBarIcon() {
-		final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.ic_stat_notify,
-				"Hello", System.currentTimeMillis());
-		ComponentName comp = new ComponentName(this.getPackageName(),
-				getClass().getName());
-		Intent intent = new Intent().setComponent(comp);
+		Intent intent = new Intent();
+		intent.setClass(this, SiestaWatchActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-				intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-		notification.setLatestEventInfo(this, "Title", "Text", pendingIntent);
-		notificationManager.notify(1, notification);
+				intent, 0);
+		Notification notification = new Notification(R.drawable.ic_stat_notify,
+				getString(R.string.notification_ticker),
+				System.currentTimeMillis());
+		notification.setLatestEventInfo(this, getString(R.string.app_name),
+				"Text", pendingIntent);	// TODO: Format alarm parameters into the text
+		notification.flags = Notification.FLAG_FOREGROUND_SERVICE;
+		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.notify(0, notification);
+	}
+
+	private void clearStatusBarIcon() {
+		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancelAll();
 	}
 }

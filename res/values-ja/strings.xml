@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">シエスタ時計</string>
+	<string name="app_name">シエスタ時計</string>
+	<string name="notification_ticker">シエスタ時計がアラームを設定しました</string>
 </resources>
