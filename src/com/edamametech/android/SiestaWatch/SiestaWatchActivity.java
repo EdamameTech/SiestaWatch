@@ -122,7 +122,7 @@ public class SiestaWatchActivity extends Activity {
 			Log.v(LogTag, "stopSiestaWatchService()");
 		Intent intent = new Intent();
 		intent.setClass(this, SiestaWatchService.class);
-		stopService(intent);
+		stopService(intent); // TODO: Find a way to clear the status bar icon
 	}
 
 	/** Called when the activity is first created. */
