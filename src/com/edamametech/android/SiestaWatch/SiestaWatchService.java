@@ -5,9 +5,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -323,6 +326,7 @@ public class SiestaWatchService extends Service {
 					+ SiestaWatchUtil.timeLongToHhmm(alarmTime, df)
 					+ ") for action " + action);
 		}
+		showStatusBarIcon();
 	}
 
 	private void clearAlarm() {
@@ -443,5 +447,18 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "onDestroy()");
 		unregisterReceiver(screenEventReceiver);
+	}
+
+	private void showStatusBarIcon() {
+		final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		Notification notification = new Notification(R.drawable.ic_stat_notify,
+				"Hello", System.currentTimeMillis());
+		ComponentName comp = new ComponentName(this.getPackageName(),
+				getClass().getName());
+		Intent intent = new Intent().setComponent(comp);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+				intent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		notification.setLatestEventInfo(this, "Title", "Text", pendingIntent);
+		notificationManager.notify(1, notification);
 	}
 }
