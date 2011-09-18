@@ -20,7 +20,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class SiestaWatchService extends Service {
-	private static final int LOGLEVEL = 0;
+	private static final int LOGLEVEL = 1;
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchService";
 	private static final String PrefsName = "SiestaWatchService";
@@ -287,8 +287,6 @@ public class SiestaWatchService extends Service {
 	private static final int ActionAlarm = 0;
 	private static final int ActionTimeLimit = 1;
 
-	PendingIntent[] alarmSenders = { null, null };
-
 	private void setAlarm() {
 		if (DEBUG)
 			Log.v(LogTag, "setAlarm()");
@@ -312,13 +310,12 @@ public class SiestaWatchService extends Service {
 		alarmIntent.setClass(this, SiestaWatchService.class);
 		alarmIntent.putExtra(SiestaWatchService.Action, action);
 
-		alarmSenders[action] = PendingIntent.getService(this, action,
+		PendingIntent alarmSender = PendingIntent.getService(this, action,
 				alarmIntent, 0);
 
 		AlarmManager alarmManager = (AlarmManager) this
 				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime,
-				alarmSenders[action]);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmSender);
 
 		if (DEBUG) {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -346,10 +343,9 @@ public class SiestaWatchService extends Service {
 
 		AlarmManager alarmManager = (AlarmManager) this
 				.getSystemService(Context.ALARM_SERVICE);
-		if (alarmSenders[action] != null) {
-			alarmManager.cancel(alarmSenders[action]);
-			alarmSenders[action] = null;
-		}
+		PendingIntent alarmSender = PendingIntent.getService(this, action,
+				null, 0);
+		alarmManager.cancel(alarmSender);
 	}
 
 	/* Service things */
