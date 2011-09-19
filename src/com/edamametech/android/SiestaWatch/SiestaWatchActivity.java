@@ -62,7 +62,7 @@ public class SiestaWatchActivity extends Activity {
 	private TimePickerDialog timeLimitDialog;
 
 	public static final String NeedsVibration = "NeedsVibration";
-	private boolean needsVibration = false;
+	private boolean needsVibration = true;
 	CheckBox vibrationCheckBox = null;
 
 	private void storeParameters() {
