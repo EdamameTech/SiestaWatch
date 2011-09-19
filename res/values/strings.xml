@@ -5,4 +5,10 @@
 	<string name="sleep_duration_format">%.0f</string>
 	<string name="status_text_with_time_limit">Alarm in %1$s minutes or at %2$s</string>
 	<string name="status_text_without_time_limit">Alarm in %1$s minutes after screen is off</string>
+	<string name="time_limit_label">Time Limit:</string>
+	<string name="vibration_label">Vibration</string>
+	<string name="sleep_for_label">Sleep for:</string>
+	<string name="minute_unit_label">minutes</string>
+	<string name="set_alarm_label">Set</string>
+	<string name="cancel_alarm_label">Cancel</string>
 </resources>

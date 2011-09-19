@@ -553,9 +553,6 @@ X Proper restart with null intent
 	X Needs to store state
 
 Before beta release:
-- Multiligualization
-- Better user interface in the Activity
-	- Easier way to set duration
 - Opensource
 	- Copyright
 	- License terms
@@ -567,8 +564,12 @@ X Move to SD
 X Better user interface in the Service
 	X Notification to reconfigure/clear the alarm
 X Vibration
+X Better user interface in the Activity
+	X Easier way to set duration
+X Multiligualization
 
 Before release of version 1:
+- Brush up user interface in Activity
 - Special alarm sound
 - Selection of alarm sound
 

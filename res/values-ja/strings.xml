@@ -5,4 +5,10 @@
 	<string name="sleep_duration_format">%.0f</string>
 	<string name="status_text_with_time_limit">%1$s分後か%2$sにアラーム</string>
 	<string name="status_text_without_time_limit">スクリーンオフの%1$s分後にアラーム</string>
+	<string name="time_limit_label">時刻リミット:</string>
+	<string name="vibration_label">バイブレーション</string>
+	<string name="sleep_for_label">昼寝時間:</string>
+	<string name="minute_unit_label">分</string>
+	<string name="set_alarm_label">設定</string>
+	<string name="cancel_alarm_label">解除</string>
 </resources>

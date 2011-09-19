@@ -4,39 +4,52 @@
 	android:layout_height="fill_parent">
 	<TextView android:layout_height="wrap_content" android:id="@+id/summary"
 		android:layout_width="wrap_content"
-		android:text="Count down timer for your nap :) Alarm will go off after you turn off the screen and have kept it off for a certain amount of time."></TextView>
+		android:text="Count down timer for your nap :) Alarm will go off after you turn off the screen and have kept it off for a certain amount of time. Turn on screen to silence and unlock to stop alarm."></TextView>
+	<LinearLayout android:id="@+id/timeLimitSettings"
+		android:layout_height="wrap_content" android:layout_width="match_parent">
+		<CheckBox android:text="@string/time_limit_label" android:id="@+id/timeLimitCheckBox"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+		<Button android:text="HH:MM" android:id="@+id/timeLimitButton"
+			android:layout_width="match_parent" android:layout_height="wrap_content"></Button>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/vibrationSettings"
+		android:layout_height="wrap_content" android:layout_width="match_parent">
+		<CheckBox android:text="@string/vibration_label" android:id="@+id/vibrateCheckBox"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+	</LinearLayout>
 	<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationTitle"
 		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_width="wrap_content" android:text="Time to wake up after screen is off:"></TextView>
+		android:layout_width="wrap_content" android:text="@string/sleep_for_label"></TextView>
 	<LinearLayout android:id="@+id/durationSettings"
-		android:layout_height="wrap_content" android:layout_width="match_parent">
+		android:gravity="center" android:layout_height="wrap_content"
+		android:layout_width="match_parent">
+		<LinearLayout android:id="@+id/durationPlusMinus"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:orientation="vertical">
+			<Button android:text="+" android:id="@+id/sleepDurationPlusButton"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
+				android:layout_weight="0.5"></Button>
+			<Button android:text="-" android:id="@+id/sleepDurationMinusButton"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
+				android:layout_weight="0.5"></Button>
+		</LinearLayout>
 		<EditText android:layout_height="wrap_content"
-			android:layout_weight="1" android:layout_width="wrap_content"
+			android:gravity="center" android:layout_weight="1"
+			android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"
 			android:id="@+id/sleepDurationInMins" android:inputType="numberDecimal">
 		</EditText>
 		<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationUnit"
-			android:layout_width="wrap_content" android:text="minutes"></TextView>
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content" android:text="@string/minute_unit_label"></TextView>
 	</LinearLayout>
-	<CheckBox android:text="Vibrate" android:textAppearance="?android:attr/textAppearanceMedium"
-		android:id="@+id/vibrateCheckBox" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"></CheckBox>
-	<CheckBox android:text="Time Limit:" android:textAppearance="?android:attr/textAppearanceMedium"
-		android:id="@+id/timeLimitCheckBox" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"></CheckBox>
-	<EditText android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:id="@+id/timeLimit"
-		android:inputType="time">
-		<requestFocus></requestFocus>
-	</EditText>
-	<TextView android:layout_height="wrap_content" android:id="@+id/usage"
-		android:layout_width="wrap_content"
-		android:text="Turn on screen to silence and unlock to stop alarm."></TextView>
 	<LinearLayout android:id="@+id/actions"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
-		<Button android:text="Set alarm" android:id="@+id/done"
+		<Button android:text="@string/set_alarm_label" android:id="@+id/done"
 			android:layout_width="wrap_content" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
-		<Button android:text="Cancel alarm" android:id="@+id/cancel"
+		<Button android:text="@string/cancel_alarm_label" android:id="@+id/cancel"
 			android:layout_width="wrap_content" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
 	</LinearLayout>
