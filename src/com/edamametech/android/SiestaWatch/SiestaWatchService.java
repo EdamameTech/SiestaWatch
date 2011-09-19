@@ -458,11 +458,9 @@ public class SiestaWatchService extends Service {
 		intent.setClass(this, SiestaWatchActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
 				intent, 0);
-		String ticker;
+		String ticker = null;
 		if (showTicker)
 			ticker = getString(R.string.notification_ticker);
-		else
-			ticker = null;
 		Notification notification = new Notification(R.drawable.ic_stat_notify,
 				ticker,
 				System.currentTimeMillis());
