@@ -51,10 +51,10 @@
 	<LinearLayout android:id="@+id/actions"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
 		<Button android:text="@string/set_alarm_label" android:id="@+id/done"
-			android:layout_width="wrap_content" android:layout_weight="1"
+			android:layout_width="match_parent" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
 		<Button android:text="@string/cancel_alarm_label" android:id="@+id/cancel"
-			android:layout_width="wrap_content" android:layout_weight="1"
+			android:layout_width="match_parent" android:layout_weight="1"
 			android:layout_height="wrap_content"></Button>
 	</LinearLayout>
 </LinearLayout>
