@@ -55,7 +55,7 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "standBy()");
 		clearAlarm();
-		showStatusBarIcon();
+		showStatusBarIcon(true);
 		state = StateStandingBy;
 		storeParameters();
 	}
@@ -131,13 +131,13 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "off()");
 		clearAlarm();
 		clearTimeLimit();
+		clearStatusBarIcon();
 		if (alarmPlayer != null) {
 			alarmPlayer.stop();
 			alarmPlayer.release();
 		}
 		state = StateOff;
 		storeParameters();
-		clearStatusBarIcon();	// TODO: Find a way to clear the status bar icon
 		stopSelf();
 	}
 
@@ -388,6 +388,7 @@ public class SiestaWatchService extends Service {
 			if (DEBUG)
 				Log.v(LogTag, "Got a null intent");
 			restoreParameters();
+			showStatusBarIcon(false);
 		} else {
 			if (DEBUG)
 				Log.v(LogTag, intent.toString());
@@ -447,24 +448,34 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "onDestroy()");
 		unregisterReceiver(screenEventReceiver);
+		clearStatusBarIcon();
 	}
 
-	private void showStatusBarIcon() {
+	private void showStatusBarIcon(boolean showTicker) {
+		if (DEBUG)
+			Log.v(LogTag, "showStatusBarIcon()");
 		Intent intent = new Intent();
 		intent.setClass(this, SiestaWatchActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
 				intent, 0);
+		String ticker;
+		if (showTicker)
+			ticker = getString(R.string.notification_ticker);
+		else
+			ticker = null;
 		Notification notification = new Notification(R.drawable.ic_stat_notify,
-				getString(R.string.notification_ticker),
+				ticker,
 				System.currentTimeMillis());
 		notification.setLatestEventInfo(this, getString(R.string.app_name),
 				"Text", pendingIntent);	// TODO: Format alarm parameters into the text
-		notification.flags = Notification.FLAG_FOREGROUND_SERVICE;
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(0, notification);
 	}
 
 	private void clearStatusBarIcon() {
+		if (DEBUG)
+			Log.v(LogTag, "clearStatusBarIcon()");
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancelAll();
 	}
