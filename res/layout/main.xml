@@ -17,6 +17,9 @@
 		<TextView android:layout_height="wrap_content" android:id="@+id/sleepDurationUnit"
 			android:layout_width="wrap_content" android:text="minutes"></TextView>
 	</LinearLayout>
+	<CheckBox android:text="Vibrate" android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/vibrateCheckBox" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></CheckBox>
 	<CheckBox android:text="Time Limit:" android:textAppearance="?android:attr/textAppearanceMedium"
 		android:id="@+id/timeLimitCheckBox" android:layout_width="wrap_content"
 		android:layout_height="wrap_content"></CheckBox>

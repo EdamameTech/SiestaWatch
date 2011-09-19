@@ -556,7 +556,6 @@ Before beta release:
 - Multiligualization
 - Better user interface in the Activity
 	- Easier way to set duration
-- Vibration
 - Opensource
 	- Copyright
 	- License terms
@@ -567,6 +566,7 @@ X Alarm at an absolute wall clock time
 X Move to SD
 X Better user interface in the Service
 	X Notification to reconfigure/clear the alarm
+X Vibration
 
 Before release of version 1:
 - Special alarm sound

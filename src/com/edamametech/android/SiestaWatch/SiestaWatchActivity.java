@@ -47,6 +47,10 @@ public class SiestaWatchActivity extends Activity {
 	private static final long timeLimitDefaultDelayMillis = 1800000; // 30 min
 	private static final long timeLimitGranuarityMillis = 300000; // 5 min
 
+	public static final String NeedsVibration = "NeedsVibration";
+	private boolean needsVibration = false;
+	CheckBox vibrationCheckBox = null;
+
 	private void storeParameters() {
 		if (DEBUG)
 			Log.v(LogTag, "storeParameters()");
@@ -55,6 +59,7 @@ public class SiestaWatchActivity extends Activity {
 		editor.putLong(SleepDurationMillis, sleepDurationMillis);
 		editor.putInt(TimeLimitHour, timeLimitHour);
 		editor.putInt(TimeLimitMinute, timeLimitMinute);
+		editor.putBoolean(NeedsVibration, needsVibration);
 		editor.commit();
 	}
 
@@ -81,6 +86,9 @@ public class SiestaWatchActivity extends Activity {
 					defaultTimeLimit, new SimpleDateFormat("HH")));
 			timeLimitMinute = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
 					defaultTimeLimit, new SimpleDateFormat("mm")));
+		}
+		if (prefs.contains(NeedsVibration)) {
+			needsVibration = prefs.getBoolean(NeedsVibration, false);
 		}
 	}
 
@@ -114,6 +122,7 @@ public class SiestaWatchActivity extends Activity {
 		}
 		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
 				uriOfAlarmSound.toString());
+		intent.putExtra(SiestaWatchService.NeedsVibration, needsVibration);
 		startService(intent);
 	}
 
@@ -143,6 +152,8 @@ public class SiestaWatchActivity extends Activity {
 				timeLimitMinute));
 		timeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
 		timeLimitCheckBox.setChecked(true);
+		vibrationCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
+		vibrationCheckBox.setChecked(needsVibration);
 
 		((Button) findViewById(R.id.done))
 				.setOnClickListener(new OnClickListener() {
@@ -152,8 +163,10 @@ public class SiestaWatchActivity extends Activity {
 								.toString().split(":");
 						timeLimitHour = Integer.valueOf(timeLimitFields[0]);
 						timeLimitMinute = Integer.valueOf(timeLimitFields[1]);
+						needsVibration = vibrationCheckBox.isChecked();
 						storeParameters();
 						hasTimeLimit = timeLimitCheckBox.isChecked();
+						/* hasTimeLimit will not be recorded in preferences */
 						startSiestaWatchService();
 						finish();
 					}

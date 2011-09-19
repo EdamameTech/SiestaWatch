@@ -17,6 +17,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -28,6 +29,9 @@ public class SiestaWatchService extends Service {
 	private static final String PrefsName = "SiestaWatchService";
 
 	private MediaPlayer alarmPlayer = null;
+	private Vibrator vibrator = null;
+
+	private static final long[] vibratePattern = new long[] { 500, 500 };
 
 	/* state */
 	public static final String State = "State";
@@ -88,6 +92,11 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "playAlarm()");
 		clearAlarm();
+		if (needsVibration) {
+			if (vibrator == null)
+				vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(vibratePattern, 0);
+		}
 		if (alarmPlayer == null) {
 			alarmPlayer = new MediaPlayer();
 			try {
@@ -120,6 +129,8 @@ public class SiestaWatchService extends Service {
 	private void silent() {
 		if (DEBUG)
 			Log.v(LogTag, "silent()");
+		if (needsVibration && vibrator != null)
+			vibrator.cancel();
 		if (alarmPlayer != null)
 			alarmPlayer.pause();
 		state = StateSilencing;
@@ -244,6 +255,10 @@ public class SiestaWatchService extends Service {
 	// Absolute Time in msec to alarm user about the time limit
 	private long timeLimitMillis = 0;
 
+	// Key for Extras in Intent to supply if vibration is needed as a boolean
+	public static final String NeedsVibration = "NeedsVibration";
+	private boolean needsVibration = false;
+
 	private void storeParameters() {
 		if (DEBUG)
 			Log.v(LogTag, "storeParameters()");
@@ -252,6 +267,7 @@ public class SiestaWatchService extends Service {
 		editor.putString(UriOfAlarmSound, uriOfAlarmSound.toString());
 		editor.putLong(SleepDurationMillis, sleepDurationMillis);
 		editor.putLong(TimeLimitMillis, timeLimitMillis);
+		editor.putBoolean(NeedsVibration, needsVibration);
 		editor.putInt(State, state);
 		editor.commit();
 	}
@@ -277,6 +293,10 @@ public class SiestaWatchService extends Service {
 		}
 		if (prefs.contains(TimeLimitMillis)) {
 			timeLimitMillis = prefs.getLong(TimeLimitMillis, 0);
+			setTimeLimit();
+		}
+		if (prefs.contains(NeedsVibration)) {
+			needsVibration = prefs.getBoolean(NeedsVibration, false);
 			setTimeLimit();
 		}
 		if (prefs.contains(State)) {
@@ -434,6 +454,13 @@ public class SiestaWatchService extends Service {
 									TimeLimitMillis + ": "
 											+ extras.getLong(TimeLimitMillis));
 						timeLimitMillis = extras.getLong(TimeLimitMillis);
+					}
+					if (extras.containsKey(NeedsVibration)){
+						if (DEBUG)
+							Log.v(LogTag,
+									NeedsVibration + ": "
+											+ extras.getBoolean(NeedsVibration));
+						needsVibration = extras.getBoolean(NeedsVibration);
 					}
 					storeParameters();
 					if (uriOfAlarmSound != null && sleepDurationMillis > 0) {
