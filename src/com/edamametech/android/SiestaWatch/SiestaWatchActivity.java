@@ -50,6 +50,7 @@ public class SiestaWatchActivity extends Activity {
 	private CheckBox timeLimitCheckBox = null;
 	private static final long timeLimitDefaultDelayMillis = 1800000; // 30 min
 	private static final long timeLimitGranuarityMillis = 300000; // 5 min
+	private static final long timeLimitCheckDuration = 10800000;	 // 3 hours
 	private TimePickerDialog.OnTimeSetListener timeLimitListener = new TimePickerDialog.OnTimeSetListener() {
 		@Override
 		public void onTimeSet(TimePicker view, int hour, int minute) {
@@ -191,7 +192,6 @@ public class SiestaWatchActivity extends Activity {
 
 		timeLimitDialog = new TimePickerDialog(this, timeLimitListener,
 				timeLimitHour, timeLimitMinute, true);
-
 		timeLimitButton = (Button) findViewById(R.id.timeLimitButton);
 		updateTimeLimitDisplay();
 		timeLimitButton.setOnClickListener(new OnClickListener() {
@@ -200,7 +200,11 @@ public class SiestaWatchActivity extends Activity {
 			}
 		});
 		timeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
-		timeLimitCheckBox.setChecked(true);
+		if (timeLimitInMillis() < System.currentTimeMillis() + timeLimitCheckDuration) {
+			timeLimitCheckBox.setChecked(true);
+		} else {
+			timeLimitCheckBox.setChecked(false);
+		}
 
 		vibrationCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
 		vibrationCheckBox.setChecked(needsVibration);
