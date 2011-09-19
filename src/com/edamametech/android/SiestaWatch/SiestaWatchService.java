@@ -1,8 +1,6 @@
 package com.edamametech.android.SiestaWatch;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -19,6 +17,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 
 public class SiestaWatchService extends Service {
@@ -322,10 +322,12 @@ public class SiestaWatchService extends Service {
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmSender);
 
 		if (DEBUG) {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			Log.v(LogTag, "Alarm is set at " + alarmTime + " ("
-					+ SiestaWatchUtil.timeLongToHhmm(alarmTime, df)
-					+ ") for action " + action);
+			Log.v(LogTag,
+					"Alarm is set at "
+							+ DateUtils.formatDateTime(this, alarmTime,
+									DateUtils.FORMAT_SHOW_TIME
+											+ DateUtils.FORMAT_SHOW_DATE)
+							+ " for action " + action);
 		}
 	}
 
@@ -462,10 +464,9 @@ public class SiestaWatchService extends Service {
 		if (showTicker)
 			ticker = getString(R.string.notification_ticker);
 		Notification notification = new Notification(R.drawable.ic_stat_notify,
-				ticker,
-				System.currentTimeMillis());
+				ticker, System.currentTimeMillis());
 		notification.setLatestEventInfo(this, getString(R.string.app_name),
-				"Text", pendingIntent);	// TODO: Format alarm parameters into the text
+				currentStatusText(), pendingIntent);
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(0, notification);
@@ -476,5 +477,24 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "clearStatusBarIcon()");
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancelAll();
+	}
+
+	private String currentStatusText() {
+		if (DEBUG)
+			Log.v(LogTag, "currentStatusText()");
+		String sleepDurationText = String.format(
+				getString(R.string.sleep_duration_format),
+				(float) sleepDurationMillis / 60000);
+		if (timeLimitMillis > System.currentTimeMillis()) {
+			String timeLimitText = SiestaWatchUtil.timeLongToHhmm(
+					timeLimitMillis, DateFormat.getTimeFormat(this));
+			return String.format(
+					getString(R.string.status_text_with_time_limit),
+					sleepDurationText, timeLimitText);
+		} else {
+			return String.format(
+					getString(R.string.status_text_without_time_limit),
+					sleepDurationText);
+		}
 	}
 }

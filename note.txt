@@ -554,20 +554,19 @@ X Proper restart with null intent
 
 Before beta release:
 - Multiligualization
-- Better user interface in the Service
-	- Notification to reconfigure/clear the alarm
-	  http://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar.html
 - Better user interface in the Activity
 	- Easier way to set duration
+- Vibration
 - Opensource
 	- Copyright
 	- License terms
 - Prepare a widget
 - Usage display
-- Vibration
 X Icons
 X Alarm at an absolute wall clock time
 X Move to SD
+X Better user interface in the Service
+	X Notification to reconfigure/clear the alarm
 
 Before release of version 1:
 - Special alarm sound

@@ -2,4 +2,7 @@
 <resources>
 	<string name="app_name">Siesta Watch</string>
 	<string name="notification_ticker">Alarms are set by Siesta Watch</string>
+	<string name="sleep_duration_format">%.0f</string>
+	<string name="status_text_with_time_limit">Alarm in %1$s minutes or at %2$s</string>
+	<string name="status_text_without_time_limit">Alarm in %1$s minutes after screen is off</string>
 </resources>

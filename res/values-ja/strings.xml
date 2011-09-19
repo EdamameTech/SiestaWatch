@@ -2,4 +2,7 @@
 <resources>
 	<string name="app_name">シエスタ時計</string>
 	<string name="notification_ticker">シエスタ時計がアラームを設定しました</string>
+	<string name="sleep_duration_format">%.0f</string>
+	<string name="status_text_with_time_limit">%1$s分後か%2$sにアラーム</string>
+	<string name="status_text_without_time_limit">スクリーンオフの%1$s分後にアラーム</string>
 </resources>
