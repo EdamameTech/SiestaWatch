@@ -23,6 +23,39 @@
   <defs
      id="defs4">
     <linearGradient
+       id="linearGradient3772">
+      <stop
+         style="stop-color:#a3a3a3;stop-opacity:1;"
+         offset="0"
+         id="stop3774" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="1"
+         id="stop3776" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3721">
+      <stop
+         style="stop-color:#ffd221;stop-opacity:1;"
+         offset="0"
+         id="stop3723" />
+      <stop
+         style="stop-color:#ffd221;stop-opacity:0;"
+         offset="1"
+         id="stop3725" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3713">
+      <stop
+         style="stop-color:#ffd221;stop-opacity:1;"
+         offset="0"
+         id="stop3715" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="1"
+         id="stop3717" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient3708">
       <stop
          style="stop-color:#7e7e7e;stop-opacity:1;"
@@ -327,6 +360,29 @@
          offset="1"
          id="stop3704-8" />
     </linearGradient>
+    <inkscape:perspective
+       id="perspective2918"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3741"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3772"
+       id="linearGradient3778"
+       x1="592"
+       y1="176"
+       x2="592"
+       y2="336"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -336,10 +392,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="505.19144"
-     inkscape:cy="552.0682"
+     inkscape:cx="536.51528"
+     inkscape:cy="594.81063"
      inkscape:document-units="px"
-     inkscape:current-layer="layer7"
+     inkscape:current-layer="layer8"
      showgrid="true"
      inkscape:window-width="1257"
      inkscape:window-height="877"
@@ -364,7 +420,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -399,7 +455,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Shadow"
-     style="display:none">
+     style="display:inline">
     <path
        sodipodi:type="star"
        style="opacity:0.75;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.45497131;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter3964);enable-background:accumulate"
@@ -429,7 +485,7 @@
        transform="translate(80.876495,-79.123505)">
       <path
          transform="translate(16,71.123505)"
-         d="M 751.1235,440 C 751.1235,580.90082 636.90082,695.1235 496,695.1235 355.09918,695.1235 240.8765,580.90082 240.8765,440 240.8765,299.09918 355.09918,184.8765 496,184.8765 c 140.90082,0 255.1235,114.22268 255.1235,255.1235 z"
+         d="m 751.1235,440 a 255.1235,255.1235 0 1 1 -510.247,0 255.1235,255.1235 0 1 1 510.247,0 z"
          sodipodi:ry="255.1235"
          sodipodi:rx="255.1235"
          sodipodi:cy="440"
@@ -562,7 +618,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Watch and Pillow for v8"
-     style="display:inline">
+     style="display:none">
     <g
        id="g3868-7"
        transform="translate(80.876505,-79.1235)"
@@ -621,11 +677,58 @@
        inkscape:export-ydpi="45" />
   </g>
   <g
+     inkscape:groupmode="layer"
+     id="layer8"
+     inkscape:label="Watch for Home Widget"
+     style="display:inline">
+    <g
+       id="g3831-3"
+       style="fill:url(#linearGradient3778);fill-opacity:1;display:inline;stroke:#8c602c;stroke-opacity:1;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         id="path3653-6-7"
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:url(#linearGradient3778);fill-opacity:1;fill-rule:nonzero;stroke:#8c602c;stroke-width:8;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 691.0625,288.28125 a 16.0016,16.0016 0 0 0 -13.15625,7.03125 L 568.0625,452.78125 a 16.003204,16.003204 0 1 0 26.25,18.3125 L 704.15625,313.625 A 16.0016,16.0016 0 0 0 691.0625,288.28125 z m -99.3125,-64.5 A 16.0016,16.0016 0 0 0 576,240 l 0,192 a 16.0016,16.0016 0 1 0 32,0 l 0,-192 A 16.0016,16.0016 0 0 0 591.75,223.78125 z M 848,432 C 848,572.90082 733.77732,687.12351 592.8765,687.12351 451.97568,687.12351 337.753,572.90082 337.753,432 337.753,291.09918 451.97568,176.8765 592.8765,176.8765 733.77733,176.8765 848,291.09918 848,432 z" />
+    </g>
+    <path
+       style="color:#000000;fill:#ffd221;fill-opacity:1;fill-rule:nonzero;stroke:#956c3b;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-opacity:1;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:round;stroke-linejoin:round"
+       d="m 374.88881,113.58342 c -37.99394,23.82194 -48.47204,71.89418 -23.40351,107.37235 l 15.1302,21.41298 137.58824,-86.26688 -15.13021,-21.41296 C 464.00499,99.21073 412.88276,89.761479 374.88881,113.58342 z"
+       id="path3677-3" />
+    <path
+       style="color:#000000;fill:#ffd221;fill-opacity:1;fill-rule:nonzero;stroke:#956c3b;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-opacity:1;stroke-linecap:round;stroke-linejoin:round;stroke-width:8.6;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 816,117.48155 c 37.99394,23.82194 48.47204,71.89418 23.40351,107.37235 L 824.27331,246.26688 686.68507,160 701.81528,138.58704 C 726.88382,103.10886 778.00605,93.659607 816,117.48155 z"
+       id="path3677-8-9" />
+    <path
+       sodipodi:type="arc"
+       style="color:#000000;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:#ffe8a9;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3731"
+       sodipodi:cx="422.21173"
+       sodipodi:cy="183.47247"
+       sodipodi:rx="58.212887"
+       sodipodi:ry="58.212887"
+       d="m 381.049,142.30975 a 58.212887,58.212887 0 0 1 82.32546,-1e-5"
+       sodipodi:start="3.9269908"
+       sodipodi:end="5.4977871"
+       sodipodi:open="true" />
+    <path
+       transform="translate(349.79711,3.6657715e-6)"
+       sodipodi:type="arc"
+       style="color:#000000;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:#ffeea9;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3731-4"
+       sodipodi:cx="422.21173"
+       sodipodi:cy="183.47247"
+       sodipodi:rx="58.212887"
+       sodipodi:ry="58.212887"
+       d="m 381.049,142.30975 a 58.212887,58.212887 0 0 1 82.32546,-1e-5"
+       sodipodi:start="3.9269908"
+       sodipodi:end="5.4977871"
+       sodipodi:open="true" />
+  </g>
+  <g
      inkscape:label="Pillow"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-28.362183)"
-     style="display:none">
+     style="display:inline">
     <path
        sodipodi:type="star"
        style="color:#000000;fill:#f3e7d9;fill-opacity:1;fill-rule:nonzero;stroke:#8c602c;stroke-width:2.45497131;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -665,7 +768,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="Dip"
-     style="display:none">
+     style="display:inline">
     <path
        sodipodi:type="star"
        style="color:#000000;fill:#e1c39f;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter3888-2);enable-background:accumulate"
