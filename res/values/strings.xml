@@ -11,4 +11,15 @@
 	<string name="minute_unit_label">minutes</string>
 	<string name="set_alarm_label">Set</string>
 	<string name="cancel_alarm_label">Cancel</string>
+	<string name="menu_help_about">Siesta Watch</string>
+	<string name="unknown_version">Unknown version</string>
+	<string name="version">Version</string>
+	<string name="menu_help_usage">Usage</string>
+	<string name="menu_help_license">License</string>
+	<string name="copyright">Copyright (C) 2011 EdamameTech.com</string>
+	<string name="notice">This program comes with ABSOLUTELY NO WARRANTY.
+		This is free software, and you are welcome to redistribute it under
+		certain conditions. For details, see License from the Options Menu.
+	</string>
+	<string name="dialog_ok">OK</string>
 </resources>

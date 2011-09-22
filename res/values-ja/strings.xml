@@ -11,4 +11,15 @@
 	<string name="minute_unit_label">分</string>
 	<string name="set_alarm_label">設定</string>
 	<string name="cancel_alarm_label">解除</string>
+	<string name="menu_help_about">シエスタ時計</string>
+	<string name="unknown_version">バージョン不詳</string>
+	<string name="version">バージョン</string>
+	<string name="menu_help_usage">使い方</string>
+	<string name="menu_help_license">利用許諾</string>
+	<string name="copyright">Copyright (C) 2011 EdamameTech.com</string>
+	<string name="notice">このプログラムは全くの無保証です。
+		これはフリーソフトウェアであり、ある条件の下で再頒布することが奨励されています。
+		詳しくはオプションメニューから利用許諾をご覧ください。
+	</string>
+	<string name="dialog_ok">OK</string>
 </resources>
