@@ -481,8 +481,6 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "onDestroy()");
 		unregisterReceiver(screenEventReceiver);
 		clearStatusBarIcon();
-		clearAlarm();
-		clearTimeLimit();
 	}
 
 	private void showStatusBarIcon(boolean showTicker) {
