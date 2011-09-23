@@ -270,9 +270,9 @@ public class SiestaWatchActivity extends Activity {
 		}
 		StringBuilder message = new StringBuilder();
 		message.append(versionName);
-		message.append("\n\n");
+		message.append("\n");
 		message.append(getString(R.string.copyright));
-		message.append("\n\n");
+		message.append("\n");
 		message.append(getString(R.string.notice));
 		
 		new AlertDialog.Builder(SiestaWatchActivity.this)
