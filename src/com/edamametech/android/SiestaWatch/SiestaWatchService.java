@@ -293,10 +293,11 @@ public class SiestaWatchService extends Service {
 		}
 		if (prefs.contains(TimeLimitMillis)) {
 			timeLimitMillis = prefs.getLong(TimeLimitMillis, 0);
-			setTimeLimit();
 		}
 		if (prefs.contains(NeedsVibration)) {
 			needsVibration = prefs.getBoolean(NeedsVibration, false);
+		}
+		if (prefs.contains(TimeLimitMillis) || prefs.contains(NeedsVibration)) {
 			setTimeLimit();
 		}
 		if (prefs.contains(State)) {
@@ -457,7 +458,7 @@ public class SiestaWatchService extends Service {
 											+ extras.getLong(TimeLimitMillis));
 						timeLimitMillis = extras.getLong(TimeLimitMillis);
 					}
-					if (extras.containsKey(NeedsVibration)){
+					if (extras.containsKey(NeedsVibration)) {
 						if (DEBUG)
 							Log.v(LogTag,
 									NeedsVibration + ": "
@@ -480,6 +481,8 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "onDestroy()");
 		unregisterReceiver(screenEventReceiver);
 		clearStatusBarIcon();
+		clearAlarm();
+		clearTimeLimit();
 	}
 
 	private void showStatusBarIcon(boolean showTicker) {
