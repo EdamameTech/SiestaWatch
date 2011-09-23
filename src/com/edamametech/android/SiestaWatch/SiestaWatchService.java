@@ -23,7 +23,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 public class SiestaWatchService extends Service {
-	private static final int LOGLEVEL = 0;
+	private static final int LOGLEVEL = 1;
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchService";
 	private static final String PrefsName = "SiestaWatchService";
@@ -389,6 +389,8 @@ public class SiestaWatchService extends Service {
 		screenEventFilter.addAction(Intent.ACTION_SCREEN_ON);
 		screenEventFilter.addAction(Intent.ACTION_USER_PRESENT);
 		registerReceiver(screenEventReceiver, screenEventFilter);
+		restoreParameters();
+		/* Application Manager only calls onCreate() when restarting the service */
 	}
 
 	@Override

@@ -1,0 +1,1 @@
+Modified to remember settings after the Service is restarted
