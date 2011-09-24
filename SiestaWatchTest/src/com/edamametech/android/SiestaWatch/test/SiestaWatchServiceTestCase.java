@@ -49,14 +49,6 @@ public class SiestaWatchServiceTestCase extends
 		assertEquals(SiestaWatchService.StateOff, mService.getState());
 	}
 
-	public void testDefaultState() {
-		Intent intent = new Intent();
-		intent.setClass(getContext(), SiestaWatchService.class);
-		startService(intent);
-		mService = getService();
-		assertEquals(SiestaWatchService.StateOff, mService.getState());
-	}
-
 	public void testStandBy() {
 		startService(standardIntent);
 		mService = getService();
