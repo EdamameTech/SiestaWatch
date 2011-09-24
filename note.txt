@@ -556,8 +556,7 @@ Before beta release:
 - Opensource
 	- Copyright
 	- License terms
-- Prepare a widget
-- Usage display
+X Usage display
 - Check timelimt checkbox when time is set
 X Icons
 X Alarm at an absolute wall clock time
@@ -574,6 +573,7 @@ Before release of version 1:
 - Special alarm sound
 - Selection of alarm sound
 - Toast to let user know remaining time when alarm is canceled
+- Prepare a widget
 
 == 2011-08-30
 http://www.youtube.com/watch?v=twmuBbC_oB8#t=9m20s - Track exceptions
