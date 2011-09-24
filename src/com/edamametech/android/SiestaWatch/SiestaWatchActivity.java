@@ -321,7 +321,7 @@ public class SiestaWatchActivity extends Activity {
 
 	public void showLicense() {
 		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("file:///android_asset/gpl-3.0-standalone.html"));
+				Uri.parse(getString(R.string.manual_uri) + "#license"));
 		intent.setClass(this, SiestaWatchWebViewActivity.class);
 		startActivity(intent);
 	}
