@@ -558,6 +558,7 @@ Before beta release:
 	- License terms
 - Prepare a widget
 - Usage display
+- Check timelimt checkbox when time is set
 X Icons
 X Alarm at an absolute wall clock time
 X Move to SD
