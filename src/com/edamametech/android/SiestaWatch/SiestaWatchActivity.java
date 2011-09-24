@@ -312,7 +312,7 @@ public class SiestaWatchActivity extends Activity {
 
 	public void showManual() {
 		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("file:///android_asset/manual.html"));
+				Uri.parse(getString(R.string.manual_uri)));
 		intent.setClass(this, SiestaWatchWebViewActivity.class);
 		startActivity(intent);
 	}

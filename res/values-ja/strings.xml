@@ -22,4 +22,5 @@
 		詳しくはオプションメニューから利用許諾をご覧ください。
 	</string>
 	<string name="dialog_ok">OK</string>
+	<string name="manual_uri">file:///android_asset/manual-ja.html</string>
 </resources>

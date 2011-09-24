@@ -22,4 +22,5 @@
 		certain conditions. For details, see License from the Options Menu.
 	</string>
 	<string name="dialog_ok">OK</string>
+	<string name="manual_uri">file:///android_asset/manual.html</string>
 </resources>
