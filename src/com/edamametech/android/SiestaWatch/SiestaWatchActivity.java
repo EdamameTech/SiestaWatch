@@ -1,3 +1,15 @@
+/*
+
+Copyright (C) 2011 Green Soybean Technologies, LLC
+<edamametech@gmail.com>
+
+This program is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of
+the License, or (at your option) any later version.
+
+ */
+
 package com.edamametech.android.SiestaWatch;
 
 import java.text.SimpleDateFormat;
@@ -72,7 +84,7 @@ public class SiestaWatchActivity extends Activity {
 	public static final String NeedsVibration = "NeedsVibration";
 	private boolean needsVibration = true;
 	CheckBox vibrationCheckBox = null;
-	
+
 	// Key for Usage Dialog
 	private static final String ShownUsageVersion = "ShownUsageVersion";
 	private int shownUsageVersion = 0;
@@ -250,7 +262,7 @@ public class SiestaWatchActivity extends Activity {
 						finish();
 					}
 				});
-		
+
 		if (shownUsageVersion < currentUsageVersion) {
 			showAboutDialog();
 			shownUsageVersion = currentUsageVersion;
