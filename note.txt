@@ -553,9 +553,9 @@ X Proper restart with null intent
 	X Needs to store state
 
 Before beta release:
-- Opensource
-	- Copyright
-	- License terms
+X Opensource
+	X Copyright
+	X License terms
 X Usage display
 X Check timelimt checkbox when time is set
 X Icons
