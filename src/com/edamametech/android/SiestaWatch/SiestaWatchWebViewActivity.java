@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.webkit.WebView;
 
 public class SiestaWatchWebViewActivity extends Activity {
@@ -24,5 +25,14 @@ public class SiestaWatchWebViewActivity extends Activity {
 		webView = (WebView) findViewById(R.id.webView);
 		
 		webView.loadUrl(getIntent().getData().toString());
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+			webView.goBack();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }
