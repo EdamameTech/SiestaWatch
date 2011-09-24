@@ -557,7 +557,7 @@ Before beta release:
 	- Copyright
 	- License terms
 X Usage display
-- Check timelimt checkbox when time is set
+X Check timelimt checkbox when time is set
 X Icons
 X Alarm at an absolute wall clock time
 X Move to SD

@@ -64,6 +64,7 @@ public class SiestaWatchActivity extends Activity {
 			timeLimitHour = hour;
 			timeLimitMinute = minute;
 			updateTimeLimitDisplay();
+			timeLimitCheckBox.setChecked(true);
 		}
 	};
 	private TimePickerDialog timeLimitDialog;
