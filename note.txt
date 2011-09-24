@@ -569,6 +569,7 @@ X Better user interface in the Activity
 X Multiligualization
 
 Before release of version 1:
+- Prepare a widget
 - Brush up user interface in Activity
 - Special alarm sound
 - Selection of alarm sound
