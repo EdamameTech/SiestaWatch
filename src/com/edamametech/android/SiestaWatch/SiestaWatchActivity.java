@@ -71,6 +71,11 @@ public class SiestaWatchActivity extends Activity {
 	public static final String NeedsVibration = "NeedsVibration";
 	private boolean needsVibration = true;
 	CheckBox vibrationCheckBox = null;
+	
+	// Key for Usage Dialog
+	private static final String ShownUsageVersion = "ShownUsageVersion";
+	private int shownUsageVersion = 0;
+	private int currentUsageVersion = 1;
 
 	private void storeParameters() {
 		if (DEBUG)
@@ -81,6 +86,7 @@ public class SiestaWatchActivity extends Activity {
 		editor.putInt(TimeLimitHour, timeLimitHour);
 		editor.putInt(TimeLimitMinute, timeLimitMinute);
 		editor.putBoolean(NeedsVibration, needsVibration);
+		editor.putInt(ShownUsageVersion, shownUsageVersion);
 		editor.commit();
 	}
 
@@ -110,6 +116,9 @@ public class SiestaWatchActivity extends Activity {
 		}
 		if (prefs.contains(NeedsVibration)) {
 			needsVibration = prefs.getBoolean(NeedsVibration, false);
+		}
+		if (prefs.contains(ShownUsageVersion)) {
+			shownUsageVersion = prefs.getInt(ShownUsageVersion, 0);
 		}
 	}
 
@@ -240,6 +249,12 @@ public class SiestaWatchActivity extends Activity {
 						finish();
 					}
 				});
+		
+		if (shownUsageVersion < currentUsageVersion) {
+			showAboutDialog();
+			shownUsageVersion = currentUsageVersion;
+			storeParameters();
+		}
 	}
 
 	@Override
