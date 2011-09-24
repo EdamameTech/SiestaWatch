@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.edamametech.android.SiestaWatch" android:installLocation="auto"
 	android:versionName="0.3" android:versionCode="3">
-	<uses-sdk android:minSdkVersion="4" />
+	<uses-sdk android:minSdkVersion="5" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 
 	<application android:icon="@drawable/ic_launcher"

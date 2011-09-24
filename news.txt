@@ -1,1 +1,3 @@
 Modified to remember settings after the Service is restarted
+
+Found Settings.System.DEFAULT_ALARM_ALERT_URI is only supported on API 5 or later. For now, we disalbed the appllicatin on API 4.
