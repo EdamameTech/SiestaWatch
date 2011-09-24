@@ -2,9 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<TextView android:layout_height="wrap_content" android:id="@+id/summary"
-		android:layout_width="wrap_content"
-		android:text="Count down timer for your nap :) Alarm will go off after you turn off the screen and have kept it off for a certain amount of time. Turn on screen to silence and unlock to stop alarm."></TextView>
 	<LinearLayout android:id="@+id/timeLimitSettings"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
 		<CheckBox android:text="@string/time_limit_label" android:id="@+id/timeLimitCheckBox"

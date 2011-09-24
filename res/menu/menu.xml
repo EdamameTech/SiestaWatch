@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/menu_help_about" android:title="@string/menu_help_about"
+		android:icon="@android:drawable/ic_menu_info_details" />
+	<item android:id="@+id/menu_help_help" android:title="@string/menu_help_usage"
+		android:icon="@android:drawable/ic_menu_help" />
+	<item android:id="@+id/menu_help_license" android:title="@string/menu_help_license"
+		android:icon="@android:drawable/ic_menu_agenda" />
+</menu>

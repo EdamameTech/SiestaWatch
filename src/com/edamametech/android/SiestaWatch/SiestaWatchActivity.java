@@ -4,18 +4,25 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -50,13 +57,14 @@ public class SiestaWatchActivity extends Activity {
 	private CheckBox timeLimitCheckBox = null;
 	private static final long timeLimitDefaultDelayMillis = 1800000; // 30 min
 	private static final long timeLimitGranuarityMillis = 300000; // 5 min
-	private static final long timeLimitCheckDuration = 10800000;	 // 3 hours
+	private static final long timeLimitCheckDuration = 10800000; // 3 hours
 	private TimePickerDialog.OnTimeSetListener timeLimitListener = new TimePickerDialog.OnTimeSetListener() {
 		@Override
 		public void onTimeSet(TimePicker view, int hour, int minute) {
 			timeLimitHour = hour;
 			timeLimitMinute = minute;
 			updateTimeLimitDisplay();
+			timeLimitCheckBox.setChecked(true);
 		}
 	};
 	private TimePickerDialog timeLimitDialog;
@@ -64,6 +72,11 @@ public class SiestaWatchActivity extends Activity {
 	public static final String NeedsVibration = "NeedsVibration";
 	private boolean needsVibration = true;
 	CheckBox vibrationCheckBox = null;
+	
+	// Key for Usage Dialog
+	private static final String ShownUsageVersion = "ShownUsageVersion";
+	private int shownUsageVersion = 0;
+	private int currentUsageVersion = 1;
 
 	private void storeParameters() {
 		if (DEBUG)
@@ -74,6 +87,7 @@ public class SiestaWatchActivity extends Activity {
 		editor.putInt(TimeLimitHour, timeLimitHour);
 		editor.putInt(TimeLimitMinute, timeLimitMinute);
 		editor.putBoolean(NeedsVibration, needsVibration);
+		editor.putInt(ShownUsageVersion, shownUsageVersion);
 		editor.commit();
 	}
 
@@ -103,6 +117,9 @@ public class SiestaWatchActivity extends Activity {
 		}
 		if (prefs.contains(NeedsVibration)) {
 			needsVibration = prefs.getBoolean(NeedsVibration, false);
+		}
+		if (prefs.contains(ShownUsageVersion)) {
+			shownUsageVersion = prefs.getInt(ShownUsageVersion, 0);
 		}
 	}
 
@@ -200,7 +217,8 @@ public class SiestaWatchActivity extends Activity {
 			}
 		});
 		timeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
-		if (timeLimitInMillis() < System.currentTimeMillis() + timeLimitCheckDuration) {
+		if (timeLimitInMillis() < System.currentTimeMillis()
+				+ timeLimitCheckDuration) {
 			timeLimitCheckBox.setChecked(true);
 		} else {
 			timeLimitCheckBox.setChecked(false);
@@ -232,5 +250,86 @@ public class SiestaWatchActivity extends Activity {
 						finish();
 					}
 				});
+		
+		if (shownUsageVersion < currentUsageVersion) {
+			showAboutDialog();
+			shownUsageVersion = currentUsageVersion;
+			storeParameters();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_help_about:
+			showAboutDialog();
+			return true;
+		case R.id.menu_help_help:
+			showManual();
+			return true;
+		case R.id.menu_help_license:
+			showLicense();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void showAboutDialog() {
+		String versionName;
+		try {
+			versionName = getString(R.string.version)
+					+ " "
+					+ getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			versionName = getString(R.string.unknown_version);
+		}
+		StringBuilder message = new StringBuilder();
+		message.append(versionName);
+		message.append("\n");
+		message.append(getString(R.string.copyright));
+		message.append("\n");
+		message.append(getString(R.string.notice));
+
+		new AlertDialog.Builder(SiestaWatchActivity.this)
+				.setTitle(getString(R.string.menu_help_about))
+				.setMessage(message.toString())
+				.setPositiveButton(getString(R.string.dialog_ok),
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// does nothing
+							}
+						})
+				.setNeutralButton(getString(R.string.menu_help_usage),
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								showManual();
+							}
+						}).create().show();
+	}
+
+	public void showLicense() {
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse("file:///android_asset/gpl-3.0-standalone.html"));
+		intent.setClass(this, SiestaWatchWebViewActivity.class);
+		startActivity(intent);
+	}
+
+	public void showManual() {
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(getString(R.string.manual_uri)));
+		intent.setClass(this, SiestaWatchWebViewActivity.class);
+		startActivity(intent);
 	}
 }
