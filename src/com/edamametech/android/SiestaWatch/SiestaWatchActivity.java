@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -254,6 +255,9 @@ public class SiestaWatchActivity extends Activity {
 		case R.id.menu_help_about:
 			showAboutDialog();
 			return true;
+		case R.id.menu_help_license:
+			showLicense();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -262,9 +266,9 @@ public class SiestaWatchActivity extends Activity {
 	public void showAboutDialog() {
 		String versionName;
 		try {
-			versionName = getString(R.string.version) + " " + 
-				getPackageManager().getPackageInfo(getPackageName(),
-					0).versionName;
+			versionName = getString(R.string.version)
+					+ " "
+					+ getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 		} catch (NameNotFoundException e) {
 			versionName = getString(R.string.unknown_version);
 		}
@@ -274,7 +278,7 @@ public class SiestaWatchActivity extends Activity {
 		message.append(getString(R.string.copyright));
 		message.append("\n");
 		message.append(getString(R.string.notice));
-		
+
 		new AlertDialog.Builder(SiestaWatchActivity.this)
 				.setTitle(getString(R.string.menu_help_about))
 				.setMessage(message.toString())
@@ -286,14 +290,20 @@ public class SiestaWatchActivity extends Activity {
 								// does nothing
 							}
 						})
-						.setNeutralButton(getString(R.string.menu_help_usage),
+				.setNeutralButton(getString(R.string.menu_help_usage),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								// TODO: show usage
+								showLicense();
 							}
-						})
-						.create().show();
+						}).create().show();
+	}
+
+	public void showLicense() {
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse("file:///android_asset/gpl-3.0-standalone.html"));
+		intent.setClass(this, SiestaWatchWebViewActivity.class);
+		startActivity(intent);
 	}
 }
