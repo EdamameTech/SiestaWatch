@@ -255,6 +255,9 @@ public class SiestaWatchActivity extends Activity {
 		case R.id.menu_help_about:
 			showAboutDialog();
 			return true;
+		case R.id.menu_help_help:
+			showManual();
+			return true;
 		case R.id.menu_help_license:
 			showLicense();
 			return true;
@@ -295,7 +298,7 @@ public class SiestaWatchActivity extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								showLicense();
+								showManual();
 							}
 						}).create().show();
 	}
@@ -303,6 +306,13 @@ public class SiestaWatchActivity extends Activity {
 	public void showLicense() {
 		Intent intent = new Intent(Intent.ACTION_VIEW,
 				Uri.parse("file:///android_asset/gpl-3.0-standalone.html"));
+		intent.setClass(this, SiestaWatchWebViewActivity.class);
+		startActivity(intent);
+	}
+
+	public void showManual() {
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse("file:///android_asset/manual.html"));
 		intent.setClass(this, SiestaWatchWebViewActivity.class);
 		startActivity(intent);
 	}
