@@ -35,7 +35,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 public class SiestaWatchService extends Service {
-	private static final int LOGLEVEL = 1;
+	private static final int LOGLEVEL = 0;
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchService";
 	private static final String PrefsName = "SiestaWatchService";
