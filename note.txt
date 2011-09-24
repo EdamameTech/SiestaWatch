@@ -553,6 +553,7 @@ X Proper restart with null intent
 	X Needs to store state
 
 Before beta release:
+- Translation of manual into Japanese
 X Opensource
 	X Copyright
 	X License terms
