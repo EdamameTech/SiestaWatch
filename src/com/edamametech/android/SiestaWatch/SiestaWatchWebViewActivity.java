@@ -13,7 +13,6 @@ the License, or (at your option) any later version.
 package com.edamametech.android.SiestaWatch;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
