@@ -16,10 +16,11 @@
 	<string name="version">バージョン</string>
 	<string name="menu_help_usage">使い方</string>
 	<string name="menu_help_license">利用許諾</string>
-	<string name="copyright">Copyright (C) 2011 EdamameTech.com</string>
-	<string name="notice">このプログラムは全くの無保証です。
-		これはフリーソフトウェアであり、ある条件の下で再頒布することが奨励されています。
-		詳しくはオプションメニューから利用許諾をご覧ください。
+	<string name="copyright">\u00A9 2011 EdamameTech.com</string>
+	<string name="notice">
+		メニューボタンからオプションメニューをたどって使い方が読めます。
+		このプログラムはフリーソフトウェアで一定の条件下で再頒布できます。
+		オプションメニューから利用許諾をご覧ください。
 	</string>
 	<string name="dialog_ok">OK</string>
 	<string name="manual_uri">file:///android_asset/manual-ja.html</string>

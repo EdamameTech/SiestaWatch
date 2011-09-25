@@ -16,10 +16,11 @@
 	<string name="version">Version</string>
 	<string name="menu_help_usage">Usage</string>
 	<string name="menu_help_license">License</string>
-	<string name="copyright">Copyright (C) 2011 EdamameTech.com</string>
-	<string name="notice">This program comes with ABSOLUTELY NO WARRANTY.
-		This is free software, and you are welcome to redistribute it under
-		certain conditions. For details, see License from the Options Menu.
+	<string name="copyright">\u00A9 2011 EdamameTech.com</string>
+	<string name="notice">
+		Manual is available in Options Menu through Menu
+		Button. This program is free software and can be redistributed under
+		certain conditions. For details, see License from Options Menu.
 	</string>
 	<string name="dialog_ok">OK</string>
 	<string name="manual_uri">file:///android_asset/manual.html</string>
