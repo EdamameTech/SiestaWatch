@@ -33,9 +33,10 @@ import android.os.Vibrator;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SiestaWatchService extends Service {
-	private static final int LOGLEVEL = 0;
+	private static final int LOGLEVEL = 1;
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchService";
 	private static final String PrefsName = "SiestaWatchService";
@@ -209,6 +210,7 @@ public class SiestaWatchService extends Service {
 			Log.v(LogTag, "actionUserPresent()");
 		switch (state) {
 		case StateCountingDown:
+			showRemainingTime();
 			standBy();
 			break;
 		case StateAlarming:
@@ -540,5 +542,16 @@ public class SiestaWatchService extends Service {
 					getString(R.string.status_text_without_time_limit),
 					sleepDurationText);
 		}
+	}
+
+	private void showRemainingTime() {
+		if (DEBUG)
+			Log.v(LogTag, "showRemainingTime()");
+		Context context = getApplicationContext();
+		String toastText = String
+				.format(getString(R.string.remaining_time_format),
+						getString(R.string.app_name),
+						(float) (sleepUntilMillis - System.currentTimeMillis()) / 60000);
+		Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 	}
 }

@@ -24,4 +24,5 @@
 	</string>
 	<string name="dialog_ok">OK</string>
 	<string name="manual_uri">file:///android_asset/manual-ja.html</string>
+	<string name="remaining_time_format">%1$s: もう%2$.0f分眠れました</string>
 </resources>
