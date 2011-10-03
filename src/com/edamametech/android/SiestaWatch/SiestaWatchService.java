@@ -261,6 +261,7 @@ public class SiestaWatchService extends Service {
 	public static final String SleepDurationMillis = "SleepDurationMillis";
 	// Time duration in msec to alarm after user felt asleep
 	private long sleepDurationMillis = 0;
+	private long sleepUntilMillis = 0;
 
 	// Key for Extras in Intent to supply absolute TimeLimit as a long
 	public static final String TimeLimitMillis = "TimeLimitMillis";
@@ -327,8 +328,8 @@ public class SiestaWatchService extends Service {
 	private void setAlarm() {
 		if (DEBUG)
 			Log.v(LogTag, "setAlarm()");
-		setAlarmWithAction(ActionAlarm, System.currentTimeMillis()
-				+ sleepDurationMillis);
+		sleepUntilMillis = System.currentTimeMillis() + sleepDurationMillis;
+		setAlarmWithAction(ActionAlarm, sleepUntilMillis);
 	}
 
 	private void setTimeLimit() {
@@ -368,6 +369,7 @@ public class SiestaWatchService extends Service {
 		if (DEBUG)
 			Log.v(LogTag, "clearAlarm()");
 		clearAlarmWithAction(ActionAlarm);
+		sleepUntilMillis = 0;
 	}
 
 	private void clearTimeLimit() {

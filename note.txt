@@ -32,6 +32,7 @@
 - ACTION_USER_PRESENTが来る
 - アラーム時刻の解除
 - タイムリミット時刻の解除 TODO:必要か？今は実装していない
+- Toast
 - (Standby) Tested
 
 - アラーム時刻が来る
