@@ -601,3 +601,6 @@ http://www.youtube.com/watch?v=twmuBbC_oB8#t=32m10s - More intelligent Service
 	  せていないことがあるようだ
 
 PendingIntentのIDを適切に設定するべきだった
+
+== 2011-10-04
+バグ: ActivityからキャンセルしてもTimeLimitが鳴る
