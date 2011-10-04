@@ -547,11 +547,15 @@ public class SiestaWatchService extends Service {
 	private void showRemainingTime() {
 		if (DEBUG)
 			Log.v(LogTag, "showRemainingTime()");
+		long untilMillis;
+		untilMillis = sleepUntilMillis;
+		if (timeLimitMillis > 0 && sleepUntilMillis > timeLimitMillis)
+			untilMillis = timeLimitMillis;
 		Context context = getApplicationContext();
 		String toastText = String
 				.format(getString(R.string.remaining_time_format),
 						getString(R.string.app_name),
-						(float) (sleepUntilMillis - System.currentTimeMillis()) / 60000);
+						(float) (untilMillis - System.currentTimeMillis()) / 60000);
 		Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 	}
 }
