@@ -178,6 +178,8 @@ public class SiestaWatchActivity extends Activity {
 			Log.v(LogTag, "stopSiestaWatchService()");
 		Intent intent = new Intent();
 		intent.setClass(this, SiestaWatchService.class);
+		intent.putExtra(SiestaWatchService.Action, SiestaWatchService.ActionCancel);
+		startService(intent);
 		stopService(intent);
 	}
 
