@@ -150,9 +150,9 @@ public class SiestaWatchService extends Service {
 		storeParameters();
 	}
 
-	private void off() {
+	private void cancel() {
 		if (DEBUG)
-			Log.v(LogTag, "off()");
+			Log.v(LogTag, "cancel()");
 		clearAlarm();
 		clearTimeLimit();
 		clearStatusBarIcon();
@@ -164,7 +164,14 @@ public class SiestaWatchService extends Service {
 		storeParameters();
 		stopSelf();
 	}
-
+	
+	private void off() {
+		if (DEBUG)
+			Log.v(LogTag, "off()");
+		cancel();
+		stopSelf();
+	}
+		
 	/* receiving Broadcasts */
 	private final BroadcastReceiver screenEventReceiver = new BroadcastReceiver() {
 		@Override
@@ -326,6 +333,7 @@ public class SiestaWatchService extends Service {
 	// Intent that makes us to go off the alarm
 	private static final int ActionAlarm = 0;
 	private static final int ActionTimeLimit = 1;
+	public static final int ActionCancel = 2;
 
 	private void setAlarm() {
 		if (DEBUG)
@@ -447,6 +455,9 @@ public class SiestaWatchService extends Service {
 						break;
 					case ActionTimeLimit:
 						actionTimeLimit();
+						break;
+					case ActionCancel:
+						cancel();
 						break;
 					}
 				} else {

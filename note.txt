@@ -604,3 +604,8 @@ PendingIntentのIDを適切に設定するべきだった
 
 == 2011-10-04
 バグ: ActivityからキャンセルしてもTimeLimitが鳴る
+- とりあえず修正した。他の問題:
+
+10-04 16:02:48.785: WARN/ActivityManager(96): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { cmp=com.edamametech.android.SiestaWatch/.SiestaWatchActivity bnds=[0,334][480,430] }
+
+もう一度状態遷移を見なおす必要がありそう。
