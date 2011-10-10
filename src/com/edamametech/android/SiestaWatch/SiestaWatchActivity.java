@@ -61,7 +61,7 @@ public class SiestaWatchActivity extends Activity {
 	// Key for Extras in Intent to supply TimeLimit as Strings
 	public static final String TimeLimitHour = "TimeLimitHour";
 	public static final String TimeLimitMinute = "TimeLimitMinute";
-	private int timeLimitHour = 0;
+	private int timeLimitHour = 0; /* 24-hour expression */
 	private int timeLimitMinute = 0;
 	private Button timeLimitButton = null;
 	private boolean hasTimeLimit;
@@ -178,7 +178,8 @@ public class SiestaWatchActivity extends Activity {
 			Log.v(LogTag, "stopSiestaWatchService()");
 		Intent intent = new Intent();
 		intent.setClass(this, SiestaWatchService.class);
-		intent.putExtra(SiestaWatchService.Action, SiestaWatchService.ActionCancel);
+		intent.putExtra(SiestaWatchService.Action,
+				SiestaWatchService.ActionCancel);
 		startService(intent);
 		stopService(intent);
 	}
@@ -244,10 +245,11 @@ public class SiestaWatchActivity extends Activity {
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						obtainDurationFromDisplay();
-						String[] timeLimitFields = timeLimitButton.getText()
-								.toString().split(":");
-						timeLimitHour = Integer.valueOf(timeLimitFields[0]);
-						timeLimitMinute = Integer.valueOf(timeLimitFields[1]);
+						long timeLimitMillis = timeLimitInMillis();
+						timeLimitHour = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
+								timeLimitMillis, new SimpleDateFormat("HH")));
+						timeLimitMinute = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
+								timeLimitMillis, new SimpleDateFormat("mm")));
 						needsVibration = vibrationCheckBox.isChecked();
 						storeParameters();
 						hasTimeLimit = timeLimitCheckBox.isChecked();
