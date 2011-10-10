@@ -41,7 +41,7 @@ public class SiestaWatchActivity extends Activity {
 	private static final int LOGLEVEL = 0;
 	private static final boolean DEBUG = (LOGLEVEL > 0);
 	private static final String LogTag = "SiestaWatchActivity";
-	private static final String PrefsName = "SiestaWatchActivity";
+	public static final String PrefsName = "SiestaWatchActivity";
 
 	/* parameters */
 	// Key for Extras in Intent to supply uriOfAlarmSound as a String
