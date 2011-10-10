@@ -13,8 +13,17 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".SiestaWatchWebViewActivity" android:label="@string/app_name">
+		<activity android:name=".SiestaWatchWebViewActivity"
+			android:label="@string/app_name">
 		</activity>
 		<service android:name=".SiestaWatchService" android:process=":alarmManager" />
+		<receiver android:name=".SiestaWatchAppWidget">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+				<action android:name="android.appwidget.action.APPWIDGET_DELETED" />
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/appwidget_info" />
+		</receiver>
 	</application>
 </manifest>

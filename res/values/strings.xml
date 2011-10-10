@@ -24,4 +24,5 @@
 	</string>
 	<string name="dialog_ok">OK</string>
 	<string name="remaining_time_format">%1$s: You could sleep %2$.0f more minutes.</string>
+	<string name="widget_duration_format">%.0fmin</string>
 </resources>
