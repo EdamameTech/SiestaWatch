@@ -12,9 +12,11 @@ the License, or (at your option) any later version.
 
 package com.edamametech.android.SiestaWatch;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -35,6 +37,7 @@ public class SiestaWatchAppWidget extends AppWidgetProvider {
 		for (int i = 0; i < nWidgets; i++) {
 			int appWidgetId = appWidgetIds[i];
 
+
 			long sleepDurationMillis = widgetSleepDurationMillis(context,
 					appWidgetId);
 			RemoteViews widget = new RemoteViews(context.getPackageName(),
@@ -43,6 +46,11 @@ public class SiestaWatchAppWidget extends AppWidgetProvider {
 					context.getString(R.string.widget_duration_format),
 					((float) sleepDurationMillis) / 1e3 / 60.0));
 
+			Intent intent = intentForSiestaWatchService(context,sleepDurationMillis);
+			PendingIntent pendingIntent = PendingIntent.getService(context,
+					appWidgetId, intent, 0);
+			widget.setOnClickPendingIntent(R.id.widgetBackground, pendingIntent);
+			
 			appWidgetManager.updateAppWidget(appWidgetId, widget);
 		}
 
@@ -98,11 +106,32 @@ public class SiestaWatchAppWidget extends AppWidgetProvider {
 	private long currentSleepDurationMillis(Context context) {
 		if (DEBUG)
 			Log.v(LogTag, "currentSleepDurationMillis()");
-		SharedPreferences prefs = context.getSharedPreferences(SiestaWatchActivity.PrefsName, 0);
+		SharedPreferences prefs = context.getSharedPreferences(
+				SiestaWatchActivity.PrefsName, 0);
 		if (prefs.contains(SiestaWatchActivity.SleepDurationMillis)) {
 			return prefs.getLong(SiestaWatchActivity.SleepDurationMillis, 0);
 		} else {
 			return SiestaWatchActivity.defaultSleepDurationMillis;
 		}
+	}
+
+	private Intent intentForSiestaWatchService(Context context,
+			long sleepDurationMillis) {
+		if (DEBUG)
+			Log.v(LogTag, "startSiestaWatchService()");
+		Intent intent = new Intent(context, SiestaWatchService.class);
+		intent.putExtra(SiestaWatchService.SleepDurationMillis,
+				sleepDurationMillis);
+		intent.putExtra(SiestaWatchService.TimeLimitMillis, 0); /* no time limit */
+
+		SharedPreferences prefs = context.getSharedPreferences(
+				SiestaWatchActivity.PrefsName, 0);
+
+		intent.putExtra(SiestaWatchService.UriOfAlarmSound, prefs.getString(
+				SiestaWatchActivity.UriOfAlarmSound,
+				SiestaWatchActivity.defaultUriOfAlarmSound.toString()));
+		intent.putExtra(SiestaWatchService.NeedsVibration,
+				prefs.getBoolean(SiestaWatchActivity.NeedsVibration, false));
+		return intent;
 	}
 }

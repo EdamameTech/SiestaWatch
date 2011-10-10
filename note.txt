@@ -612,5 +612,5 @@ PendingIntentのIDを適切に設定するべきだった
 
 == 2011-10-09
 バグ: AM/PMがある場合にTimeLimitが設定されない
-TODO: WidgetからServiceを起動する
+TODO: Widgetの設定項目にUriとVibrationを含める。今はUpdateされた時の設定が使われるので中途半端
 TODO: Widgetについてのマニュアル
