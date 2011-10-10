@@ -611,6 +611,6 @@ PendingIntentのIDを適切に設定するべきだった
 もう一度状態遷移を見なおす必要がありそう。
 
 == 2011-10-09
-バグ: AM/PMがある場合にTimeLimitが設定されない
-TODO: Widgetの設定項目にUriとVibrationを含める。今はUpdateされた時の設定が使われるので中途半端
+バグ: AM/PMがある場合にTimeLimitが設定されない - fixed on 0.4.2
+TODO: Widgetの設定項目にUriとVibrationを含める。今はUpdateされた時の設定が使われるので中途半端 - リファクタリングしよう
 TODO: Widgetについてのマニュアル
