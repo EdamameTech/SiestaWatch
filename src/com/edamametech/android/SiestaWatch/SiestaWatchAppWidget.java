@@ -22,116 +22,115 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class SiestaWatchAppWidget extends AppWidgetProvider {
-	private static final int LOGLEVEL = 1;
-	private static final boolean DEBUG = (LOGLEVEL > 0);
-	private static final String LogTag = "SiestaWatchAppWidget";
-	private static final String PrefsName = "SiestaWatchAppWidget";
-	private static final String SleepDurationMillisFormat = "SleepDurationMillis%d";
+    private static final int LOGLEVEL = 1;
+    private static final boolean DEBUG = (LOGLEVEL > 0);
+    private static final String LogTag = "SiestaWatchAppWidget";
+    private static final String PrefsName = "SiestaWatchAppWidget";
+    private static final String SleepDurationMillisFormat = "SleepDurationMillis%d";
 
-	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
-			int[] appWidgetIds) {
-		if (DEBUG)
-			Log.v(LogTag, "onUpdate()");
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager,
+            int[] appWidgetIds) {
+        if (DEBUG)
+            Log.v(LogTag, "onUpdate()");
 
-		final int nWidgets = appWidgetIds.length;
-		for (int i = 0; i < nWidgets; i++) {
-			int appWidgetId = appWidgetIds[i];
+        final int nWidgets = appWidgetIds.length;
+        for (int i = 0; i < nWidgets; i++) {
+            int appWidgetId = appWidgetIds[i];
 
+            long sleepDurationMillis = widgetSleepDurationMillis(context,
+                    appWidgetId);
+            RemoteViews widget = new RemoteViews(context.getPackageName(),
+                    R.layout.appwidget);
+            widget.setTextViewText(R.id.widgetDuration, String.format(
+                    context.getString(R.string.widget_duration_format),
+                    ((float) sleepDurationMillis) / 1e3 / 60.0));
 
-			long sleepDurationMillis = widgetSleepDurationMillis(context,
-					appWidgetId);
-			RemoteViews widget = new RemoteViews(context.getPackageName(),
-					R.layout.appwidget);
-			widget.setTextViewText(R.id.widgetDuration, String.format(
-					context.getString(R.string.widget_duration_format),
-					((float) sleepDurationMillis) / 1e3 / 60.0));
+            Intent intent = intentForSiestaWatchService(context, sleepDurationMillis);
+            PendingIntent pendingIntent = PendingIntent.getService(context,
+                    appWidgetId, intent, 0);
+            widget.setOnClickPendingIntent(R.id.widgetBackground, pendingIntent);
 
-			Intent intent = intentForSiestaWatchService(context,sleepDurationMillis);
-			PendingIntent pendingIntent = PendingIntent.getService(context,
-					appWidgetId, intent, 0);
-			widget.setOnClickPendingIntent(R.id.widgetBackground, pendingIntent);
-			
-			appWidgetManager.updateAppWidget(appWidgetId, widget);
-		}
+            appWidgetManager.updateAppWidget(appWidgetId, widget);
+        }
 
-		super.onUpdate(context, appWidgetManager, appWidgetIds);
-	}
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
+    }
 
-	public void onDeleted(Context context, int[] appWidgetIds) {
-		if (DEBUG)
-			Log.v(LogTag, "onUpdate()");
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        if (DEBUG)
+            Log.v(LogTag, "onUpdate()");
 
-		final int nWidgets = appWidgetIds.length;
-		for (int i = 0; i < nWidgets; i++) {
-			removeWidgetSleepDuration(context, appWidgetIds[i]);
-		}
-	}
+        final int nWidgets = appWidgetIds.length;
+        for (int i = 0; i < nWidgets; i++) {
+            removeWidgetSleepDuration(context, appWidgetIds[i]);
+        }
+    }
 
-	private String sleepDurationKey(int appWidgetId) {
-		return String.format(SleepDurationMillisFormat, appWidgetId);
-	}
+    private String sleepDurationKey(int appWidgetId) {
+        return String.format(SleepDurationMillisFormat, appWidgetId);
+    }
 
-	private void removeWidgetSleepDuration(Context context, int appWidgetId) {
-		if (DEBUG)
-			Log.v(LogTag, "removeWidgetSleepDuration()");
-		SharedPreferences.Editor editor = context.getSharedPreferences(
-				PrefsName, 0).edit();
-		editor.remove(sleepDurationKey(appWidgetId));
-		editor.commit();
-	}
+    private void removeWidgetSleepDuration(Context context, int appWidgetId) {
+        if (DEBUG)
+            Log.v(LogTag, "removeWidgetSleepDuration()");
+        SharedPreferences.Editor editor = context.getSharedPreferences(
+                PrefsName, 0).edit();
+        editor.remove(sleepDurationKey(appWidgetId));
+        editor.commit();
+    }
 
-	private long widgetSleepDurationMillis(Context context, int appWidgetId) {
-		if (DEBUG)
-			Log.v(LogTag, "widgetSleepDurationMillis()");
-		long sleepDurationMillis = -1;
-		String prefsKey = sleepDurationKey(appWidgetId);
+    private long widgetSleepDurationMillis(Context context, int appWidgetId) {
+        if (DEBUG)
+            Log.v(LogTag, "widgetSleepDurationMillis()");
+        long sleepDurationMillis = -1;
+        String prefsKey = sleepDurationKey(appWidgetId);
 
-		SharedPreferences prefs = context.getSharedPreferences(PrefsName, 0);
-		if (prefs.contains(prefsKey)) {
-			sleepDurationMillis = prefs.getLong(sleepDurationKey(appWidgetId),
-					-1);
-		}
+        SharedPreferences prefs = context.getSharedPreferences(PrefsName, 0);
+        if (prefs.contains(prefsKey)) {
+            sleepDurationMillis = prefs.getLong(sleepDurationKey(appWidgetId),
+                    -1);
+        }
 
-		if (sleepDurationMillis < 0) {
-			sleepDurationMillis = currentSleepDurationMillis(context);
-			SharedPreferences.Editor editor = context.getSharedPreferences(
-					PrefsName, 0).edit();
-			editor.putLong(prefsKey, sleepDurationMillis);
-			editor.commit();
-		}
+        if (sleepDurationMillis < 0) {
+            sleepDurationMillis = currentSleepDurationMillis(context);
+            SharedPreferences.Editor editor = context.getSharedPreferences(
+                    PrefsName, 0).edit();
+            editor.putLong(prefsKey, sleepDurationMillis);
+            editor.commit();
+        }
 
-		return sleepDurationMillis;
-	}
+        return sleepDurationMillis;
+    }
 
-	private long currentSleepDurationMillis(Context context) {
-		if (DEBUG)
-			Log.v(LogTag, "currentSleepDurationMillis()");
-		SharedPreferences prefs = context.getSharedPreferences(
-				SiestaWatchActivity.PrefsName, 0);
-		if (prefs.contains(SiestaWatchActivity.SleepDurationMillis)) {
-			return prefs.getLong(SiestaWatchActivity.SleepDurationMillis, 0);
-		} else {
-			return SiestaWatchActivity.defaultSleepDurationMillis;
-		}
-	}
+    private long currentSleepDurationMillis(Context context) {
+        if (DEBUG)
+            Log.v(LogTag, "currentSleepDurationMillis()");
+        SharedPreferences prefs = context.getSharedPreferences(
+                SiestaWatchActivity.PrefsName, 0);
+        if (prefs.contains(SiestaWatchActivity.SleepDurationMillis)) {
+            return prefs.getLong(SiestaWatchActivity.SleepDurationMillis, 0);
+        } else {
+            return SiestaWatchActivity.defaultSleepDurationMillis;
+        }
+    }
 
-	private Intent intentForSiestaWatchService(Context context,
-			long sleepDurationMillis) {
-		if (DEBUG)
-			Log.v(LogTag, "startSiestaWatchService()");
-		Intent intent = new Intent(context, SiestaWatchService.class);
-		intent.putExtra(SiestaWatchService.SleepDurationMillis,
-				sleepDurationMillis);
-		intent.putExtra(SiestaWatchService.TimeLimitMillis, 0); /* no time limit */
+    private Intent intentForSiestaWatchService(Context context,
+            long sleepDurationMillis) {
+        if (DEBUG)
+            Log.v(LogTag, "startSiestaWatchService()");
+        Intent intent = new Intent(context, SiestaWatchService.class);
+        intent.putExtra(SiestaWatchService.SleepDurationMillis,
+                sleepDurationMillis);
+        intent.putExtra(SiestaWatchService.TimeLimitMillis, 0); /* no time limit */
 
-		SharedPreferences prefs = context.getSharedPreferences(
-				SiestaWatchActivity.PrefsName, 0);
+        SharedPreferences prefs = context.getSharedPreferences(
+                SiestaWatchActivity.PrefsName, 0);
 
-		intent.putExtra(SiestaWatchService.UriOfAlarmSound, prefs.getString(
-				SiestaWatchActivity.UriOfAlarmSound,
-				SiestaWatchActivity.defaultUriOfAlarmSound.toString()));
-		intent.putExtra(SiestaWatchService.NeedsVibration,
-				prefs.getBoolean(SiestaWatchActivity.NeedsVibration, false));
-		return intent;
-	}
+        intent.putExtra(SiestaWatchService.UriOfAlarmSound, prefs.getString(
+                SiestaWatchActivity.UriOfAlarmSound,
+                SiestaWatchActivity.defaultUriOfAlarmSound.toString()));
+        intent.putExtra(SiestaWatchService.NeedsVibration,
+                prefs.getBoolean(SiestaWatchActivity.NeedsVibration, false));
+        return intent;
+    }
 }

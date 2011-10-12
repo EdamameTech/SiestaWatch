@@ -19,31 +19,31 @@ import android.view.KeyEvent;
 import android.webkit.WebView;
 
 public class SiestaWatchWebViewActivity extends Activity {
-	private static final int LOGLEVEL = 0;
-	private static final boolean DEBUG = (LOGLEVEL > 0);
-	private static final String LogTag = "SiestaWatchWebViewActivity";
+    private static final int LOGLEVEL = 0;
+    private static final boolean DEBUG = (LOGLEVEL > 0);
+    private static final String LogTag = "SiestaWatchWebViewActivity";
 
-	WebView webView = null;
+    WebView webView = null;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		if (DEBUG)
-			Log.v(LogTag, "onCreate()");
+        if (DEBUG)
+            Log.v(LogTag, "onCreate()");
 
-		setContentView(R.layout.webview);
-		webView = (WebView) findViewById(R.id.webView);
+        setContentView(R.layout.webview);
+        webView = (WebView) findViewById(R.id.webView);
 
-		webView.loadUrl(getIntent().getData().toString());
-	}
+        webView.loadUrl(getIntent().getData().toString());
+    }
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-			webView.goBack();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
