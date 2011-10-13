@@ -23,6 +23,7 @@ import java.util.Calendar;
 /** holds configurations from the Activity and for the Service */
 public class SiestaWatchConf {
     private static final String PREF_NAME = "SiestaWatchConf";
+    /* TODO: write tests! */
 
     /** duration the user wants to sleep in msec */
     private static final String KEY_SLEEP_DURATRION_MILLIS = "SleepDurationMillis";
@@ -120,8 +121,11 @@ public class SiestaWatchConf {
         }
     }
 
-    /* returns time limit in millis, advancing a day if it is in the past */
-    public static synchronized long timeLimitMillis(Context context) {
+    /*
+     * returns time limit in millis, advancing a day if it is in the past -
+     * comparing with currentTimeMillis
+     */
+    public static synchronized long timeLimitMillis(Context context, long currentTimeMillis) {
         if (mTimeLimitMillis != null) {
             return mTimeLimitMillis.longValue();
         }
@@ -129,16 +133,17 @@ public class SiestaWatchConf {
                 .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         long result = pref.getLong(KEY_TIME_LIMIT_MILLIS, System.currentTimeMillis()
                 + DEFAULT_TIME_LIMIT_DURATION_MILLIS);
-        result = advancedTimeInMillis(result);
+        result = advancedTimeInMillis(result, currentTimeMillis);
         mTimeLimitMillis = Long.valueOf(result);
         return result;
     }
 
-    public static synchronized void setTimeLimitMillis(Context context, long timeLimit) {
+    public static synchronized void setTimeLimitMillis(Context context, long timeLimit,
+            long currentTimeMillis) {
         final Editor edit = context
                 .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         try {
-            timeLimit = advancedTimeInMillis(timeLimit);
+            timeLimit = advancedTimeInMillis(timeLimit, currentTimeMillis);
             edit.putLong(KEY_TIME_LIMIT_MILLIS, timeLimit);
             edit.commit();
         } finally {
@@ -147,15 +152,14 @@ public class SiestaWatchConf {
     }
 
     /** returns the same time for tomorrow */
-    private static long advancedTimeInMillis(long timeInMillis) {
-        long currentMillis = System.currentTimeMillis();
-        if (timeInMillis < currentMillis) {
+    private static long advancedTimeInMillis(long timeInMillis, long currentTimeMillis) {
+        if (timeInMillis < currentTimeMillis) {
             Calendar orig = Calendar.getInstance();
             orig.setTimeInMillis(timeInMillis);
             Calendar current = Calendar.getInstance();
-            current.setTimeInMillis(currentMillis);
+            current.setTimeInMillis(currentTimeMillis);
             Calendar advanced = Calendar.getInstance();
-            advanced.setTimeInMillis(currentMillis);
+            advanced.setTimeInMillis(currentTimeMillis);
             advanced.set(Calendar.HOUR_OF_DAY, orig.get(Calendar.HOUR_OF_DAY));
             advanced.set(Calendar.MINUTE, orig.get(Calendar.MINUTE));
             advanced.set(Calendar.SECOND, orig.get(Calendar.SECOND));
