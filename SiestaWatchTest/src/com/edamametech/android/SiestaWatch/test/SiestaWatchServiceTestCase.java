@@ -22,7 +22,7 @@ public class SiestaWatchServiceTestCase extends
         ServiceTestCase<SiestaWatchService> {
 
     private SiestaWatchService mService;
-    private Intent standardIntent;
+    private Intent mStandardIntent;
 
     public SiestaWatchServiceTestCase() {
         super(SiestaWatchService.class);
@@ -30,26 +30,26 @@ public class SiestaWatchServiceTestCase extends
 
     @Override
     protected void setUp() {
-        standardIntent = new Intent();
-        standardIntent.setClass(getContext(), SiestaWatchService.class);
-        standardIntent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
-        standardIntent.putExtra(SiestaWatchService.TimeLimitMillis,
+        mStandardIntent = new Intent();
+        mStandardIntent.setClass(getContext(), SiestaWatchService.class);
+        mStandardIntent.putExtra(SiestaWatchService.SleepDurationMillis, 1000L);
+        mStandardIntent.putExtra(SiestaWatchService.TimeLimitMillis,
                 System.currentTimeMillis() + 180000L);
-        standardIntent.putExtra(SiestaWatchService.UriOfAlarmSound,
+        mStandardIntent.putExtra(SiestaWatchService.UriOfAlarmSound,
                 Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
     }
 
     public void testRestartWithNullIntentFromStandBy() {
         /* pretending the normal Service is stopped and ... */
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
-        assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
+        assertEquals(SiestaWatchService.STATE_STANDING_BY, mService.getState());
         mService.stopSelf();
         /* restarted by the ActivityManager, intent seems to be null, */
         startService(null);
         mService = getService();
         /* and we want the Service to keep the parameters */
-        assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
+        assertEquals(SiestaWatchService.STATE_STANDING_BY, mService.getState());
     }
 
     public void testRestartWithNullIntentFromOff() {
@@ -59,96 +59,96 @@ public class SiestaWatchServiceTestCase extends
         getService().stopSelf();
         startService(null);
         mService = getService();
-        assertEquals(SiestaWatchService.StateOff, mService.getState());
+        assertEquals(SiestaWatchService.STATE_OFF, mService.getState());
     }
 
     public void testStandBy() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
-        assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
+        assertEquals(SiestaWatchService.STATE_STANDING_BY, mService.getState());
     }
 
     public void testFromStandByToCountDown() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
-        assertEquals(SiestaWatchService.StateCountingDown, mService.getState());
+        assertEquals(SiestaWatchService.STATE_COUNTING_DOWN, mService.getState());
     }
 
     public void testFromStandByToTimeLimit() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionTimeLimit();
-        assertEquals(SiestaWatchService.StateTimeLimit, mService.getState());
+        assertEquals(SiestaWatchService.STATE_TIME_LIMIT, mService.getState());
     }
 
     public void testFromCountDownToStandBy() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionUserPresent();
-        assertEquals(SiestaWatchService.StateStandingBy, mService.getState());
+        assertEquals(SiestaWatchService.STATE_STANDING_BY, mService.getState());
     }
 
     public void testFromCountDownToAlarm() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionAlarm();
-        assertEquals(SiestaWatchService.StateAlarming, mService.getState());
+        assertEquals(SiestaWatchService.STATE_ALARMING, mService.getState());
     }
 
     public void testFromCountDownToAlarmThroughTimeLimit() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionTimeLimit();
-        assertEquals(SiestaWatchService.StateAlarming, mService.getState());
+        assertEquals(SiestaWatchService.STATE_ALARMING, mService.getState());
     }
 
     public void testFromTimeLimitToOff() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionTimeLimit();
         mService.actionScreenOff();
-        assertEquals(SiestaWatchService.StateOff, mService.getState());
+        assertEquals(SiestaWatchService.STATE_OFF, mService.getState());
     }
 
     public void testFromAlarmToSilent() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionAlarm();
         mService.actionScreenOn();
-        assertEquals(SiestaWatchService.StateSilencing, mService.getState());
+        assertEquals(SiestaWatchService.STATE_SILENCING, mService.getState());
     }
 
     public void testFromAlarmToOff() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionAlarm();
         mService.actionUserPresent();
-        assertEquals(SiestaWatchService.StateOff, mService.getState());
+        assertEquals(SiestaWatchService.STATE_OFF, mService.getState());
     }
 
     public void testFromSilentToAlarm() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionAlarm();
         mService.actionScreenOn();
         mService.actionScreenOff();
-        assertEquals(SiestaWatchService.StateAlarming, mService.getState());
+        assertEquals(SiestaWatchService.STATE_ALARMING, mService.getState());
     }
 
     public void testFromSilentToOff() {
-        startService(standardIntent);
+        startService(mStandardIntent);
         mService = getService();
         mService.actionScreenOff();
         mService.actionAlarm();
         mService.actionScreenOn();
         mService.actionUserPresent();
-        assertEquals(SiestaWatchService.StateOff, mService.getState());
+        assertEquals(SiestaWatchService.STATE_OFF, mService.getState());
     }
 }

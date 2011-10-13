@@ -41,33 +41,33 @@ public class SiestaWatchService extends Service {
     private static final String LogTag = "SiestaWatchService";
     private static final String PrefsName = "SiestaWatchService";
 
-    private MediaPlayer alarmPlayer = null;
-    private Vibrator vibrator = null;
+    private MediaPlayer mAlarmPlayer = null;
+    private Vibrator mVibrator = null;
 
     private static final long[] vibratePattern = new long[] {
             500, 500
     };
 
     /* state */
-    public static final String State = "State";
-    public static final int StateOff = 1;
+    public static final String STATE = "State";
+    public static final int STATE_OFF = 1;
     // Application has not been executed
-    public static final int StateStandingBy = 2;
+    public static final int STATE_STANDING_BY = 2;
     // Waiting for the user to fall asleep
-    public static final int StateCountingDown = 3;
+    public static final int STATE_COUNTING_DOWN = 3;
     // Counting down to raise alarm
-    public static final int StateAlarming = 4;
+    public static final int STATE_ALARMING = 4;
     // Waking up the user
-    public static final int StateSilencing = 5;
+    public static final int STATE_SILENCING = 5;
     // Waiting for the user to fall asleep
-    public static final int StateTimeLimit = 6;
+    public static final int STATE_TIME_LIMIT = 6;
     // Reached absolute time limit
 
-    private int state = StateOff;
+    private int mState = STATE_OFF;
 
     // public for SiestaWatchServiceTestCases
     public int getState() {
-        return state;
+        return mState;
     }
 
     private void standBy() {
@@ -75,7 +75,7 @@ public class SiestaWatchService extends Service {
             Log.v(LogTag, "standBy()");
         clearAlarm();
         showStatusBarIcon(true);
-        state = StateStandingBy;
+        mState = STATE_STANDING_BY;
         storeParameters();
     }
 
@@ -83,7 +83,7 @@ public class SiestaWatchService extends Service {
         if (DEBUG)
             Log.v(LogTag, "countDown()");
         setAlarm();
-        state = StateCountingDown;
+        mState = STATE_COUNTING_DOWN;
         storeParameters();
     }
 
@@ -91,7 +91,7 @@ public class SiestaWatchService extends Service {
         if (DEBUG)
             Log.v(LogTag, "timeLimit()");
         playAlarm();
-        state = StateTimeLimit;
+        mState = STATE_TIME_LIMIT;
         storeParameters();
     }
 
@@ -99,7 +99,7 @@ public class SiestaWatchService extends Service {
         if (DEBUG)
             Log.v(LogTag, "alarm()");
         playAlarm();
-        state = StateAlarming;
+        mState = STATE_ALARMING;
         storeParameters();
     }
 
@@ -108,14 +108,14 @@ public class SiestaWatchService extends Service {
             Log.v(LogTag, "playAlarm()");
         clearAlarm();
         if (needsVibration) {
-            if (vibrator == null)
-                vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(vibratePattern, 0);
+            if (mVibrator == null)
+                mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            mVibrator.vibrate(vibratePattern, 0);
         }
-        if (alarmPlayer == null) {
-            alarmPlayer = new MediaPlayer();
+        if (mAlarmPlayer == null) {
+            mAlarmPlayer = new MediaPlayer();
             try {
-                alarmPlayer.setDataSource(this, uriOfAlarmSound);
+                mAlarmPlayer.setDataSource(this, uriOfAlarmSound);
                 // TODO: Better handling of exceptions
             } catch (IllegalArgumentException e) {
                 Log.e(LogTag, e.toString());
@@ -126,10 +126,10 @@ public class SiestaWatchService extends Service {
             } catch (IOException e) {
                 Log.e(LogTag, e.toString());
             }
-            alarmPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-            alarmPlayer.setLooping(true);
+            mAlarmPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+            mAlarmPlayer.setLooping(true);
             try {
-                alarmPlayer.prepare();
+                mAlarmPlayer.prepare();
                 // TODO: Better handling of exceptions
             } catch (IllegalStateException e) {
                 Log.e(LogTag, e.toString());
@@ -137,18 +137,18 @@ public class SiestaWatchService extends Service {
                 Log.e(LogTag, e.toString());
             }
         }
-        alarmPlayer.seekTo(0);
-        alarmPlayer.start();
+        mAlarmPlayer.seekTo(0);
+        mAlarmPlayer.start();
     }
 
     private void silent() {
         if (DEBUG)
             Log.v(LogTag, "silent()");
-        if (needsVibration && vibrator != null)
-            vibrator.cancel();
-        if (alarmPlayer != null)
-            alarmPlayer.pause();
-        state = StateSilencing;
+        if (needsVibration && mVibrator != null)
+            mVibrator.cancel();
+        if (mAlarmPlayer != null)
+            mAlarmPlayer.pause();
+        mState = STATE_SILENCING;
         storeParameters();
     }
 
@@ -158,11 +158,11 @@ public class SiestaWatchService extends Service {
         clearAlarm();
         clearTimeLimit();
         clearStatusBarIcon();
-        if (alarmPlayer != null) {
-            alarmPlayer.stop();
-            alarmPlayer.release();
+        if (mAlarmPlayer != null) {
+            mAlarmPlayer.stop();
+            mAlarmPlayer.release();
         }
-        state = StateOff;
+        mState = STATE_OFF;
         storeParameters();
         stopSelf();
     }
@@ -201,14 +201,14 @@ public class SiestaWatchService extends Service {
     public void actionScreenOff() {
         if (DEBUG)
             Log.v(LogTag, "actionScreenOff()");
-        switch (state) {
-            case StateStandingBy:
+        switch (mState) {
+            case STATE_STANDING_BY:
                 countDown();
                 break;
-            case StateSilencing:
+            case STATE_SILENCING:
                 alarm();
                 break;
-            case StateTimeLimit:
+            case STATE_TIME_LIMIT:
                 off();
                 break;
         }
@@ -217,15 +217,15 @@ public class SiestaWatchService extends Service {
     public void actionUserPresent() {
         if (DEBUG)
             Log.v(LogTag, "actionUserPresent()");
-        switch (state) {
-            case StateCountingDown:
+        switch (mState) {
+            case STATE_COUNTING_DOWN:
                 showRemainingTime();
                 standBy();
                 break;
-            case StateAlarming:
+            case STATE_ALARMING:
                 off();
                 break;
-            case StateSilencing:
+            case STATE_SILENCING:
                 off();
                 break;
         }
@@ -234,7 +234,7 @@ public class SiestaWatchService extends Service {
     public void actionAlarm() {
         if (DEBUG)
             Log.v(LogTag, "actionAlarm()");
-        if (state == StateCountingDown) {
+        if (mState == STATE_COUNTING_DOWN) {
             alarm();
             return;
         }
@@ -243,11 +243,11 @@ public class SiestaWatchService extends Service {
     public void actionTimeLimit() {
         if (DEBUG)
             Log.v(LogTag, "actionTimeLimit()");
-        switch (state) {
-            case StateStandingBy:
+        switch (mState) {
+            case STATE_STANDING_BY:
                 timeLimit();
                 break;
-            case StateCountingDown:
+            case STATE_COUNTING_DOWN:
                 alarm();
                 break;
         }
@@ -256,7 +256,7 @@ public class SiestaWatchService extends Service {
     public void actionScreenOn() {
         if (DEBUG)
             Log.v(LogTag, "actionScreenOn()");
-        if (state == StateAlarming) {
+        if (mState == STATE_ALARMING) {
             silent();
             return;
         }
@@ -292,7 +292,7 @@ public class SiestaWatchService extends Service {
         editor.putLong(SleepDurationMillis, sleepDurationMillis);
         editor.putLong(TimeLimitMillis, timeLimitMillis);
         editor.putBoolean(NeedsVibration, needsVibration);
-        editor.putInt(State, state);
+        editor.putInt(STATE, mState);
         editor.commit();
     }
 
@@ -324,31 +324,31 @@ public class SiestaWatchService extends Service {
         if (prefs.contains(TimeLimitMillis) || prefs.contains(NeedsVibration)) {
             setTimeLimit();
         }
-        if (prefs.contains(State)) {
-            state = prefs.getInt(State, 0);
+        if (prefs.contains(STATE)) {
+            mState = prefs.getInt(STATE, 0);
         }
     }
 
     /* alarms */
     // Key for Extras in Intent to supply Action as an Int
-    public static final String Action = "Action";
+    public static final String SERVICE_ACTION = "Action";
     // Intent that makes us to go off the alarm
-    private static final int ActionAlarm = 0;
-    private static final int ActionTimeLimit = 1;
-    public static final int ActionCancel = 2;
+    private static final int ACTION_ALARM = 0;
+    private static final int ACTION_TIME_LIMIT = 1;
+    public static final int ACTION_CANCEL = 2;
 
     private void setAlarm() {
         if (DEBUG)
             Log.v(LogTag, "setAlarm()");
         sleepUntilMillis = System.currentTimeMillis() + sleepDurationMillis;
-        setAlarmWithAction(ActionAlarm, sleepUntilMillis);
+        setAlarmWithAction(ACTION_ALARM, sleepUntilMillis);
     }
 
     private void setTimeLimit() {
         if (DEBUG)
             Log.v(LogTag, "setTimeLimit()");
         if (timeLimitMillis > System.currentTimeMillis()) {
-            setAlarmWithAction(ActionTimeLimit, timeLimitMillis);
+            setAlarmWithAction(ACTION_TIME_LIMIT, timeLimitMillis);
         }
     }
 
@@ -358,7 +358,7 @@ public class SiestaWatchService extends Service {
 
         Intent alarmIntent = new Intent();
         alarmIntent.setClass(this, SiestaWatchService.class);
-        alarmIntent.putExtra(SiestaWatchService.Action, action);
+        alarmIntent.putExtra(SiestaWatchService.SERVICE_ACTION, action);
 
         PendingIntent alarmSender = PendingIntent.getService(this, action,
                 alarmIntent, 0);
@@ -380,14 +380,14 @@ public class SiestaWatchService extends Service {
     private void clearAlarm() {
         if (DEBUG)
             Log.v(LogTag, "clearAlarm()");
-        clearAlarmWithAction(ActionAlarm);
+        clearAlarmWithAction(ACTION_ALARM);
         sleepUntilMillis = 0;
     }
 
     private void clearTimeLimit() {
         if (DEBUG)
             Log.v(LogTag, "clearTimeLimit()");
-        clearAlarmWithAction(ActionTimeLimit);
+        clearAlarmWithAction(ACTION_TIME_LIMIT);
     }
 
     private void clearAlarmWithAction(Integer action) {
@@ -448,17 +448,17 @@ public class SiestaWatchService extends Service {
             if (extras == null) {
                 clearStoredParameters();
             } else {
-                if (extras.containsKey(Action)) {
+                if (extras.containsKey(SERVICE_ACTION)) {
                     if (DEBUG)
-                        Log.v(LogTag, Action + ": " + extras.getInt(Action));
-                    switch (extras.getInt(Action)) {
-                        case ActionAlarm:
+                        Log.v(LogTag, SERVICE_ACTION + ": " + extras.getInt(SERVICE_ACTION));
+                    switch (extras.getInt(SERVICE_ACTION)) {
+                        case ACTION_ALARM:
                             actionAlarm();
                             break;
-                        case ActionTimeLimit:
+                        case ACTION_TIME_LIMIT:
                             actionTimeLimit();
                             break;
-                        case ActionCancel:
+                        case ACTION_CANCEL:
                             cancel();
                             break;
                     }

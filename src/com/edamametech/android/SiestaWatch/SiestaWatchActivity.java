@@ -56,7 +56,7 @@ public class SiestaWatchActivity extends Activity {
     private long sleepDurationMillis = 0;
     public static final long defaultSleepDurationMillis = 1800000; // 30 min
     private final long sleepDurationStepMillis = 300000; // 5 min
-    private EditText durationField = null;
+    private EditText mDurationField = null;
 
     // Key for Extras in Intent to supply TimeLimit as Strings
     public static final String TimeLimitHour = "TimeLimitHour";
@@ -65,24 +65,24 @@ public class SiestaWatchActivity extends Activity {
     private int timeLimitMinute = 0;
     private Button timeLimitButton = null;
     private boolean hasTimeLimit;
-    private CheckBox timeLimitCheckBox = null;
+    private CheckBox mTimeLimitCheckBox = null;
     private static final long timeLimitDefaultDelayMillis = 1800000; // 30 min
     private static final long timeLimitGranuarityMillis = 300000; // 5 min
     private static final long timeLimitCheckDuration = 10800000; // 3 hours
-    private TimePickerDialog.OnTimeSetListener timeLimitListener = new TimePickerDialog.OnTimeSetListener() {
+    private TimePickerDialog.OnTimeSetListener mTimeLimitListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hour, int minute) {
             timeLimitHour = hour;
             timeLimitMinute = minute;
             updateTimeLimitDisplay();
-            timeLimitCheckBox.setChecked(true);
+            mTimeLimitCheckBox.setChecked(true);
         }
     };
-    private TimePickerDialog timeLimitDialog;
+    private TimePickerDialog mTimeLimitDialog;
 
     public static final String NeedsVibration = "NeedsVibration";
     private boolean needsVibration = true;
-    CheckBox vibrationCheckBox = null;
+    CheckBox mVibrationCheckBox = null;
 
     // Key for Usage Dialog
     private static final String ShownUsageVersion = "ShownUsageVersion";
@@ -140,7 +140,7 @@ public class SiestaWatchActivity extends Activity {
     }
 
     private void obtainDurationFromDisplay() {
-        sleepDurationMillis = (long) (Float.valueOf(durationField.getText()
+        sleepDurationMillis = (long) (Float.valueOf(mDurationField.getText()
                 .toString()) * 60 * 1e3);
     }
 
@@ -150,7 +150,7 @@ public class SiestaWatchActivity extends Activity {
     }
 
     private void updateSleepDurationDisplay() {
-        durationField.setText(getDurationInMins());
+        mDurationField.setText(getDurationInMins());
     }
 
     /* communications to the Service */
@@ -178,8 +178,8 @@ public class SiestaWatchActivity extends Activity {
             Log.v(LogTag, "stopSiestaWatchService()");
         Intent intent = new Intent();
         intent.setClass(this, SiestaWatchService.class);
-        intent.putExtra(SiestaWatchService.Action,
-                SiestaWatchService.ActionCancel);
+        intent.putExtra(SiestaWatchService.SERVICE_ACTION,
+                SiestaWatchService.ACTION_CANCEL);
         startService(intent);
         stopService(intent);
     }
@@ -200,7 +200,7 @@ public class SiestaWatchActivity extends Activity {
         setContentView(R.layout.main);
 
         restoreParameters();
-        durationField = (EditText) findViewById(R.id.sleepDurationInMins);
+        mDurationField = (EditText) findViewById(R.id.sleepDurationInMins);
         updateSleepDurationDisplay();
         ((Button) findViewById(R.id.sleepDurationPlusButton))
                 .setOnClickListener(new OnClickListener() {
@@ -221,25 +221,25 @@ public class SiestaWatchActivity extends Activity {
                     }
                 });
 
-        timeLimitDialog = new TimePickerDialog(this, timeLimitListener,
+        mTimeLimitDialog = new TimePickerDialog(this, mTimeLimitListener,
                 timeLimitHour, timeLimitMinute, true);
         timeLimitButton = (Button) findViewById(R.id.timeLimitButton);
         updateTimeLimitDisplay();
         timeLimitButton.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                timeLimitDialog.show();
+                mTimeLimitDialog.show();
             }
         });
-        timeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
+        mTimeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
         if (timeLimitInMillis() < System.currentTimeMillis()
                 + timeLimitCheckDuration) {
-            timeLimitCheckBox.setChecked(true);
+            mTimeLimitCheckBox.setChecked(true);
         } else {
-            timeLimitCheckBox.setChecked(false);
+            mTimeLimitCheckBox.setChecked(false);
         }
 
-        vibrationCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
-        vibrationCheckBox.setChecked(needsVibration);
+        mVibrationCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
+        mVibrationCheckBox.setChecked(needsVibration);
 
         ((Button) findViewById(R.id.done))
                 .setOnClickListener(new OnClickListener() {
@@ -250,9 +250,9 @@ public class SiestaWatchActivity extends Activity {
                                 timeLimitMillis, new SimpleDateFormat("HH")));
                         timeLimitMinute = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
                                 timeLimitMillis, new SimpleDateFormat("mm")));
-                        needsVibration = vibrationCheckBox.isChecked();
+                        needsVibration = mVibrationCheckBox.isChecked();
                         storeParameters();
-                        hasTimeLimit = timeLimitCheckBox.isChecked();
+                        hasTimeLimit = mTimeLimitCheckBox.isChecked();
                         /* hasTimeLimit will not be recorded in preferences */
                         startSiestaWatchService();
                         finish();
