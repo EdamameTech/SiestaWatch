@@ -88,14 +88,14 @@ public class SiestaWatchConf {
         return mUriOfAlarmSound;
     }
 
-    public static synchronized void setUriOfAlarmSound(Context context, String stringUriOfAlarmSound) {
+    public static synchronized void setUriOfAlarmSound(Context context, Uri uriOfAlarmSound) {
         final Editor edit = context
                 .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         try {
-            edit.putString(KEY_URI_OF_ALARM_SOUND, stringUriOfAlarmSound);
+            edit.putString(KEY_URI_OF_ALARM_SOUND, uriOfAlarmSound.toString());
             edit.commit();
         } finally {
-            mUriOfAlarmSound = Uri.parse(stringUriOfAlarmSound);
+            mUriOfAlarmSound = uriOfAlarmSound;
         }
     }
 
@@ -155,7 +155,7 @@ public class SiestaWatchConf {
     private static long advancedTimeInMillis(long timeInMillis, long currentTimeMillis) {
         if (timeInMillis < currentTimeMillis) {
             Calendar orig = Calendar.getInstance();
-            orig.setTimeInMillis(timeInMillis);
+            orig.setTimeInMillis(timeInMillis);   // drop fractional seconds
             Calendar current = Calendar.getInstance();
             current.setTimeInMillis(currentTimeMillis);
             Calendar advanced = Calendar.getInstance();
@@ -163,6 +163,7 @@ public class SiestaWatchConf {
             advanced.set(Calendar.HOUR_OF_DAY, orig.get(Calendar.HOUR_OF_DAY));
             advanced.set(Calendar.MINUTE, orig.get(Calendar.MINUTE));
             advanced.set(Calendar.SECOND, orig.get(Calendar.SECOND));
+            advanced.set(Calendar.MILLISECOND, orig.get(Calendar.MILLISECOND));
             if (advanced.before(current)) {
                 advanced.add(Calendar.DATE, 1);
             }
