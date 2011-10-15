@@ -60,7 +60,7 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         long current = System.currentTimeMillis();
         long orig = SiestaWatchConf.timeLimitMillis(mContext, current);
         SiestaWatchConf.setTimeLimitMillis(mContext, 12345L, 23456L);
-        assertEquals(12345L + 3600L*24*1000, SiestaWatchConf.timeLimitMillis(mContext, 23456L));
+        assertEquals(12345L + 3600L * 24 * 1000, SiestaWatchConf.timeLimitMillis(mContext, 23456L));
         SiestaWatchConf.setTimeLimitMillis(mContext, orig, current);
     }
 

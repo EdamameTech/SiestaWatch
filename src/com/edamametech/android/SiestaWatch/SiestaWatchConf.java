@@ -59,7 +59,7 @@ public class SiestaWatchConf {
         if (mSleepDurationMillis != null) {
             return mSleepDurationMillis.longValue();
         }
-        long result = currentConfiguration(context, KEY_SLEEP_DURATRION_MILLIS,
+        long result = currentLongConfiguration(context, KEY_SLEEP_DURATRION_MILLIS,
                 DEFAULT_SLEEP_DURATION_MILLIS);
         mSleepDurationMillis = Long.valueOf(result);
         return result;
@@ -67,7 +67,7 @@ public class SiestaWatchConf {
 
     public static synchronized void setSleepDuration(Context context, long sleepDuration) {
         try {
-            setConfiguration(context, KEY_SLEEP_DURATRION_MILLIS, sleepDuration);
+            setLongConfiguration(context, KEY_SLEEP_DURATRION_MILLIS, sleepDuration);
         } finally {
             mSleepDurationMillis = Long.valueOf(sleepDuration);
         }
@@ -99,19 +99,15 @@ public class SiestaWatchConf {
         if (mNeedsVibration != null) {
             return mNeedsVibration.booleanValue();
         }
-        final SharedPreferences pref = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        boolean result = pref.getBoolean(KEY_NEEDS_VIBRATION, DEFAULT_NEEDS_VIBRATION);
+        boolean result = currentBooleanConfiguration(context, KEY_NEEDS_VIBRATION,
+                DEFAULT_NEEDS_VIBRATION);
         mNeedsVibration = Boolean.valueOf(result);
         return result;
     }
 
     public static synchronized void setNeedsVibration(Context context, boolean needsVibration) {
-        final Editor edit = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         try {
-            edit.putBoolean(KEY_NEEDS_VIBRATION, needsVibration);
-            edit.commit();
+            setBooleanConfiguration(context, KEY_NEEDS_VIBRATION, needsVibration);
         } finally {
             mNeedsVibration = Boolean.valueOf(needsVibration);
         }
@@ -125,7 +121,7 @@ public class SiestaWatchConf {
         if (mTimeLimitMillis != null) {
             return mTimeLimitMillis.longValue();
         }
-        long result = currentConfiguration(context, KEY_TIME_LIMIT_MILLIS,
+        long result = currentLongConfiguration(context, KEY_TIME_LIMIT_MILLIS,
                 System.currentTimeMillis()
                         + DEFAULT_TIME_LIMIT_DURATION_MILLIS);
         result = advancedTimeInMillis(result, currentTimeMillis);
@@ -137,7 +133,7 @@ public class SiestaWatchConf {
             long currentTimeMillis) {
         try {
             timeLimit = advancedTimeInMillis(timeLimit, currentTimeMillis);
-            setConfiguration(context, KEY_TIME_LIMIT_MILLIS, timeLimit);
+            setLongConfiguration(context, KEY_TIME_LIMIT_MILLIS, timeLimit);
         } finally {
             mTimeLimitMillis = Long.valueOf(timeLimit);
         }
@@ -168,19 +164,15 @@ public class SiestaWatchConf {
         if (mNeedsTimeLimit != null) {
             return mNeedsTimeLimit.booleanValue();
         }
-        final SharedPreferences pref = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        boolean result = pref.getBoolean(KEY_NEEDS_TIME_LIMIT, DEFAULT_NEEDS_TIME_LIMIT);
+        boolean result = currentBooleanConfiguration(context, KEY_NEEDS_TIME_LIMIT,
+                DEFAULT_NEEDS_TIME_LIMIT);
         mNeedsTimeLimit = Boolean.valueOf(result);
         return result;
     }
 
     public static synchronized void setNeedsTimeLimit(Context context, boolean needsTimeLimit) {
-        final Editor edit = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         try {
-            edit.putBoolean(KEY_NEEDS_TIME_LIMIT, needsTimeLimit);
-            edit.commit();
+            setBooleanConfiguration(context, KEY_NEEDS_TIME_LIMIT, needsTimeLimit);
         } finally {
             mNeedsTimeLimit = Boolean.valueOf(needsTimeLimit);
         }
@@ -209,17 +201,31 @@ public class SiestaWatchConf {
     }
 
     /* common routine */
-    private static long currentConfiguration(Context context, String prefKey,
+    private static long currentLongConfiguration(Context context, String prefKey,
             long defaultValue) {
         final SharedPreferences pref = context
                 .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return pref.getLong(prefKey, defaultValue);
     }
 
-    private static void setConfiguration(Context context, String prefKey, long value) {
+    private static void setLongConfiguration(Context context, String prefKey, long value) {
         final Editor edit = context
                 .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         edit.putLong(prefKey, value);
+        edit.commit();
+    }
+
+    private static Boolean currentBooleanConfiguration(Context context, String prefKey,
+            Boolean defaultValue) {
+        final SharedPreferences pref = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return pref.getBoolean(prefKey, defaultValue);
+    }
+
+    private static void setBooleanConfiguration(Context context, String prefKey, Boolean value) {
+        final Editor edit = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+        edit.putBoolean(prefKey, value);
         edit.commit();
     }
 }
