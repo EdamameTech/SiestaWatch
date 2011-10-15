@@ -23,7 +23,6 @@ import java.util.Calendar;
 /** holds configurations from the Activity and for the Service */
 public class SiestaWatchConf {
     private static final String PREF_NAME = "SiestaWatchConf";
-    /* TODO: write tests! */
 
     /** duration the user wants to sleep in msec */
     private static final String KEY_SLEEP_DURATRION_MILLIS = "SleepDurationMillis";
