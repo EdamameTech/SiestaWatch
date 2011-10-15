@@ -59,19 +59,15 @@ public class SiestaWatchConf {
         if (mSleepDurationMillis != null) {
             return mSleepDurationMillis.longValue();
         }
-        final SharedPreferences pref = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        long result = pref.getLong(KEY_SLEEP_DURATRION_MILLIS, DEFAULT_SLEEP_DURATION_MILLIS);
+        long result = currentConfiguration(context, KEY_SLEEP_DURATRION_MILLIS,
+                DEFAULT_SLEEP_DURATION_MILLIS);
         mSleepDurationMillis = Long.valueOf(result);
         return result;
     }
 
     public static synchronized void setSleepDuration(Context context, long sleepDuration) {
-        final Editor edit = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         try {
-            edit.putLong(KEY_SLEEP_DURATRION_MILLIS, sleepDuration);
-            edit.commit();
+            setConfiguration(context, KEY_SLEEP_DURATRION_MILLIS, sleepDuration);
         } finally {
             mSleepDurationMillis = Long.valueOf(sleepDuration);
         }
@@ -129,10 +125,9 @@ public class SiestaWatchConf {
         if (mTimeLimitMillis != null) {
             return mTimeLimitMillis.longValue();
         }
-        final SharedPreferences pref = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        long result = pref.getLong(KEY_TIME_LIMIT_MILLIS, System.currentTimeMillis()
-                + DEFAULT_TIME_LIMIT_DURATION_MILLIS);
+        long result = currentConfiguration(context, KEY_TIME_LIMIT_MILLIS,
+                System.currentTimeMillis()
+                        + DEFAULT_TIME_LIMIT_DURATION_MILLIS);
         result = advancedTimeInMillis(result, currentTimeMillis);
         mTimeLimitMillis = Long.valueOf(result);
         return result;
@@ -140,12 +135,9 @@ public class SiestaWatchConf {
 
     public static synchronized void setTimeLimitMillis(Context context, long timeLimit,
             long currentTimeMillis) {
-        final Editor edit = context
-                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
         try {
             timeLimit = advancedTimeInMillis(timeLimit, currentTimeMillis);
-            edit.putLong(KEY_TIME_LIMIT_MILLIS, timeLimit);
-            edit.commit();
+            setConfiguration(context, KEY_TIME_LIMIT_MILLIS, timeLimit);
         } finally {
             mTimeLimitMillis = Long.valueOf(timeLimit);
         }
@@ -155,7 +147,7 @@ public class SiestaWatchConf {
     private static long advancedTimeInMillis(long timeInMillis, long currentTimeMillis) {
         if (timeInMillis < currentTimeMillis) {
             Calendar orig = Calendar.getInstance();
-            orig.setTimeInMillis(timeInMillis);   // drop fractional seconds
+            orig.setTimeInMillis(timeInMillis); // drop fractional seconds
             Calendar current = Calendar.getInstance();
             current.setTimeInMillis(currentTimeMillis);
             Calendar advanced = Calendar.getInstance();
@@ -216,4 +208,18 @@ public class SiestaWatchConf {
         }
     }
 
+    /* common routine */
+    private static long currentConfiguration(Context context, String prefKey,
+            long defaultValue) {
+        final SharedPreferences pref = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return pref.getLong(prefKey, defaultValue);
+    }
+
+    private static void setConfiguration(Context context, String prefKey, long value) {
+        final Editor edit = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+        edit.putLong(prefKey, value);
+        edit.commit();
+    }
 }
