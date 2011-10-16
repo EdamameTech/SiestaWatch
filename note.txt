@@ -614,3 +614,29 @@ PendingIntentのIDを適切に設定するべきだった
 バグ: AM/PMがある場合にTimeLimitが設定されない - fixed on 0.4.2
 TODO: Widgetの設定項目にUriとVibrationを含める。今はUpdateされた時の設定が使われるので中途半端 - リファクタリングしよう
 TODO: Widgetについてのマニュアル
+
+== 2011-10-16
+SiestaWatchConfを活用するようにいろいろ改修する。
+
+- SiestaWatchConfが持つのはユーザーが変更できる項目(URIはYAGNIに
+  従って落とすべきだが1.0で確実に必要になるので保持する)
+- SiestaWatchConfを変更するのはActivityとWidget
+  - Widgetからアラームを設定した段階でActivityから見える設定も変
+	  更される方がシンプルだろう
+	- Activtyは再描画などの時に最新の設定を反映するのを忘れない
+	- アラームが必要かどうかはサービスを起動することで決める
+- Serviceへの設定の通知はSiestaWatchConf経由でおこなう
+  - インテントはBroardCastの受信に留める
+	  - 画面On/Off、アンロック
+		- Alarm
+		  - Alarmの管理はどうしよう。1つにまとめた方がシンプルに思え
+			  る
+- Serviceじたいの状態はServiceが持つ
+  - State
+	  - Serviceが再起動された時の設定のしなおしに注意
+
+改修手順
+(1) Activityの改修。テストつくりつつ
+(2) Serviceの改修。実機テストしつつ(Activityを先にするのはこれが
+    理由)テストに反映？改修漏れがこわい
+(3) Widgetの追随
