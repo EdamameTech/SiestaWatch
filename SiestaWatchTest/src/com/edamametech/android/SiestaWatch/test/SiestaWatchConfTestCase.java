@@ -15,29 +15,14 @@ package com.edamametech.android.SiestaWatch.test;
 import com.edamametech.android.SiestaWatch.SiestaWatchConf;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.test.AndroidTestCase;
-import android.test.mock.MockContext;
 
 public class SiestaWatchConfTestCase extends AndroidTestCase {
     Context mContext;
 
-    private class ConfTestMockContext extends MockContext {
-        private Context mTestContext;
-        private static final String PREFIX = "SiestaWatchConfTestCase.";
-
-        public ConfTestMockContext(Context context) {
-            mTestContext = context;
-        }
-
-        public SharedPreferences getSharedPreferences(String name, int mode) {
-            return mTestContext.getSharedPreferences(PREFIX + name, mode);
-        }
-    }
-
     public void setUp() {
-        mContext = new ConfTestMockContext(getContext());
+        mContext = new SiestaWatchTestMockContext(getContext());
     }
 
     public void testSleepDuration() {
