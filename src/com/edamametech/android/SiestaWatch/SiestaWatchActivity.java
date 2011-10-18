@@ -200,8 +200,6 @@ public class SiestaWatchActivity extends Activity {
 
         setContentView(R.layout.main);
 
-        clearActivityPreferences();
-
         restoreParameters();
         mDurationField = (EditText) findViewById(R.id.sleepDurationInMins);
         updateSleepDurationDisplay();
