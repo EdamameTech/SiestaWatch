@@ -640,3 +640,5 @@ SiestaWatchConfを活用するようにいろいろ改修する。
 (2) Serviceの改修。実機テストしつつ(Activityを先にするのはこれが
     理由)テストに反映？改修漏れがこわい
 (3) Widgetの追随
+
+TODO: TimeLimitの値はタイムゾーンのないhh:mmで持つべき
