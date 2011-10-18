@@ -641,4 +641,4 @@ SiestaWatchConfを活用するようにいろいろ改修する。
     理由)テストに反映？改修漏れがこわい
 (3) Widgetの追随
 
-TODO: TimeLimitの値はタイムゾーンのないhh:mmで持つべき
+- TimeLimitの値はタイムゾーンのないhh:mmで持つべき - done
