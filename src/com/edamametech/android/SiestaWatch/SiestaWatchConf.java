@@ -22,7 +22,7 @@ import java.util.Calendar;
 
 /** holds configurations from the Activity and for the Service */
 public class SiestaWatchConf {
-    private static final String PREF_NAME = "SiestaWatchConf";
+    private static final String PREF_NAME = "SiestaWatchActivity";
 
     /** duration the user wants to sleep in msec */
     private static final String KEY_SLEEP_DURATRION_MILLIS = "SleepDurationMillis";
@@ -39,10 +39,14 @@ public class SiestaWatchConf {
     private static Boolean mNeedsVibration = null;
     private static boolean DEFAULT_NEEDS_VIBRATION = true;
 
-    /** time limit the user want to wake up in msec */
-    private static final String KEY_TIME_LIMIT_MILLIS = "TimeLimitMillis";
-    private static Long mTimeLimitMillis = null;
-    private static long DEFAULT_TIME_LIMIT_DURATION_MILLIS = 3600000;
+    /** time limit the user want to wake up in 24-hour time */
+    private static final String KEY_TIME_LIMIT_HOUR = "TimeLimitHour";
+    private static Integer mTimeLimitHour = null;
+    private static int DEFAULT_TIME_LIMIT_HOUR = 14;
+
+    private static final String KEY_TIME_LIMIT_MINUTE = "TimeLimitMinute";
+    private static Integer mTimeLimitMinute = null;
+    private static int DEFAULT_TIME_LIMIT_MINUTE = 0;
 
     /** true if user want to be waken up at time limit */
     private static final String KEY_NEEDS_TIME_LIMIT = "NeedsTimeLimit";
@@ -112,51 +116,39 @@ public class SiestaWatchConf {
         }
     }
 
-    /*
-     * returns time limit in millis, advancing a day if it is in the past -
-     * comparing with currentTimeMillis
-     */
-    public static synchronized long timeLimitMillis(Context context, long currentTimeMillis) {
-        if (mTimeLimitMillis != null) {
-            return mTimeLimitMillis.longValue();
+    public static synchronized int timeLimitHour(Context context) {
+        if (mTimeLimitHour != null) {
+            return mTimeLimitHour.intValue();
         }
-        long result = currentLongConfiguration(context, KEY_TIME_LIMIT_MILLIS,
-                System.currentTimeMillis()
-                        + DEFAULT_TIME_LIMIT_DURATION_MILLIS);
-        result = advancedTimeInMillis(result, currentTimeMillis);
-        mTimeLimitMillis = Long.valueOf(result);
+        int result = currentIntConfiguration(context, KEY_TIME_LIMIT_HOUR, DEFAULT_TIME_LIMIT_HOUR);
+        mTimeLimitHour = Integer.valueOf(result);
         return result;
     }
 
-    public static synchronized void setTimeLimitMillis(Context context, long timeLimit,
-            long currentTimeMillis) {
+    public static synchronized void setTimeLimitHour(Context context, int timeLimitHour) {
         try {
-            timeLimit = advancedTimeInMillis(timeLimit, currentTimeMillis);
-            setLongConfiguration(context, KEY_TIME_LIMIT_MILLIS, timeLimit);
+            setIntConfiguration(context, KEY_TIME_LIMIT_HOUR, timeLimitHour);
         } finally {
-            mTimeLimitMillis = Long.valueOf(timeLimit);
+            mTimeLimitHour = Integer.valueOf(timeLimitHour);
         }
     }
 
-    /** returns the same time for tomorrow */
-    private static long advancedTimeInMillis(long timeInMillis, long currentTimeMillis) {
-        if (timeInMillis < currentTimeMillis) {
-            Calendar orig = Calendar.getInstance();
-            orig.setTimeInMillis(timeInMillis); // drop fractional seconds
-            Calendar current = Calendar.getInstance();
-            current.setTimeInMillis(currentTimeMillis);
-            Calendar advanced = Calendar.getInstance();
-            advanced.setTimeInMillis(currentTimeMillis);
-            advanced.set(Calendar.HOUR_OF_DAY, orig.get(Calendar.HOUR_OF_DAY));
-            advanced.set(Calendar.MINUTE, orig.get(Calendar.MINUTE));
-            advanced.set(Calendar.SECOND, orig.get(Calendar.SECOND));
-            advanced.set(Calendar.MILLISECOND, orig.get(Calendar.MILLISECOND));
-            if (advanced.before(current)) {
-                advanced.add(Calendar.DATE, 1);
-            }
-            timeInMillis = advanced.getTimeInMillis();
+    public static synchronized int timeLimitMinute(Context context) {
+        if (mTimeLimitMinute != null) {
+            return mTimeLimitMinute.intValue();
         }
-        return timeInMillis;
+        int result = currentIntConfiguration(context, KEY_TIME_LIMIT_MINUTE,
+                DEFAULT_TIME_LIMIT_MINUTE);
+        mTimeLimitMinute = Integer.valueOf(result);
+        return result;
+    }
+
+    public static synchronized void setTimeLimitMinute(Context context, int timeLimitMinute) {
+        try {
+            setIntConfiguration(context, KEY_TIME_LIMIT_MINUTE, timeLimitMinute);
+        } finally {
+            mTimeLimitMinute = Integer.valueOf(timeLimitMinute);
+        }
     }
 
     public static synchronized boolean needsTimeLimit(Context context) {
@@ -200,6 +192,20 @@ public class SiestaWatchConf {
     }
 
     /* common routine */
+    private static int currentIntConfiguration(Context context, String prefKey,
+            int defaultValue) {
+        final SharedPreferences pref = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return pref.getInt(prefKey, defaultValue);
+    }
+
+    private static void setIntConfiguration(Context context, String prefKey, int value) {
+        final Editor edit = context
+                .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+        edit.putInt(prefKey, value);
+        edit.commit();
+    }
+
     private static long currentLongConfiguration(Context context, String prefKey,
             long defaultValue) {
         final SharedPreferences pref = context

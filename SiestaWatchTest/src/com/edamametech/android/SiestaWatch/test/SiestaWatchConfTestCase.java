@@ -63,20 +63,18 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         SiestaWatchConf.setNeedsVibration(mContext, orig);
     }
 
-    public void testTimeLimitMillis() {
-        long current = System.currentTimeMillis();
-        long orig = SiestaWatchConf.timeLimitMillis(mContext, current);
-        SiestaWatchConf.setTimeLimitMillis(mContext, 12345L, 0L);
-        assertEquals(12345L, SiestaWatchConf.timeLimitMillis(mContext, 0L));
-        SiestaWatchConf.setTimeLimitMillis(mContext, orig, current);
+    public void testTimeLimitHour() {
+        int orig = SiestaWatchConf.timeLimitHour(mContext);
+        SiestaWatchConf.setTimeLimitHour(mContext, 12);
+        assertEquals(12, SiestaWatchConf.timeLimitHour(mContext));
+        SiestaWatchConf.setTimeLimitHour(mContext, orig);
     }
 
-    public void testAdvancedTimeLimitMillis() {
-        long current = System.currentTimeMillis();
-        long orig = SiestaWatchConf.timeLimitMillis(mContext, current);
-        SiestaWatchConf.setTimeLimitMillis(mContext, 12345L, 23456L);
-        assertEquals(12345L + 3600L * 24 * 1000, SiestaWatchConf.timeLimitMillis(mContext, 23456L));
-        SiestaWatchConf.setTimeLimitMillis(mContext, orig, current);
+    public void testTimeLimitMinute() {
+        int orig = SiestaWatchConf.timeLimitMinute(mContext);
+        SiestaWatchConf.setTimeLimitMinute(mContext, 34);
+        assertEquals(34, SiestaWatchConf.timeLimitMinute(mContext));
+        SiestaWatchConf.setTimeLimitMinute(mContext, orig);
     }
 
     public void testNeedsTimeLimit() {

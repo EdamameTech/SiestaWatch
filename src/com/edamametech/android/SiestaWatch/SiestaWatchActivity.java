@@ -44,17 +44,6 @@ public class SiestaWatchActivity extends Activity {
     private static final String LogTag = "SiestaWatchActivity";
     public static final String PrefsName = "SiestaWatchActivity";
 
-    /**
-     * removes preferences - everything have been moved to SiestaWatchConf after
-     * version 0.4.x
-     */
-    private void clearActivityPreferences() {
-        SharedPreferences.Editor editor = getSharedPreferences("SiestaWatchActivity", 0)
-                .edit();
-        editor.clear();
-        editor.commit();
-    }
-
     /* parameters */
     // Key for Extras in Intent to supply uriOfAlarmSound as a String
     public static final String UriOfAlarmSound = "UriOfAlarmSound";
