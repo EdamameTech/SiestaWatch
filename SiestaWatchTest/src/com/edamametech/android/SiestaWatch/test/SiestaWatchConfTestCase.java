@@ -18,6 +18,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
+import java.util.TimeZone;
+
 public class SiestaWatchConfTestCase extends AndroidTestCase {
     Context mContext;
 
@@ -61,6 +63,18 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         assertEquals(34, SiestaWatchConf.timeLimitMinute(mContext));
         SiestaWatchConf.setTimeLimitMinute(mContext, orig);
     }
+
+    public void testTimeLimitMillis() {
+        long current = 1319012502000L; // 2011-10-18 22:21:42 -1000
+        long target = 1319014800000L; // 2011-10-18 23:00:00 -1000
+        TimeZone tz = TimeZone.getTimeZone("Pacific/Honolulu");
+
+        SiestaWatchConf.setTimeLimitHour(mContext, 23);
+        SiestaWatchConf.setTimeLimitMinute(mContext, 00);
+        assertEquals(target, SiestaWatchConf.timeLimitMillis(mContext, current, tz));
+    }
+
+    // TODO: transition between summer time and winter time
 
     public void testNeedsTimeLimit() {
         boolean orig = SiestaWatchConf.needsTimeLimit(mContext);

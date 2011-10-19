@@ -17,8 +17,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /** holds configurations from the Activity and for the Service */
 public class SiestaWatchConf {
@@ -149,6 +151,26 @@ public class SiestaWatchConf {
         } finally {
             mTimeLimitMinute = Integer.valueOf(timeLimitMinute);
         }
+    }
+
+    public static synchronized long timeLimitMillis(Context context, long currentMillis,
+            TimeZone timeZone) {
+        /* obtain parameters onto our own fields */
+        timeLimitHour(context);
+        timeLimitMinute(context);
+
+        /* calculate */
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(currentMillis);
+        Log.i("conf", cal.getTime().toString());
+        cal.setTimeZone(timeZone);
+        cal.set(Calendar.HOUR_OF_DAY, mTimeLimitHour);
+        Log.i("conf", cal.getTime().toString());
+        cal.set(Calendar.MINUTE, mTimeLimitMinute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Log.i("conf", cal.getTime().toString());
+        return cal.getTimeInMillis();
     }
 
     public static synchronized boolean needsTimeLimit(Context context) {
