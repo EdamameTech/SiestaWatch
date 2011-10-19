@@ -27,11 +27,11 @@ public class SiestaWatchActivityTestCase extends
         super.setUp();
         setActivityInitialTouchMode(false);
     }
-    
+
     private void startTestActivity() {
         mActivity = getActivity();
         mContext = new SiestaWatchTestMockContext(mActivity.getBaseContext());
-        mInstrumentation = this.getInstrumentation();        
+        mInstrumentation = this.getInstrumentation();
     }
 
     public void testPreConditions() {
@@ -56,7 +56,7 @@ public class SiestaWatchActivityTestCase extends
         mActivity.finish();
 
         assertEquals(false, SiestaWatchConf.needsVibration(mContext));
-        
+
         startTestActivity();
         SiestaWatchConf.setNeedsVibration(mContext, false);
         mActivity.finish();
@@ -66,4 +66,8 @@ public class SiestaWatchActivityTestCase extends
         assertEquals(false, vibrationCheckBox.isChecked());
         mActivity.finish();
     }
+
+    // TODO: add test for needsTimeLimit
+    // TODO: also test needsTimeLimit with different relation between TimeLimit
+    // and currentTime
 }
