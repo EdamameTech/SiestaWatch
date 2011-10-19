@@ -74,6 +74,16 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         assertEquals(target, SiestaWatchConf.timeLimitMillis(mContext, current, tz));
     }
 
+    public void testTimeLimitMillisWithOneDayAdvance() {
+        long current = 1319012502000L; // 2011-10-18 22:21:42 -1000
+        long target = 1319090400000L; // 2011-10-19 20:00:00 -1000
+        TimeZone tz = TimeZone.getTimeZone("Pacific/Honolulu");
+
+        SiestaWatchConf.setTimeLimitHour(mContext, 20);
+        SiestaWatchConf.setTimeLimitMinute(mContext, 00);
+        assertEquals(target, SiestaWatchConf.timeLimitMillis(mContext, current, tz));
+    }
+
     // TODO: transition between summer time and winter time
 
     public void testNeedsTimeLimit() {

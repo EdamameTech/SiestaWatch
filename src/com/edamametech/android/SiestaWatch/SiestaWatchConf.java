@@ -153,24 +153,31 @@ public class SiestaWatchConf {
         }
     }
 
+    /**
+     * returns TimeLimit in absolute time in millis, advancing one day if simple
+     * calculation falls in the past of currentMillis
+     */
     public static synchronized long timeLimitMillis(Context context, long currentMillis,
             TimeZone timeZone) {
-        /* obtain parameters onto our own fields */
+        /* refresh parameters onto our own fields */
         timeLimitHour(context);
         timeLimitMinute(context);
 
         /* calculate */
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(currentMillis);
-        Log.i("conf", cal.getTime().toString());
-        cal.setTimeZone(timeZone);
-        cal.set(Calendar.HOUR_OF_DAY, mTimeLimitHour);
-        Log.i("conf", cal.getTime().toString());
-        cal.set(Calendar.MINUTE, mTimeLimitMinute);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Log.i("conf", cal.getTime().toString());
-        return cal.getTimeInMillis();
+        Calendar current = Calendar.getInstance();
+        current.setTimeInMillis(currentMillis);
+        current.setTimeZone(timeZone);
+
+        Calendar result = (Calendar) current.clone();
+        result.set(Calendar.HOUR_OF_DAY, mTimeLimitHour);
+        result.set(Calendar.MINUTE, mTimeLimitMinute);
+        result.set(Calendar.SECOND, 0);
+        result.set(Calendar.MILLISECOND, 0);
+
+        if (result.before(current)) {
+            result.add(Calendar.DATE, 1);
+        }
+        return result.getTimeInMillis();
     }
 
     public static synchronized boolean needsTimeLimit(Context context) {
