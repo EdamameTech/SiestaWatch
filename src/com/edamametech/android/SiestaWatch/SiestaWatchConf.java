@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.provider.Settings;
-import android.util.Log;
 
 import java.util.Calendar;
 import java.util.TimeZone;
