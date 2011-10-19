@@ -71,8 +71,6 @@ public class SiestaWatchActivity extends Activity {
     private Button timeLimitButton = null;
     private boolean hasTimeLimit;
     private CheckBox mTimeLimitCheckBox = null;
-    private static final long timeLimitDefaultDelayMillis = 1800000; // 30 min
-    private static final long timeLimitGranuarityMillis = 300000; // 5 min
     private static final long timeLimitCheckDuration = 10800000; // 3 hours
     private TimePickerDialog.OnTimeSetListener mTimeLimitListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -88,7 +86,6 @@ public class SiestaWatchActivity extends Activity {
     CheckBox mVibrationCheckBox;
 
     // Key for Usage Dialog
-    private static final String ShownUsageVersion = "ShownUsageVersion";
     private int mShownUsageVersion = 0;
     private int currentUsageVersion = 1;
 
