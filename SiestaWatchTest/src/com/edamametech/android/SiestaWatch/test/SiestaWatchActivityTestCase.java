@@ -26,31 +26,44 @@ public class SiestaWatchActivityTestCase extends
     protected void setUp() throws Exception {
         super.setUp();
         setActivityInitialTouchMode(false);
+    }
+    
+    private void startTestActivity() {
         mActivity = getActivity();
         mContext = new SiestaWatchTestMockContext(mActivity.getBaseContext());
-        mInstrumentation = this.getInstrumentation();
+        mInstrumentation = this.getInstrumentation();        
     }
 
     public void testPreConditions() {
+        startTestActivity();
         assertTrue(mActivity != null);
     }
 
     @UiThreadTest
-    public void testRestoreNeedsVibration() {
+    public void testPersistentNeedsVibration() {
+        startTestActivity();
         CheckBox vibrationCheckBox = (CheckBox) mActivity.findViewById(R.id.vibrateCheckBox);
-
         vibrationCheckBox.setChecked(true);
-        mInstrumentation.callActivityOnPause(mActivity);
         assertEquals(true, SiestaWatchConf.needsVibration(mContext));
-        vibrationCheckBox.setChecked(false);
-        mInstrumentation.callActivityOnResume(mActivity);
-        assertEquals(true, vibrationCheckBox.isChecked());
+        mActivity.finish();
+        assertEquals(true, SiestaWatchConf.needsVibration(mContext));
 
+        startTestActivity();
+        vibrationCheckBox = (CheckBox) mActivity.findViewById(R.id.vibrateCheckBox);
+        assertEquals(true, SiestaWatchConf.needsVibration(mContext));
+        assertEquals(true, vibrationCheckBox.isChecked());
         vibrationCheckBox.setChecked(false);
-        mInstrumentation.callActivityOnPause(mActivity);
+        mActivity.finish();
+
         assertEquals(false, SiestaWatchConf.needsVibration(mContext));
-        vibrationCheckBox.setChecked(true);
-        mInstrumentation.callActivityOnResume(mActivity);
+        
+        startTestActivity();
+        SiestaWatchConf.setNeedsVibration(mContext, false);
+        mActivity.finish();
+
+        startTestActivity();
+        vibrationCheckBox = (CheckBox) mActivity.findViewById(R.id.vibrateCheckBox);
         assertEquals(false, vibrationCheckBox.isChecked());
+        mActivity.finish();
     }
 }

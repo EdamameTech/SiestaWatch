@@ -129,8 +129,6 @@ public class SiestaWatchAppWidget extends AppWidgetProvider {
         intent.putExtra(SiestaWatchService.UriOfAlarmSound, prefs.getString(
                 SiestaWatchActivity.UriOfAlarmSound,
                 SiestaWatchActivity.defaultUriOfAlarmSound.toString()));
-        intent.putExtra(SiestaWatchService.NeedsVibration,
-                prefs.getBoolean(SiestaWatchActivity.NeedsVibration, false));
         return intent;
     }
 }

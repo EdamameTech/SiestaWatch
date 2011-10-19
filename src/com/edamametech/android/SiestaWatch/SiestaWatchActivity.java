@@ -24,10 +24,11 @@ import android.provider.Settings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.text.format.DateFormat;
@@ -40,7 +41,7 @@ import android.view.View.OnClickListener;
 
 public class SiestaWatchActivity extends Activity {
 
-    private static final int LOGLEVEL = 0;
+    private static final int LOGLEVEL = 1;
     private static final boolean DEBUG = (LOGLEVEL > 0);
     private static final String LogTag = "SiestaWatchActivity";
     public static final String PrefsName = "SiestaWatchActivity";
@@ -84,9 +85,7 @@ public class SiestaWatchActivity extends Activity {
     };
     private TimePickerDialog mTimeLimitDialog;
 
-    public static final String NeedsVibration = "NeedsVibration";
-    private boolean mNeedsVibration = true;
-    CheckBox mVibrationCheckBox = null;
+    CheckBox mVibrationCheckBox;
 
     // Key for Usage Dialog
     private static final String ShownUsageVersion = "ShownUsageVersion";
@@ -118,7 +117,6 @@ public class SiestaWatchActivity extends Activity {
             Log.v(LogTag, "storeParameters()");
 
         SiestaWatchConf.setSleepDuration(mContext, mSleepDurationMillis);
-        SiestaWatchConf.setNeedsVibration(mContext, mVibrationCheckBox.isChecked());
         SiestaWatchConf.setNeedsTimeLimit(mContext, mTimeLimitCheckBox.isChecked());
         SiestaWatchConf.setTimeLimitHour(mContext, mTimeLimitHour);
         SiestaWatchConf.setTimeLimitMinute(mContext, mTimeLimitMinute);
@@ -176,7 +174,6 @@ public class SiestaWatchActivity extends Activity {
         }
         intent.putExtra(SiestaWatchService.UriOfAlarmSound,
                 mUriOfAlarmSound.toString());
-        intent.putExtra(SiestaWatchService.NeedsVibration, mNeedsVibration);
         startService(intent);
     }
 
@@ -248,7 +245,16 @@ public class SiestaWatchActivity extends Activity {
         }
 
         mVibrationCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
-        mVibrationCheckBox.setChecked(mNeedsVibration);
+        mVibrationCheckBox.setChecked(SiestaWatchConf.needsVibration(mContext));
+        mVibrationCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (DEBUG)
+                    Log.v(LogTag, "mVibrationCheckBox/onCheckedChanged(" + isChecked + ")");
+
+                SiestaWatchConf.setNeedsVibration(mContext, isChecked);
+            }
+        });
 
         ((Button) findViewById(R.id.done))
                 .setOnClickListener(new OnClickListener() {
@@ -259,8 +265,6 @@ public class SiestaWatchActivity extends Activity {
                                 timeLimitMillis, new SimpleDateFormat("HH")));
                         mTimeLimitMinute = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
                                 timeLimitMillis, new SimpleDateFormat("mm")));
-                        mNeedsVibration = mVibrationCheckBox.isChecked();
-                        storeParameters();
                         hasTimeLimit = mTimeLimitCheckBox.isChecked();
                         /* hasTimeLimit will not be recorded in preferences */
                         startSiestaWatchService();
