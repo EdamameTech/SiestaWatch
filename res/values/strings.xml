@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Siesta Watch</string>
-	<string name="notification_ticker">Alarms are set by Siesta Watch</string>
-	<string name="sleep_duration_format">%.0f</string>
-	<string name="status_text_with_time_limit">Alarm in %1$s minutes or at %2$s</string>
-	<string name="status_text_without_time_limit">Alarm in %1$s minutes after screen is off</string>
-	<string name="time_limit_label">Time Limit:</string>
-	<string name="vibration_label">Vibration</string>
-	<string name="sleep_for_label">Sleep for:</string>
-	<string name="minute_unit_label">minutes</string>
-	<string name="set_alarm_label">Set</string>
-	<string name="cancel_alarm_label">Cancel</string>
-	<string name="menu_help_about">Siesta Watch</string>
-	<string name="unknown_version">Unknown version</string>
-	<string name="version">Version</string>
-	<string name="menu_help_usage">Usage</string>
-	<string name="menu_help_license">License</string>
-	<string name="copyright">\u00A9 2011 EdamameTech.com</string>
-	<string name="notice">
+
+    <string name="app_name">Siesta Watch</string>
+    <string name="notification_ticker">Alarms are set by Siesta Watch</string>
+    <string name="sleep_duration_format">%.0f</string>
+    <string name="status_text_with_time_limit">Alarm in %1$s minutes or at %2$s</string>
+    <string name="status_text_without_time_limit">Alarm in %1$s minutes after screen is off</string>
+    <string name="time_limit_label">Time Limit:</string>
+    <string name="vibration_label">Vibration</string>
+    <string name="sleep_for_label">Sleep for:</string>
+    <string name="minute_unit_label">minutes</string>
+    <string name="set_alarm_label">Set</string>
+    <string name="cancel_alarm_label">Cancel</string>
+    <string name="menu_help_about">Siesta Watch</string>
+    <string name="unknown_version">Unknown version</string>
+    <string name="version">Version</string>
+    <string name="menu_help_usage">Usage</string>
+    <string name="menu_help_license">License</string>
+    <string name="copyright">\u00A9 2011 EdamameTech.com</string>
+    <string name="notice">
 		Manual is available in Options Menu through Menu
 		Button. This program is free software and can be redistributed under
 		certain conditions. For details, see License from Options Menu.
 	</string>
-	<string name="dialog_ok">OK</string>
-	<string name="remaining_time_format">%1$s: You could sleep %2$.0f more minutes.</string>
-	<string name="widget_duration_format">%.0fmin</string>
+    <string name="dialog_ok">OK</string>
+    <string name="manual_uri">file:///android_asset/manual.html</string>
+    <string name="remaining_time_format">%1$s: You could sleep %2$.0f more minutes.</string>
+    <string name="widget_duration_format">%.0fmin</string>
+
 </resources>

@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">シエスタ時計</string>
-	<string name="notification_ticker">シエスタ時計がアラームを設定しました</string>
-	<string name="sleep_duration_format">%.0f</string>
-	<string name="status_text_with_time_limit">%1$s分後か%2$sにアラーム</string>
-	<string name="status_text_without_time_limit">スクリーンオフの%1$s分後にアラーム</string>
-	<string name="time_limit_label">時刻リミット:</string>
-	<string name="vibration_label">バイブレーション</string>
-	<string name="sleep_for_label">昼寝時間:</string>
-	<string name="minute_unit_label">分</string>
-	<string name="set_alarm_label">設定</string>
-	<string name="cancel_alarm_label">解除</string>
-	<string name="menu_help_about">シエスタ時計</string>
-	<string name="unknown_version">バージョン不詳</string>
-	<string name="version">バージョン</string>
-	<string name="menu_help_usage">使い方</string>
-	<string name="menu_help_license">利用許諾</string>
-	<string name="copyright">\u00A9 2011 EdamameTech.com</string>
-	<string name="notice">
+
+    <string name="app_name">シエスタ時計</string>
+    <string name="notification_ticker">シエスタ時計がアラームを設定しました</string>
+    <string name="sleep_duration_format">%.0f</string>
+    <string name="status_text_with_time_limit">%1$s分後か%2$sにアラーム</string>
+    <string name="status_text_without_time_limit">スクリーンオフの%1$s分後にアラーム</string>
+    <string name="time_limit_label">時刻リミット:</string>
+    <string name="vibration_label">バイブレーション</string>
+    <string name="sleep_for_label">昼寝時間:</string>
+    <string name="minute_unit_label">分</string>
+    <string name="set_alarm_label">設定</string>
+    <string name="cancel_alarm_label">解除</string>
+    <string name="menu_help_about">シエスタ時計</string>
+    <string name="unknown_version">バージョン不詳</string>
+    <string name="version">バージョン</string>
+    <string name="menu_help_usage">使い方</string>
+    <string name="menu_help_license">利用許諾</string>
+    <string name="copyright">\u00A9 2011 EdamameTech.com</string>
+    <string name="notice">
 		メニューボタンからオプションメニューをたどって使い方が読めます。
 		このプログラムはフリーソフトウェアで一定の条件下で再頒布できます。
 		オプションメニューから利用許諾をご覧ください。
 	</string>
-	<string name="dialog_ok">OK</string>
-	<string name="manual_uri">file:///android_asset/manual-ja.html</string>
-	<string name="remaining_time_format">%1$s: もう%2$.0f分眠れました</string>
-	<string name="widget_duration_format">%.0f 分</string>
+    <string name="dialog_ok">OK</string>
+    <string name="manual_uri">file:///android_asset/manual-ja.html</string>
+    <string name="remaining_time_format">%1$s: もう%2$.0f分眠れました</string>
+    <string name="widget_duration_format">%.0f 分</string>
+
 </resources>
