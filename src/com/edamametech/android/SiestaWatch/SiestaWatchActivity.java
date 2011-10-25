@@ -109,10 +109,12 @@ public class SiestaWatchActivity extends Activity {
         restoreParameters();
     }
 
-    private boolean guessTimeLimitNeeded(long currentTimeMillis, int timeLimitHour,
-            int timeLimitMinute) {
-        return false;
+    public static boolean guessTimeLimitNeeded(long currentTimeMillis, int timeLimitHour,
+            int timeLimitMinute, TimeZone timeZone) {
+        return (currentTimeMillis + timeLimitCheckDuration > SiestaWatchUtil.timeLimitMillis(
+                timeLimitHour, timeLimitMinute, currentTimeMillis, timeZone));
     }
+
     private void storeParameters() {
         if (DEBUG)
             Log.v(LogTag, "storeParameters()");
@@ -238,12 +240,9 @@ public class SiestaWatchActivity extends Activity {
             }
         });
         mTimeLimitCheckBox = (CheckBox) findViewById(R.id.timeLimitCheckBox);
-        if (timeLimitInMillis() < System.currentTimeMillis()
-                + timeLimitCheckDuration) {
-            mTimeLimitCheckBox.setChecked(true);
-        } else {
-            mTimeLimitCheckBox.setChecked(false);
-        }
+        mTimeLimitCheckBox.setChecked(SiestaWatchActivity.guessTimeLimitNeeded(
+                System.currentTimeMillis(), SiestaWatchConf.timeLimitHour(mContext),
+                SiestaWatchConf.timeLimitMinute(mContext), TimeZone.getDefault()));
 
         mVibrationCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
         mVibrationCheckBox.setChecked(SiestaWatchConf.needsVibration(mContext));

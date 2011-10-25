@@ -11,6 +11,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.CheckBox;
 
+import java.util.TimeZone;
+
 public class SiestaWatchActivityTestCase extends
         ActivityInstrumentationTestCase2<SiestaWatchActivity> {
 
@@ -70,4 +72,14 @@ public class SiestaWatchActivityTestCase extends
     // TODO: add test for needsTimeLimit
     // TODO: also test needsTimeLimit with different relation between TimeLimit
     // and currentTime
+    public void testGuessTimeLimitTrue() {
+        /* 1319585977000L is 2011-10-25 13:39:37 -1000 */
+        assertTrue(SiestaWatchActivity.guessTimeLimitNeeded(1319585977000L, 14, 30,
+                TimeZone.getTimeZone("Pacific/Honolulu")));
+    }
+
+    public void testGuessTimeLimitFalse() {
+        assertFalse(SiestaWatchActivity.guessTimeLimitNeeded(1319585977000L, 13, 30,
+                TimeZone.getTimeZone("Pacific/Honolulu")));
+    }
 }
