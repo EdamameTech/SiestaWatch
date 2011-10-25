@@ -70,6 +70,7 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         long current = 1319012502000L; // 2011-10-18 22:21:42 -1000
         long target = 1319014800000L; // 2011-10-18 23:00:00 -1000
         TimeZone tz = TimeZone.getTimeZone("Pacific/Honolulu");
+        assertEquals(-10 * 3600 * 1000L, tz.getRawOffset());
 
         SiestaWatchConf.setTimeLimitHour(mContext, 23);
         SiestaWatchConf.setTimeLimitMinute(mContext, 00);
@@ -80,6 +81,7 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         long current = 1319012502000L; // 2011-10-18 22:21:42 -1000
         long target = 1319090400000L; // 2011-10-19 20:00:00 -1000
         TimeZone tz = TimeZone.getTimeZone("Pacific/Honolulu");
+        assertEquals(-10 * 3600 * 1000L, tz.getRawOffset());
 
         SiestaWatchConf.setTimeLimitHour(mContext, 20);
         SiestaWatchConf.setTimeLimitMinute(mContext, 00);
@@ -90,6 +92,8 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         long current = 1319905800000L; // 2011-10-29 18:30:00 CEST
         long target = 1319981400000L; // 2011-10-30 14:30:00 CET
         TimeZone tz = TimeZone.getTimeZone("Europe/Berlin");
+        assertEquals(3600 * 1000L, tz.getRawOffset());
+
         SiestaWatchConf.setTimeLimitHour(mContext, 14);
         SiestaWatchConf.setTimeLimitMinute(mContext, 30);
         long calculated = SiestaWatchConf.timeLimitMillis(mContext, current, tz);
@@ -102,6 +106,8 @@ public class SiestaWatchConfTestCase extends AndroidTestCase {
         long current = 1301160600000L; // 2011-03-26 18:30:00 CET
         long target = 1301229000000L; // 2011-03-27 14:30:00 CEST
         TimeZone tz = TimeZone.getTimeZone("Europe/Berlin");
+        assertEquals(3600 * 1000L, tz.getRawOffset());
+
         SiestaWatchConf.setTimeLimitHour(mContext, 14);
         SiestaWatchConf.setTimeLimitMinute(mContext, 30);
         long calculated = SiestaWatchConf.timeLimitMillis(mContext, current, tz);
