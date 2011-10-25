@@ -164,8 +164,8 @@ public class SiestaWatchConf {
 
         /* calculate */
         Calendar current = Calendar.getInstance();
-        current.setTimeInMillis(currentMillis);
         current.setTimeZone(timeZone);
+        current.setTimeInMillis(currentMillis);
 
         Calendar result = (Calendar) current.clone();
         result.set(Calendar.HOUR_OF_DAY, mTimeLimitHour);
