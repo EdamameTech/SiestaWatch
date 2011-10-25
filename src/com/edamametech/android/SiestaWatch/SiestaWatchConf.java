@@ -18,7 +18,6 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.provider.Settings;
 
-import java.util.Calendar;
 import java.util.TimeZone;
 
 /** holds configurations from the Activity and for the Service */
@@ -161,22 +160,8 @@ public class SiestaWatchConf {
         /* refresh parameters onto our own fields */
         timeLimitHour(context);
         timeLimitMinute(context);
-
-        /* calculate */
-        Calendar current = Calendar.getInstance();
-        current.setTimeZone(timeZone);
-        current.setTimeInMillis(currentMillis);
-
-        Calendar result = (Calendar) current.clone();
-        result.set(Calendar.HOUR_OF_DAY, mTimeLimitHour);
-        result.set(Calendar.MINUTE, mTimeLimitMinute);
-        result.set(Calendar.SECOND, 0);
-        result.set(Calendar.MILLISECOND, 0);
-
-        if (result.before(current)) {
-            result.add(Calendar.DATE, 1);
-        }
-        return result.getTimeInMillis();
+        return SiestaWatchUtil.timeLimitMillis(mTimeLimitHour, mTimeLimitMinute, currentMillis,
+                timeZone);
     }
 
     public static synchronized boolean needsTimeLimit(Context context) {

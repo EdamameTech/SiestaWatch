@@ -37,4 +37,25 @@ public class SiestaWatchUtil {
         }
         return result;
     }
+
+    public static long timeLimitMillis(int hh, int mm, long currentMillis,
+            TimeZone timeZone) {
+
+        /* calculate */
+        Calendar current = Calendar.getInstance();
+        current.setTimeZone(timeZone);
+        current.setTimeInMillis(currentMillis);
+
+        Calendar result = (Calendar) current.clone();
+        result.set(Calendar.HOUR_OF_DAY, hh);
+        result.set(Calendar.MINUTE, mm);
+        result.set(Calendar.SECOND, 0);
+        result.set(Calendar.MILLISECOND, 0);
+
+        if (result.before(current)) {
+            result.add(Calendar.DATE, 1);
+        }
+        return result.getTimeInMillis();
+
+    }
 }

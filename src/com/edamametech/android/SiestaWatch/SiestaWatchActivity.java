@@ -109,6 +109,10 @@ public class SiestaWatchActivity extends Activity {
         restoreParameters();
     }
 
+    private boolean guessTimeLimitNeeded(long currentTimeMillis, int timeLimitHour,
+            int timeLimitMinute) {
+        return false;
+    }
     private void storeParameters() {
         if (DEBUG)
             Log.v(LogTag, "storeParameters()");

@@ -53,4 +53,38 @@ public class SiestaWatchUtilTestCase extends TestCase {
         }
         assertEquals(expected, result);
     }
+
+    public void testTimeLimitMillis() {
+        long current = 1319012502000L; // 2011-10-18 22:21:42 -1000
+        long target = 1319014800000L; // 2011-10-18 23:00:00 -1000
+        TimeZone tz = TimeZone.getTimeZone("Pacific/Honolulu");
+        assertEquals(target, SiestaWatchUtil.timeLimitMillis(23, 00, current, tz));
+    }
+
+    public void testTimeLimitMillisWithOneDayAdvance() {
+        long current = 1319012502000L; // 2011-10-18 22:21:42 -1000
+        long target = 1319090400000L; // 2011-10-19 20:00:00 -1000
+        TimeZone tz = TimeZone.getTimeZone("Pacific/Honolulu");
+        assertEquals(target, SiestaWatchUtil.timeLimitMillis(20, 00, current, tz));
+    }
+
+    public void testTimeLimitMillisFromSummerToWinter() {
+        long current = 1319905800000L; // 2011-10-29 18:30:00 CEST
+        long target = 1319981400000L; // 2011-10-30 14:30:00 CET
+        TimeZone tz = TimeZone.getTimeZone("Europe/Berlin");
+        assertEquals(3600 * 1000L, tz.getRawOffset());
+
+        long calculated = SiestaWatchUtil.timeLimitMillis(14, 30, current, tz);
+        assertEquals(target, calculated);
+    }
+
+    public void testTimeLimitMillisFromWinterToSummer() {
+        long current = 1301160600000L; // 2011-03-26 18:30:00 CET
+        long target = 1301229000000L; // 2011-03-27 14:30:00 CEST
+        TimeZone tz = TimeZone.getTimeZone("Europe/Berlin");
+        assertEquals(3600 * 1000L, tz.getRawOffset());
+
+        long calculated = SiestaWatchUtil.timeLimitMillis(14, 30, current, tz);
+        assertEquals(target, calculated);
+    }
 }
