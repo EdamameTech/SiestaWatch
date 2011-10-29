@@ -32,7 +32,7 @@ public class SiestaWatchActivityTestCase extends
 
     private void startTestActivity() {
         mActivity = getActivity();
-        mContext = new SiestaWatchTestMockContext(mActivity.getBaseContext());
+        mContext = mActivity.getBaseContext();
         mInstrumentation = this.getInstrumentation();
     }
 
