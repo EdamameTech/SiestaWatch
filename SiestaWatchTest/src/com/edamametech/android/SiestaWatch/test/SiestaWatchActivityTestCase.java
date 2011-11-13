@@ -69,9 +69,6 @@ public class SiestaWatchActivityTestCase extends
         mActivity.finish();
     }
 
-    // TODO: add test for needsTimeLimit
-    // TODO: also test needsTimeLimit with different relation between TimeLimit
-    // and currentTime
     public void testGuessTimeLimitTrue() {
         /* 1319585977000L is 2011-10-25 13:39:37 -1000 */
         assertTrue(SiestaWatchActivity.guessTimeLimitNeeded(1319585977000L, 14, 30,
