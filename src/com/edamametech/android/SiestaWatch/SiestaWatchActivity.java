@@ -134,9 +134,9 @@ public class SiestaWatchActivity extends Activity {
         mShownUsageVersion = SiestaWatchConf.shownUsageVersion(mContext);
     }
 
-    private String getDurationInMins() {
+    static private String sleepDurationInMins(Context context) {
         return String
-                .format("%.0f", ((float) SiestaWatchConf.sleepDuration(mContext)) / 1e3 / 60.0);
+                .format("%.0f", ((float) SiestaWatchConf.sleepDuration(context)) / 1e3 / 60.0);
     }
 
     private void obtainDurationFromDisplay() {
@@ -150,7 +150,7 @@ public class SiestaWatchActivity extends Activity {
     }
 
     private void updateSleepDurationDisplay() {
-        mDurationField.setText(getDurationInMins());
+        mDurationField.setText(sleepDurationInMins(mContext));
     }
 
     /* communications to the Service */
