@@ -48,8 +48,6 @@ public class SiestaWatchActivity extends Activity {
     private Context mContext;
 
     /* parameters */
-    // Key for Extras in Intent to supply sleepDurationMIllis as a long
-    public static final String SleepDurationMillis = "SleepDurationMillis";
     // Time duration in msec to alarm after user felt asleep
     private final long sleepDurationStepMillis = 300000; // 5 min
     private EditText mDurationField = null;
