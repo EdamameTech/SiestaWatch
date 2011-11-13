@@ -652,4 +652,7 @@ SiestaWatchConfを活用するようにいろいろ改修する。
 
 Projectを再importして解消。うーむ。
 
-
+== 2011-11-12
+Activityのテスト。SiestaWatchConfの内容が画面に反映されているか試
+験したいのだがgetActivity()ではうまくいかない(Contextが違っちゃう
+？)ことがあるみたい。どうしたらいいのだ。
