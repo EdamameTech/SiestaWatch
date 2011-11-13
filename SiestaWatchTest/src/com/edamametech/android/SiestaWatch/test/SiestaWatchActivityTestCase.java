@@ -10,6 +10,7 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -22,6 +23,7 @@ public class SiestaWatchActivityTestCase extends
     Context mContext;
     Instrumentation mInstrumentation;
     EditText mDurationField;
+    Button mDoneButton;
 
     public SiestaWatchActivityTestCase() {
         super("com.edamametech.android.SiestaWatch", SiestaWatchActivity.class);
@@ -39,6 +41,7 @@ public class SiestaWatchActivityTestCase extends
         mInstrumentation = this.getInstrumentation();
 
         mDurationField = (EditText) mActivity.findViewById(R.id.sleepDurationInMins);
+        mDoneButton = (Button) mActivity.findViewById(R.id.done);
     }
 
     public void testPreConditions() {
@@ -59,6 +62,15 @@ public class SiestaWatchActivityTestCase extends
 
         startTestActivity();
         assertEquals("15", mDurationField.getText().toString());
+    }
+
+    @UiThreadTest
+    public void testSleepDurationUpdateFromDisplay() {
+        long sleepDurationMinutes = 25;
+        startTestActivity();
+        mDurationField.setText(String.valueOf(sleepDurationMinutes));
+        mDoneButton.performClick();
+        assertEquals(sleepDurationMinutes * 60 * 1000, SiestaWatchConf.sleepDuration(mContext));
     }
 
     @UiThreadTest

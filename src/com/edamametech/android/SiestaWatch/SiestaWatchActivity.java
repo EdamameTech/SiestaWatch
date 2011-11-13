@@ -20,7 +20,6 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,8 +51,6 @@ public class SiestaWatchActivity extends Activity {
     // Key for Extras in Intent to supply sleepDurationMIllis as a long
     public static final String SleepDurationMillis = "SleepDurationMillis";
     // Time duration in msec to alarm after user felt asleep
-    private long mSleepDurationMillis = 0;
-    public static final long defaultSleepDurationMillis = 1800000; // 30 min
     private final long sleepDurationStepMillis = 300000; // 5 min
     private EditText mDurationField = null;
 
@@ -113,7 +110,7 @@ public class SiestaWatchActivity extends Activity {
         if (DEBUG)
             Log.v(LogTag, "storeParameters()");
 
-        SiestaWatchConf.setSleepDuration(mContext, mSleepDurationMillis);
+        SiestaWatchConf.setSleepDuration(mContext, shownSleepDurationMillis());
         SiestaWatchConf.setNeedsTimeLimit(mContext, mTimeLimitCheckBox.isChecked());
         SiestaWatchConf.setTimeLimitHour(mContext, mTimeLimitHour);
         SiestaWatchConf.setTimeLimitMinute(mContext, mTimeLimitMinute);
@@ -124,7 +121,6 @@ public class SiestaWatchActivity extends Activity {
         if (DEBUG)
             Log.v(LogTag, "restoreParameters()");
 
-        mSleepDurationMillis = SiestaWatchConf.sleepDuration(mContext);
         if (mVibrationCheckBox != null)
             mVibrationCheckBox.setChecked(SiestaWatchConf.needsVibration(mContext));
         if (mTimeLimitCheckBox != null)
@@ -134,13 +130,13 @@ public class SiestaWatchActivity extends Activity {
         mShownUsageVersion = SiestaWatchConf.shownUsageVersion(mContext);
     }
 
-    static private String sleepDurationInMins(Context context) {
+    private String sleepDurationInMins(long sleepDurationMillis) {
         return String
-                .format("%.0f", ((float) SiestaWatchConf.sleepDuration(context)) / 1e3 / 60.0);
+                .format("%.0f", ((float) sleepDurationMillis) / 1e3 / 60.0);
     }
 
-    private void obtainDurationFromDisplay() {
-        mSleepDurationMillis = (long) (Float.valueOf(mDurationField.getText()
+    private long shownSleepDurationMillis() {
+        return (long) (Float.valueOf(mDurationField.getText()
                 .toString()) * 60 * 1e3);
     }
 
@@ -149,8 +145,8 @@ public class SiestaWatchActivity extends Activity {
                 TimeZone.getDefault());
     }
 
-    private void updateSleepDurationDisplay() {
-        mDurationField.setText(sleepDurationInMins(mContext));
+    private void setSleepDurationDisplay(long sleepDurationMillis) {
+        mDurationField.setText(sleepDurationInMins(sleepDurationMillis));
     }
 
     /* communications to the Service */
@@ -160,7 +156,7 @@ public class SiestaWatchActivity extends Activity {
         Intent intent = new Intent();
         intent.setClass(this, SiestaWatchService.class);
         intent.putExtra(SiestaWatchService.SleepDurationMillis,
-                mSleepDurationMillis);
+                SiestaWatchConf.sleepDuration(mContext));
         if (hasTimeLimit == true) {
             intent.putExtra(SiestaWatchService.TimeLimitMillis,
                     timeLimitInMillis());
@@ -202,23 +198,21 @@ public class SiestaWatchActivity extends Activity {
 
         restoreParameters();
         mDurationField = (EditText) findViewById(R.id.sleepDurationInMins);
-        updateSleepDurationDisplay();
+        setSleepDurationDisplay(SiestaWatchConf.sleepDuration(mContext));
         ((Button) findViewById(R.id.sleepDurationPlusButton))
                 .setOnClickListener(new OnClickListener() {
                     public void onClick(View view) {
-                        obtainDurationFromDisplay();
-                        mSleepDurationMillis += sleepDurationStepMillis;
-                        updateSleepDurationDisplay();
+                        setSleepDurationDisplay(shownSleepDurationMillis() + sleepDurationStepMillis);
                     }
                 });
         ((Button) findViewById(R.id.sleepDurationMinusButton))
                 .setOnClickListener(new OnClickListener() {
                     public void onClick(View view) {
-                        obtainDurationFromDisplay();
-                        mSleepDurationMillis -= sleepDurationStepMillis;
-                        if (mSleepDurationMillis < 0)
-                            mSleepDurationMillis = 0;
-                        updateSleepDurationDisplay();
+                        long d;
+                        d = shownSleepDurationMillis() - sleepDurationStepMillis;
+                        if (d < 0)
+                            d = 0;
+                        setSleepDurationDisplay(d);
                     }
                 });
 
@@ -251,7 +245,7 @@ public class SiestaWatchActivity extends Activity {
         ((Button) findViewById(R.id.done))
                 .setOnClickListener(new OnClickListener() {
                     public void onClick(View view) {
-                        obtainDurationFromDisplay();
+                        storeParameters();
                         long timeLimitMillis = timeLimitInMillis();
                         mTimeLimitHour = Integer.valueOf(SiestaWatchUtil.timeLongToHhmm(
                                 timeLimitMillis, new SimpleDateFormat("HH")));

@@ -105,13 +105,7 @@ public class SiestaWatchAppWidget extends AppWidgetProvider {
     private long currentSleepDurationMillis(Context context) {
         if (DEBUG)
             Log.v(LogTag, "currentSleepDurationMillis()");
-        SharedPreferences prefs = context.getSharedPreferences(
-                SiestaWatchActivity.PrefsName, 0);
-        if (prefs.contains(SiestaWatchActivity.SleepDurationMillis)) {
-            return prefs.getLong(SiestaWatchActivity.SleepDurationMillis, 0);
-        } else {
-            return SiestaWatchActivity.defaultSleepDurationMillis;
-        }
+        return SiestaWatchConf.sleepDuration(context);
     }
 
     private Intent intentForSiestaWatchService(Context context,
