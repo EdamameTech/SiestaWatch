@@ -123,12 +123,9 @@ public class SiestaWatchAppWidget extends AppWidgetProvider {
                 sleepDurationMillis);
         intent.putExtra(SiestaWatchService.TimeLimitMillis, 0); /* no time limit */
 
-        SharedPreferences prefs = context.getSharedPreferences(
-                SiestaWatchActivity.PrefsName, 0);
-
-        intent.putExtra(SiestaWatchService.UriOfAlarmSound, prefs.getString(
-                SiestaWatchActivity.UriOfAlarmSound,
-                SiestaWatchActivity.defaultUriOfAlarmSound.toString()));
+        intent.putExtra(SiestaWatchService.UriOfAlarmSound,
+                SiestaWatchConf.uriOfAlarmSound(context).toString()
+                );
         return intent;
     }
 }

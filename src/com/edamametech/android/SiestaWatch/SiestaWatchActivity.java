@@ -49,12 +49,6 @@ public class SiestaWatchActivity extends Activity {
     private Context mContext;
 
     /* parameters */
-    // Key for Extras in Intent to supply uriOfAlarmSound as a String
-    public static final String UriOfAlarmSound = "UriOfAlarmSound";
-    // URI of the alarm sound
-    private Uri mUriOfAlarmSound = null;
-    public static Uri defaultUriOfAlarmSound = Settings.System.DEFAULT_ALARM_ALERT_URI;
-
     // Key for Extras in Intent to supply sleepDurationMIllis as a long
     public static final String SleepDurationMillis = "SleepDurationMillis";
     // Time duration in msec to alarm after user felt asleep
@@ -123,7 +117,6 @@ public class SiestaWatchActivity extends Activity {
         SiestaWatchConf.setNeedsTimeLimit(mContext, mTimeLimitCheckBox.isChecked());
         SiestaWatchConf.setTimeLimitHour(mContext, mTimeLimitHour);
         SiestaWatchConf.setTimeLimitMinute(mContext, mTimeLimitMinute);
-        SiestaWatchConf.setUriOfAlarmSound(mContext, mUriOfAlarmSound);
         SiestaWatchConf.setShownUsageVersion(mContext, mShownUsageVersion);
     }
 
@@ -138,13 +131,12 @@ public class SiestaWatchActivity extends Activity {
             mTimeLimitCheckBox.setChecked(SiestaWatchConf.needsTimeLimit(mContext));
         mTimeLimitHour = SiestaWatchConf.timeLimitHour(mContext);
         mTimeLimitMinute = SiestaWatchConf.timeLimitMinute(mContext);
-        mUriOfAlarmSound = SiestaWatchConf.uriOfAlarmSound(mContext);
         mShownUsageVersion = SiestaWatchConf.shownUsageVersion(mContext);
     }
 
     private String getDurationInMins() {
         return String
-                .format("%.0f", ((float) mSleepDurationMillis) / 1e3 / 60.0);
+                .format("%.0f", ((float) SiestaWatchConf.sleepDuration(mContext)) / 1e3 / 60.0);
     }
 
     private void obtainDurationFromDisplay() {
@@ -176,7 +168,7 @@ public class SiestaWatchActivity extends Activity {
             intent.putExtra(SiestaWatchService.TimeLimitMillis, 0);
         }
         intent.putExtra(SiestaWatchService.UriOfAlarmSound,
-                mUriOfAlarmSound.toString());
+                SiestaWatchConf.uriOfAlarmSound(mContext).toString());
         startService(intent);
     }
 
