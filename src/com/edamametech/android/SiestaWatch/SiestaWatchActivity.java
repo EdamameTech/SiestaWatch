@@ -165,7 +165,7 @@ public class SiestaWatchActivity extends Activity {
 			intent.putExtra(SiestaWatchService.TimeLimitMillis,
 					timeLimitInMillis());
 		} else {
-			intent.putExtra(SiestaWatchService.TimeLimitMillis, 0);
+			intent.putExtra(SiestaWatchService.TimeLimitMillis, 0L);
 		}
 		intent.putExtra(SiestaWatchService.UriOfAlarmSound,
 				uriOfAlarmSound.toString());
