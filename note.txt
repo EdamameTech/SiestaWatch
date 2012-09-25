@@ -621,7 +621,8 @@ at android.app.PendingIntent.getService(PendingIntent.java:330)
 at com.edamametech.android.SiestaWatch.SiestaWatchService.clearAlarmWithAction(SiestaWatchService.java:393)
 
 Acitve/ICSで残る問題
-- 起床時にVibrationがキャンセルされなかった場合があった
+- 起床時にVibrationがキャンセルされなかった場合があった (保留)
+- Fragmentation付きのURIをWebViewが開けない
 
 N1/Gingerbreadで残る問題
 - キャストか何かの警告:修正ずみ
