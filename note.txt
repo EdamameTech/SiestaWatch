@@ -609,3 +609,19 @@ PendingIntentのIDを適切に設定するべきだった
 10-04 16:02:48.785: WARN/ActivityManager(96): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { cmp=com.edamametech.android.SiestaWatch/.SiestaWatchActivity bnds=[0,334][480,430] }
 
 もう一度状態遷移を見なおす必要がありそう。
+
+== 2012-09-24
+branch-0.4.3
+
+ICSでのNullPointerExceptionを修正
+
+at dalvik.system.NativeStart.main(Native Method)
+Caused by: java.lang.NullPointerException
+at android.app.PendingIntent.getService(PendingIntent.java:330)
+at com.edamametech.android.SiestaWatch.SiestaWatchService.clearAlarmWithAction(SiestaWatchService.java:393)
+
+Acitve/ICSで残る問題
+- 起床時にVibrationがキャンセルされなかった場合があった
+
+N1/Gingerbreadで残る問題
+- キャストか何かの警告

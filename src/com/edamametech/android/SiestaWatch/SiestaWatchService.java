@@ -390,8 +390,9 @@ public class SiestaWatchService extends Service {
 
 		AlarmManager alarmManager = (AlarmManager) this
 				.getSystemService(Context.ALARM_SERVICE);
+		Log.v(LogTag, "alarmManager:" + alarmManager);
 		PendingIntent alarmSender = PendingIntent.getService(this, action,
-				null, 0);
+				new Intent(), 0);
 		alarmManager.cancel(alarmSender);
 	}
 
