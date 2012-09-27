@@ -34,7 +34,7 @@ public class SiestaWatchWebViewActivity extends Activity {
 
 		setContentView(R.layout.webview);
 		mWebView = (WebView) findViewById(R.id.webView);
-
+		mWebView.getSettings().setJavaScriptEnabled(false);
 		mWebView.loadUrl(getIntent().getData().toString());
 	}
 
