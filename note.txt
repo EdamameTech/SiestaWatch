@@ -623,6 +623,8 @@ at com.edamametech.android.SiestaWatch.SiestaWatchService.clearAlarmWithAction(S
 Acitve/ICSで残る問題
 - 起床時にVibrationがキャンセルされなかった場合があった (保留)
 - Fragmentation付きのURIをWebViewが開けない
+  - ライセンス文を別ファイルにすることで解決（´・ω・｀）
 
 N1/Gingerbreadで残る問題
 - キャストか何かの警告:修正ずみ
+

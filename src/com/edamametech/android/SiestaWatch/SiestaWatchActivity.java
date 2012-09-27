@@ -336,7 +336,7 @@ public class SiestaWatchActivity extends Activity {
 
 	public void showLicense() {
 		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(getString(R.string.manual_uri) + "#license"));
+				Uri.parse(getString(R.string.license_uri)));
 		intent.setClass(this, SiestaWatchWebViewActivity.class);
 		startActivity(intent);
 	}

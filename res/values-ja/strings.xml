@@ -24,4 +24,5 @@
 	</string>
 	<string name="dialog_ok">OK</string>
 	<string name="manual_uri">file:///android_asset/manual-ja.html</string>
+	<string name="license_uri">file:///android_asset/license.html</string>
 </resources>
